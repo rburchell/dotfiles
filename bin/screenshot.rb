@@ -18,15 +18,16 @@ module Clipboard
 end
 
 Tempfile.open("imgbin") { |tf|
+    # we don't really actually use the tempfile.
     tf.close
 
-    # just -frame for window
-    `import -window root -frame jpg:#{tf.path}`
+    # -b captures border,-s selects a window, -u is use focused
+    `scrot -b -u #{tf.path}.jpg`
     fname = File.basename tf.path
     fname += ".jpg"
     path = "http://w00t.dereferenced.net/p/i/#{fname}"
     Clipboard::set path
-    `scp #{tf.path} "w00t@dereferenced.net:/var/www/w00t.dereferenced.net/p/i/#{fname}"`
+    `scp #{tf.path}.jpg "w00t@dereferenced.net:/var/www/w00t.dereferenced.net/p/i/#{fname}"`
     `ssh w00t@dereferenced.net 'chmod o+r /var/www/w00t.dereferenced.net/p/i/#{fname}'`
     puts "Uploaded screenshot to #{path}"
 }
