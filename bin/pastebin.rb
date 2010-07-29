@@ -42,10 +42,6 @@ text = stdin_text
 
 # if they don't provide anything, clipboard.
 if text.empty?
-    text = `xsel`
-end
-
-if text.empty?
     text = Clipboard.get
 end
 

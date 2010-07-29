@@ -10,7 +10,6 @@ dependencies
 
 - libgtk2-ruby
 - scrot
-- xsel
 
 contact
 =======
