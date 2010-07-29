@@ -24,9 +24,9 @@ Tempfile.open("imgbin") { |tf|
     `import -window root -frame jpg:#{tf.path}`
     fname = File.basename tf.path
     fname += ".jpg"
-    `scp #{tf.path} "w00t@dereferenced.net:/var/www/w00t.dereferenced.net/p/i/#{fname}"`
-    `ssh w00t@dereferenced.net 'chmod o+r /var/www/w00t.dereferenced.net/p/i/#{fname}'`
     path = "http://w00t.dereferenced.net/p/i/#{fname}"
     Clipboard::set path
+    `scp #{tf.path} "w00t@dereferenced.net:/var/www/w00t.dereferenced.net/p/i/#{fname}"`
+    `ssh w00t@dereferenced.net 'chmod o+r /var/www/w00t.dereferenced.net/p/i/#{fname}'`
     puts "Uploaded screenshot to #{path}"
 }
