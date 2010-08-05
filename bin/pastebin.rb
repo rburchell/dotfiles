@@ -58,6 +58,6 @@ Tempfile.open("pastebin") { |tf|
     path = "http://w00t.dereferenced.net/p/t/#{fname}"
     Clipboard::set path
     `scp #{tf.path} "w00t@dereferenced.net:/var/www/w00t.dereferenced.net/p/t/#{fname}"`
-    `ssh w00t@dereferenced.net 'chmod o+r /var/www/w00t.dereferenced.net/p/t/#{fname}'`
+    `ssh w00t@dereferenced.net 'chmod o+rw /var/www/w00t.dereferenced.net/p/t/#{fname}'`
     puts "Uploaded snippet to #{path}"
 }
