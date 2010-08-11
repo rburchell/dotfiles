@@ -1,0 +1,23 @@
+[user]
+	name = "Robin Burchell"
+	email = "robin.burchell@collabora.co.uk"
+[core]
+	whitespace = trailing-space,space-before-tab,indent-with-non-tab
+	editor = vim
+[diff]
+	renames = copy
+[color]
+	diff = auto
+[gc]
+	# If there are many loose objects, pack them
+	auto = 50
+	# If there are too many packs, unify them
+	autopacklimit = 5
+[alias]
+    ci = commit -a -v
+	ap = !sh -c 'git rev-list --reverse  | xargs -n1 git cherry-pick' -
+[sendemail]
+	smtpserver = "smtp.gmail.com"
+	smtpuser = "surreal.w00t@gmail.com"
+	smtpencryption = tls
+	smtpserverport = 587
