@@ -40,6 +40,12 @@ set listchars=tab:>-,trail:.,extends:#
 " hilight search matches
 set hlsearch
 
+" menu to select stuff when tab completing filenames (e.g.)
+set wildmenu
+set wildchar=<tab> " tab complete ^
+set wildmode=longest:full,full " how big the list should be
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CODE SETTINGS
 " insert comment leader on return and let gq format comments
@@ -78,16 +84,9 @@ set expandtab
 set foldcolumn=1
 
 " for gui edit mode
-imap <silent> <A-1> <esc>:tabn 1<cr>
-imap <silent> <A-2> <esc>:tabn 2<cr>
-imap <silent> <A-3> <esc>:tabn 3<cr>
-imap <silent> <A-4> <esc>:tabn 4<cr>
-imap <silent> <A-5> <esc>:tabn 5<cr>
-imap <silent> <A-6> <esc>:tabn 6<cr>
-imap <silent> <A-7> <esc>:tabn 7<cr>
-imap <silent> <A-8> <esc>:tabn 8<cr>
-imap <silent> <A-9> <esc>:tabn 9<cr>
-imap <silent> <A-0> <esc>:tabn 0<cr>
+if has("gui_running")
+    set guifont=Consolas\ 10
+endif
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
