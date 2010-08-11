@@ -19,6 +19,7 @@ set ffs=unix,dos,mac
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GRAPHICAL SETTINGS
+colorscheme mytheme
 " hilight current column/line
 set cursorcolumn
 set cursorline
@@ -62,7 +63,6 @@ if has("gui_running")
     set guifont=Consolas\ 10
 endif
 
-source .vim/vimrc/theme.vimrc
 source .vim/vimrc/hex_hilight.vimrc
 source .vim/vimrc/coding_rules.vimrc
 
