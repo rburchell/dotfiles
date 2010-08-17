@@ -17,6 +17,13 @@ set showcmd
 " decent newlines support.
 set ffs=unix,dos,mac
 
+" when loading a file, cd to the right place
+if exists('+autochdir')
+  set autochdir
+else
+  autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
+endif
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GRAPHICAL SETTINGS
 colorscheme mytheme
