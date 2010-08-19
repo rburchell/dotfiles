@@ -79,3 +79,6 @@ fi
 
 # icecream
 export PATH=/usr/lib/icecc/bin:$PATH
+
+# gvim single instance
+alias gvim='gvim -p --remote-tab-silent'
