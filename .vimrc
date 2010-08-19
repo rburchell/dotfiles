@@ -67,6 +67,21 @@ set expandtab
 " we want to be able to expand folds
 set foldcolumn=1
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" FIREFOX-LIKE TAB NAVIGATION
+:nmap <C-S-tab> :tabprevious<CR>
+:nmap <C-w> :tabclose<CR>
+:nmap <C-tab> :tabnext<CR>
+:map <C-S-tab> :tabprevious<CR>
+:map <C-w> :tabclose<CR>
+:map <C-tab> :tabnext<CR>
+:imap <C-S-tab> <Esc>:tabprevious<CR>i
+:imap <C-w> :tabclose<CR>i
+:imap <C-tab> <Esc>:tabnext<CR>i
+:nmap <C-t> :tabnew<CR>
+:imap <C-t> <Esc>:tabnew<CR>
+
+
 " for gui edit mode
 if has("gui_running")
     set guifont=Consolas\ 10
