@@ -16,6 +16,10 @@ set nobackup
 set showcmd
 " decent newlines support.
 set ffs=unix,dos,mac
+if version >= 700
+    " open new files in tabs
+    tab all
+endif
 
 " when loading a file, cd to the right place
 if exists('+autochdir')
