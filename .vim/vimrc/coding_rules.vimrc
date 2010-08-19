@@ -16,10 +16,13 @@ set showmatch
 set matchtime=5
 " wordwrap
 set tw=80
-" Show trailing whitespace and spaces before tabs
-hi link localWhitespaceError Error
-au Syntax * syn match localWhitespaceError /\(\zs\%#\|\s\)\+$/ display
-au Syntax * syn match localWhitespaceError / \+\ze\t/ display
+
+if version >= 700
+    " Show trailing whitespace and spaces before tabs
+    hi link localWhitespaceError Error
+    au Syntax * syn match localWhitespaceError /\(\zs\%#\|\s\)\+$/ display
+    au Syntax * syn match localWhitespaceError / \+\ze\t/ display
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " TAB COMPLETION

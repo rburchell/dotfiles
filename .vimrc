@@ -29,9 +29,13 @@ endif
 colorscheme mytheme
 " terminal colors!
 set t_Co=256
-" hilight current column/line
-set cursorcolumn
-set cursorline
+
+if version >= 700
+    " hilight current column/line
+    set cursorcolumn
+    set cursorline
+endif
+
 " custom statusbar..
 set statusline=%t%h%m%r%=[%b\ 0x%02B]\ \ \ %l,%c%V\ %P
 " always set a status line on windows
@@ -40,10 +44,12 @@ set laststatus=2
 set ruler
 " make backspace behave almost human (allow backspacing over lines, etc.)
 set backspace=2
-" allow mouse usage everywhere(supersceded by F8 rule)
-" set mouse=a
-" allow cursor to roam everywhere. (all breaks hl with tabs.. :()
-set virtualedit=onemore
+
+if version >= 700
+    " allow cursor to roam everywhere. (all breaks hl with tabs.. :()
+    set virtualedit=onemore
+endif
+
 " visible tabs, useful. i have removed eol:$.
 set list
 set listchars=tab:>-,trail:.,extends:#
@@ -87,6 +93,8 @@ if has("gui_running")
     set guifont=Consolas\ 10
 endif
 
-source ~/.vim/vimrc/hex_hilight.vimrc
+if version >= 700
+    source ~/.vim/vimrc/hex_hilight.vimrc
+endif
 source ~/.vim/vimrc/coding_rules.vimrc
 

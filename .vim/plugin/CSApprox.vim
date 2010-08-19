@@ -61,10 +61,12 @@ if !has('gui') || exists('g:CSApprox_loaded')
     let s:verbose  = g:CSApprox_verbose_level
   endif
 
-  if ! has('gui') && s:verbose > 0
-    echomsg "CSApprox needs gui support - not loading."
-    echomsg "  See :help |csapprox-+gui| for possible workarounds."
-  endif
+  " commenting out, this makes for a nightmare on systems where I can't get good
+  " vim (like Maemo..) --rb (2010)
+  "if ! has('gui') && s:verbose > 0
+  "  echomsg "CSApprox needs gui support - not loading."
+  "  echomsg "  See :help |csapprox-+gui| for possible workarounds."
+  "endif
 
   unlet s:verbose
 
