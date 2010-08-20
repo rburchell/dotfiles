@@ -6,8 +6,8 @@ if !File.exists?("/j")
 end
 
 if ARGV.length == 0
-    `ls /j`
+    puts `ls /j/`
 else
     puts "Creating a jump for " << ARGV[0]
-    system("ln -s `pwd` /j/" + ARGV[0])
+    puts system("ln -s `pwd` /j/" + ARGV[0])
 end
