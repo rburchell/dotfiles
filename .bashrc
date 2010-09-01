@@ -88,3 +88,14 @@ export PATH=/usr/lib/icecc/bin:$PATH
 
 # gvim single instance
 alias gvim='gvim -p --remote-tab-silent'
+
+# date trick courtesy of http://ubuntuforums.org/showthread.php?t=1111038
+# (yes, it's simple, but I'm too lazy to DIY)
+dato1=`date +%A`; #day of the week
+dato2=`date +%d`; #day of the month
+dato3=`date +%B`; #month of the year
+dato4=`date +%Y`; #Year
+dato5=`date +%U`; #week of the year
+
+echo "Date is now: $dato1, $dato2. $dato3, $dato4 (W$dato5)"
+echo "Your host is: `hostname`"
