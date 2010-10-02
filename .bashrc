@@ -89,6 +89,9 @@ export PATH=/usr/lib/icecc/bin:$PATH
 # gvim single instance
 alias gvim='gvim -p --remote-tab-silent'
 
+# :)
+export EDITOR=vim
+
 # date trick courtesy of http://ubuntuforums.org/showthread.php?t=1111038
 # (yes, it's simple, but I'm too lazy to DIY)
 dato1=`date +%A`; #day of the week
