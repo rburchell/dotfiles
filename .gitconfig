@@ -17,7 +17,7 @@
     ci = commit -a -v
 	ap = !sh -c 'git rev-list --reverse  | xargs -n1 git cherry-pick' -
 [sendemail]
-	smtpserver = "smtp.gmail.com"
-	smtpuser = "surreal.w00t@gmail.com"
+	smtpserver = "mail.collabora.co.uk"
+	smtpuser = "burchr"
 	smtpencryption = tls
 	smtpserverport = 587
