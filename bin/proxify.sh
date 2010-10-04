@@ -1,5 +1,15 @@
 #!/bin/bash
+
+# yup, this is pretty gross, but better than blocking on stdin
+# credit goes to:
+# http://www.unix.com/shell-programming-scripting/84624-nonblocking-i-o-bash-scripts.html
+if [ -t 0 ]; then
+    stty -echo -icanon time 0 min 0
+fi
 all=`cat "/dev/stdin"`
+if [ -t 0 ]; then
+    stty sane
+fi
 
 # check they are actually trying to run something
 if [ $# -eq 0 ]
