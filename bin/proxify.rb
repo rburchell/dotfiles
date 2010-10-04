@@ -34,7 +34,25 @@ if `/sbin/ifconfig eth0 | /bin/grep "inet addr" | /usr/bin/awk -F: '{ print $2 }
     debugPrint "done tunnelling"
 
     `export TSOCKS_CONF_FILE=~/.tsocks.conf`
-    puts `echo "#{stdinText}" | tsocks #{ARGV.join(" ")}`
+
+    commandToRun = ""
+
+    if stdinText != ""
+        commandToRun += "echo \"#{stdinText}\" | "
+    end
+
+    commandToRun += " tsocks #{ARGV.join(" ")}"
+
+    system(commandToRun)
 else
     puts `echo "#{stdinText}" | #{ARGV.join(" ")}`
+    commandToRun = ""
+
+    if stdinText != ""
+        commandToRun += "echo \"#{stdinText}\" | "
+    end
+
+    commandToRun += "#{ARGV.join(" ")}"
+
+    system(commandToRun)
 end
