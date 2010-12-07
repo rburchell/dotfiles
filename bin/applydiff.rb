@@ -42,6 +42,7 @@ Tempfile.open("patch") { |tf|
         patchlevel = 1
     end
 
-    system("patch -p#{patchlevel}< #{tf.path}")
-    puts "Applied"
+    if system("patch -p#{patchlevel}< #{tf.path}")
+        puts "Applied."
+    end
 }
