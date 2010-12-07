@@ -40,10 +40,13 @@ end
 
 text = stdin_text
 
-# if they don't provide anything, clipboard.
-if !text.empty?
-    Clipboard::set text
-    puts "Copied to clipboard"
-else
-    puts "No stdin to copy"
+if text.empty?
+    text = ARGF.read
+    if text.empty?
+        puts "No stdin to copy"
+        Process.exit 1
+    end
 end
+
+Clipboard::set text
+puts "Copied to clipboard"
