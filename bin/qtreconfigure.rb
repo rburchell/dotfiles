@@ -29,14 +29,16 @@ end
 thisFolderName = File.dirname(__FILE__)
 branchFolderName = "#{ARGV[0]}-#{ARGV[1]}"
 
-if not File.directory?(branchFolderName)
-    puts "Creating clone for branch #{branchFolderName}"
-    die("Couldn't create clone!") if 
-        !system("git clone --shared qt.git #{branchFolderName}")
-
-    system("cd #{branchFolderName} && git checkout #{ARGV[0]}") or
-        die("Couldn't checkout given branchname #{ARGV[0]}")
-end
+system("git new-workdir qt.git #{branchFolderName} #{ARGV[0]}") or
+    warn("Couldn't create a new workdir")
+#if not File.directory?(branchFolderName)
+#    puts "Creating clone for branch #{branchFolderName}"
+#    die("Couldn't create clone!") if 
+#        !system("git clone --shared qt.git #{branchFolderName}")
+#
+#    system("cd #{branchFolderName} && git checkout #{ARGV[0]}") or
+#        die("Couldn't checkout given branchname #{ARGV[0]}")
+#end
 
 puts "Configuring #{ARGV[0]} (#{ARGV[1]})"
 
