@@ -2,7 +2,7 @@
 
 usage () {
 	echo "usage:" $@
-	exit 127
+	exit 1
 }
 
 die () {
