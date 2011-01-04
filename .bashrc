@@ -84,7 +84,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # icecream
-export PATH=/usr/lib/icecc/bin:$PATH
+#export PATH=/usr/lib/icecc/bin:$PATH
 
 # gvim single instance
 alias gvim='gvim -p --remote-tab-silent'
