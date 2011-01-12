@@ -8,9 +8,15 @@ newmsgs() {
     done
 }
 
+zmodload zsh/pcre &>/dev/null
+
 # ripped from git bash-completion via whot
 git_ps1 () {
     if [ `pwd` = "$HOME" ]; then
+        return
+    fi
+
+    if [ "`pwd`" -pcre-match \/code\/qt\/ ]; then
         return
     fi
 
