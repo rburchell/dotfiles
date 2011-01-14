@@ -26,7 +26,6 @@ case ARGV[1]
         usage
 end
 
-thisFolderName = File.dirname(__FILE__)
 branchFolderName = "#{ARGV[0]}-#{ARGV[1]}"
 
 system("git new-workdir qt.git #{branchFolderName} #{ARGV[0]}") or
@@ -51,7 +50,7 @@ configureOptions << "-graphicssystem raster"
 configureOptions << "-developer-build"
 configureOptions << "-opensource"
 configureOptions << "-system-sqlite"
-configureOptions << "-prefix /usr"
+configureOptions << "-prefix " + Dir.pwd + "/" + branchFolderName
 configureOptions << "-confirm-license"
 configureOptions << "-phonon"
 configureOptions << "-phonon-backend"
