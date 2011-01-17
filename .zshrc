@@ -28,6 +28,7 @@ function precmd {
     COLLABORA=0
 
     case `pwd` in
+        /home/burchr/code/qt/*) COLLABORA=1;;
         /home/burchr/code/collabora/*) COLLABORA=1;;
         /j/scratchbox/*) COLLABORA=1;;
         /scratchbox/*) COLLABORA=1;;
