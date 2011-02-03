@@ -58,8 +58,9 @@ preexec() {
 
 export PATH=~/bin::/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
 export EDITOR="vim"
-#export LC_CTYPE="en_AU.UTF-8"
-#export LC_MONETARY="en_AU.UTF-8"
+export LANG="en_US.UTF-8"
+export LC_MESSAGES="en_US.UTF-8"
+export LC_CTYPE="en_US.UTF-8"
 export LC_NUMERIC=C
 export LC_COLLATE=C
 export EMAIL="viroteck@viroteck.org"
