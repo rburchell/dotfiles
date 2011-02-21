@@ -16,6 +16,9 @@
 [alias]
     ci = commit -a -v
 	ap = !sh -c 'git rev-list --reverse  | xargs -n1 git cherry-pick' -
+    unadd = reset HEAD --
+    unstage = reset HEAD --
+    stage = add -v
 [sendemail]
 	smtpserver = "mail.collabora.co.uk"
 	smtpuser = "burchr"
