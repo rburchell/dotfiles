@@ -21,8 +21,13 @@ Tempfile.open("imgbin") { |tf|
     # we don't really actually use the tempfile.
     tf.close
 
-    # -b captures border,-s selects a window, -u is use focused
-    `scrot -b -u #{tf.path}.jpg`
+    if ARGV.length == 0
+        # -b captures border,-s selects a window, -u is use focused
+        `scrot -b -u #{tf.path}.jpg`
+    else
+        `scrot #{tf.path}.jpg`
+    end
+
     fname = File.basename tf.path
     fname += ".jpg"
     path = "http://w00t.dereferenced.net/p/i/#{fname}"
