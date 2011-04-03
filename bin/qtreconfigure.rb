@@ -69,14 +69,14 @@ case ARGV[1]
 
         # also hack the build system to not strip symbols
         # and include basic debug info, thanks kling
-        puts "Applying buildsystem hack..."
-        warn("Couldn't apply buildsystem hack") if
-            !system("cd #{branchFolderName} && patch --forward -f -p1 < ../.releasedebuginfo.diff")
-
-        system("cd #{branchFolderName} && git update-index --assume-unchanged mkspecs/common/linux.conf") or
-            die("Couldn't mark mkspecs/common/linux.conf unchanged")
-        system("cd #{branchFolderName} && git update-index --assume-unchanged mkspecs/common/gcc-base.conf") or
-            die("Couldn't mark mkspecs/common/gcc-base.conf unchanged")
+#        puts "Applying buildsystem hack..."
+#        warn("Couldn't apply buildsystem hack") if
+#            !system("cd #{branchFolderName} && patch --forward -f -p1 < ../.releasedebuginfo.diff")
+#
+#        system("cd #{branchFolderName} && git update-index --assume-unchanged mkspecs/common/linux.conf") or
+#            die("Couldn't mark mkspecs/common/linux.conf unchanged")
+#        system("cd #{branchFolderName} && git update-index --assume-unchanged mkspecs/common/gcc-base.conf") or
+#            die("Couldn't mark mkspecs/common/gcc-base.conf unchanged")
 
     else
         puts "please teach me this build type!"
