@@ -140,7 +140,6 @@ public:
 
 " + s + "::Private::Private(QObject *parent)
      : QObject(parent)
-     , d(new Private(this))
 {
 }
 
