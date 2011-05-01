@@ -19,6 +19,7 @@
     unadd = reset HEAD --
     unstage = reset HEAD --
     stage = add -v
+    graph = log --pretty=oneline --topo-order --graph --abbrev-commit
 [sendemail]
 	smtpserver = "mail.collabora.co.uk"
 	smtpuser = "burchr"
