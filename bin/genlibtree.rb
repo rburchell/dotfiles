@@ -1,11 +1,9 @@
 #!/usr/bin/ruby
 require 'pp'
 
-$writtenBinName = false
 $outputType = "text"
 $outFile = nil
 $level = -2
-$libstack = []
 $nodeHash = {}
 $currentNode = nil
 
@@ -14,7 +12,6 @@ def recurseInto(libName)
   # means we don't show a complete tree by ignoring repeated dependencies.
   # how can we fix this?
   $level += 1
-  $libstack << libName
   if ($outputType == "text")
       0.upto($level).each {
         print "*"
@@ -24,10 +21,12 @@ def recurseInto(libName)
       print libName
       print "\n"
   elsif $outputType == "dot" then
-      $outFile.write('"' + libName + '"')
+      # do nothing, dot handled below
   end
 
-  $currentNode = libName
+  if ($currentNode == nil)
+      $currentNode = libName
+  end
 
   libs = `readelf -d #{libName} 2>&1 | grep NEEDED`.split("\n")
   libs.each { |lib|
@@ -37,28 +36,25 @@ def recurseInto(libName)
     # TODO: LD_LIBRARY_PATH, and other such fun things
     libPath = "/usr/lib/#{lib}"
 
+#    print "current node is " + $currentNode + " examining " + libPath + "\n"
+
     if ($nodeHash.has_key?($currentNode + libPath))
         next
     end
 
-    $nodeHash[$currentNode + libPath] = true
-
-    if $libstack.index(libPath) == nil then
-        if $outputType == "dot" then
-            if (!$writtenBinName) then
-                $outFile.write('"' + ARGV[0] + '"')
-                $writtenBinName = true
-            end
-            $outFile.write(" -- ")
-        end
-        recurseInto(libPath)
+    if ($nodeHash.has_key?(libPath + $currentNode))
+        next
     end
+
+    $nodeHash[$currentNode + libPath] = true
+    $nodeHash[libPath + $currentNode] = true
+
+    if $outputType == "dot" then
+         $outFile.write('"' + $currentNode + '" -- "' + libPath + '"' + "\n")
+    end
+    $currentNode = libPath
+    recurseInto(libPath)
   }
-  if $outputType == "dot" then
-      $writtenBinName = false
-      $outFile.write("\n")
-  end
-  $libstack.clear()
 
   $level -= 1
 end
