@@ -1,7 +1,6 @@
 #!/usr/bin/ruby
 require 'pp'
 
-$binName = nil
 $writtenBinName = false
 $outputType = "text"
 $outFile = nil
@@ -47,7 +46,7 @@ def recurseInto(libName)
     if $libstack.index(libPath) == nil then
         if $outputType == "dot" then
             if (!$writtenBinName) then
-                $outFile.write($binName)
+                $outFile.write('"' + ARGV[0] + '"')
                 $writtenBinName = true
             end
             $outFile.write(" -- ")
@@ -77,11 +76,10 @@ end
 
 print "Dependency tree for #{ARGV[0]}\n"
 
-$binName = File.basename(ARGV[0])
 
 if $outputType == "dot"
     $outFile = File.new(ARGV[1], "w")
-    $outFile.write("graph #{$binName} {\n");
+    $outFile.write("graph \"#{ARGV[0]}\" {\n");
 end
 
 recurseInto(ARGV[0])
