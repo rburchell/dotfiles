@@ -7,6 +7,7 @@ $level = -2
 $nodeHash = {}
 $currentNode = nil
 $oldNode = nil
+$libSearchPaths = []
 
 def recurseInto(libName)
   # TODO: this means circular dependencies don't make us explode, but it also
@@ -34,8 +35,23 @@ def recurseInto(libName)
     # yuck, I am sure this can be done better
     lib.sub(/.+\[(.*)\]/) { lib = $1 }
 
-    # TODO: LD_LIBRARY_PATH, and other such fun things
-    libPath = "/usr/lib/#{lib}"
+    foundLib = false
+    libPath = ""
+
+    $libSearchPaths.each() { |path|
+        libPath = "#{path}/#{lib}"
+        if File.exists?(libPath)
+            foundLib = true
+            break
+        end
+    }
+
+    if (!foundLib)
+        print "cannot find lib " + lib + "\n"
+        print "searched paths:\n"
+        pp $libSearchPaths
+        exit 3
+    end
 
     print "current node is " + $currentNode + " examining " + libPath + "\n"
 
@@ -62,6 +78,18 @@ def recurseInto(libName)
 
   $level -= 1
 end
+
+
+if ENV["LD_LIBRARY_PATH"]
+    paths = ENV["LD_LIBRARY_PATH"].split(":")
+    paths.each() { |path|
+        $libSearchPaths << path
+    }
+end
+
+$libSearchPaths << "/usr/local/lib"
+$libSearchPaths << "/usr/lib"
+$libSearchPaths << "/lib"
 
 if ARGV[0][0].chr() == '-'
     if ARGV[0] == "-dot"
