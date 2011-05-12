@@ -60,7 +60,7 @@ private:
  */
 
 // Qt
-#include <QSharedData>
+#include <QObject>
 
 // Us
 #include \"" + s.downcase + ".h\"
