@@ -6,7 +6,7 @@ $outFile = nil
 $level = -2
 $nodeHash = {}
 $currentNode = nil
-$oldNode = nil
+$oldNodes = []
 $libSearchPaths = []
 
 def recurseInto(libName)
@@ -70,10 +70,10 @@ def recurseInto(libName)
          $outFile.write('"' + $currentNode + '" -- "' + libPath + '"' + "\n")
     end
 
-    $oldNode = $currentNode
+    $oldNodes << $currentNode
     $currentNode = libPath
     recurseInto(libPath)
-    $currentNode = $oldNode
+    $currentNode = $oldNodes.pop()
   }
 
   $level -= 1
