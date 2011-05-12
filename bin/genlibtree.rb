@@ -6,6 +6,7 @@ $outFile = nil
 $level = -2
 $nodeHash = {}
 $currentNode = nil
+$oldNode = nil
 
 def recurseInto(libName)
   # TODO: this means circular dependencies don't make us explode, but it also
@@ -36,7 +37,7 @@ def recurseInto(libName)
     # TODO: LD_LIBRARY_PATH, and other such fun things
     libPath = "/usr/lib/#{lib}"
 
-#    print "current node is " + $currentNode + " examining " + libPath + "\n"
+    print "current node is " + $currentNode + " examining " + libPath + "\n"
 
     if ($nodeHash.has_key?($currentNode + libPath))
         next
@@ -52,8 +53,11 @@ def recurseInto(libName)
     if $outputType == "dot" then
          $outFile.write('"' + $currentNode + '" -- "' + libPath + '"' + "\n")
     end
+
+    $oldNode = $currentNode
     $currentNode = libPath
     recurseInto(libPath)
+    $currentNode = $oldNode
   }
 
   $level -= 1
