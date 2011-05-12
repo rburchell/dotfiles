@@ -7,6 +7,8 @@ $outputType = "text"
 $outFile = nil
 $level = -2
 $libstack = []
+$nodeHash = {}
+$currentNode = nil
 
 def recurseInto(libName)
   # TODO: this means circular dependencies don't make us explode, but it also
@@ -26,6 +28,8 @@ def recurseInto(libName)
       $outFile.write('"' + libName + '"')
   end
 
+  $currentNode = libName
+
   libs = `readelf -d #{libName} 2>&1 | grep NEEDED`.split("\n")
   libs.each { |lib|
     # yuck, I am sure this can be done better
@@ -33,6 +37,13 @@ def recurseInto(libName)
 
     # TODO: LD_LIBRARY_PATH, and other such fun things
     libPath = "/usr/lib/#{lib}"
+
+    if ($nodeHash.has_key?($currentNode + libPath))
+        next
+    end
+
+    $nodeHash[$currentNode + libPath] = true
+
     if $libstack.index(libPath) == nil then
         if $outputType == "dot" then
             if (!$writtenBinName) then
@@ -48,6 +59,7 @@ def recurseInto(libName)
       $writtenBinName = false
       $outFile.write("\n")
   end
+  $libstack.clear()
 
   $level -= 1
 end
