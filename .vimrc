@@ -88,13 +88,13 @@ set foldcolumn=1
 :imap <C-S-tab> <Esc>:tabprevious<CR>i
 :imap <C-w> :tabclose<CR>i
 :imap <C-tab> <Esc>:tabnext<CR>i
-:nmap <C-t> :tabnew<CR>
-:imap <C-t> <Esc>:tabnew<CR>
-
+:nmap <C-t> :tabnew .<CR>
+:imap <C-t> <Esc>:tabnew .<CR>
 
 " for gui edit mode
 if has("gui_running")
     set guifont=Consolas\ 10
+    set guioptions=e
 endif
 
 if version >= 700
@@ -102,3 +102,9 @@ if version >= 700
 endif
 source ~/.vim/vimrc/coding_rules.vimrc
 
+let g:session_autoload='yes'
+let g:session_autosave='yes'
+
+set sessionoptions-=resize
+set sessionoptions-=winpos
+set sessionoptions-=winsize
