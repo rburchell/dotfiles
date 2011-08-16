@@ -102,3 +102,9 @@ if version >= 700
 endif
 source ~/.vim/vimrc/coding_rules.vimrc
 
+let g:session_autoload='yes'
+let g:session_autosave='yes'
+
+set sessionoptions-=resize
+set sessionoptions-=winpos
+set sessionoptions-=winsize
