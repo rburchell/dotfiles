@@ -42,7 +42,7 @@ function precmd {
         export GIT_COMMITTER_EMAIL="viroteck@viroteck.net"
     fi
 
-    export PS1="%n@%m$CHROOT_PS1:%~$(git_ps1)%% "
+    export PS1="%n@%m$CHROOT_PS1:%~%% "
 }
 
 preexec() {
@@ -69,7 +69,8 @@ export DEBEMAIL=$EMAIL
 READNULLCMD=${PAGER:-/usr/bin/less}
 which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 
-alias gvim='gvim -p --remote-tab-silent'
+alias gvim='gvim --servername VIM --remote-tab-silent'
+alias vim='vim --servername VIM --remote-tab-silent'
 alias ls='ls -A --color=auto'
 alias lsl='ls -A --color=auto -l'
 alias cl='clear && logout'
