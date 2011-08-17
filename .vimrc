@@ -94,8 +94,9 @@ set foldcolumn=1
 " for gui edit mode
 if has("gui_running")
     set guifont=Consolas\ 10
-    set guioptions=e
+    set guioptions=em
 endif
+set mousemodel=popup
 
 if version >= 700
     source ~/.vim/vimrc/hex_hilight.vimrc
