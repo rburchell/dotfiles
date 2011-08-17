@@ -109,3 +109,8 @@ let g:session_autosave='yes'
 set sessionoptions-=resize
 set sessionoptions-=winpos
 set sessionoptions-=winsize
+
+" map delete/copy/paste to the system keyboard for ease of use
+vnoremap y "+y
+vnoremap p "+gP
+vnoremap d "+x
