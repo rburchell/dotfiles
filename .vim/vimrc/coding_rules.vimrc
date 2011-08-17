@@ -26,7 +26,7 @@ endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " TAB COMPLETION
-function MyTabOrComplete()
+function! MyTabOrComplete()
 	let col = col('.')-1
 		  if !col || getline('.')[col-1] !~ '\k'
 		return "\<tab>"
@@ -38,7 +38,16 @@ inoremap <Tab> <C-R>=MyTabOrComplete()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COMPILE HOTKEY
-map <silent> <f5> :!make<cr>
+
+command! DoCompile call DoCompile()
+function! DoCompile()
+    :wa
+    :make!
+endfunction
+
+map <silent> <f5> :DoCompile<CR>
+inoremap <silent> <f5> <C-R>=DoCompile()<CR>
+"map <silent> <f5> :!make<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
