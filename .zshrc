@@ -43,6 +43,7 @@ function precmd {
     fi
 
     export PS1="%n@%m$CHROOT_PS1:%~%% "
+    export RPS1="($(date))"
 }
 
 preexec() {
