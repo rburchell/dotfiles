@@ -55,7 +55,7 @@ function precmd {
             COLORHOST="%{$fg[green]%}iris%{$reset_color%}"
             ;;
         *.collabora.co.uk)
-            COLORHOST="%{$fg[red]%}$HOSTNAME%{$reset_color%}"
+            COLORHOST="%{$fg[red]%}`hostname -s`%{$reset_color%}"
             ;;
         *)
             COLORHOST=$HOSTNAME
