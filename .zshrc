@@ -73,7 +73,8 @@ function precmd {
     esac
 
     export PS1="$COLORWHOAMI$COLORHOST:%~%% "
-    export RPS1="($(date))"
+
+    export RPS1="($(date '+W%U - %m/%d@%H:%M:%S'))"
 }
 
 preexec() {
@@ -160,17 +161,6 @@ source ~/.zsh/compinstall
 if [ -e ~/.zsh/host ]; then
     source ~/.zsh/host
 fi
-
- # date trick courtesy of http://ubuntuforums.org/showthread.php?t=1111038
- # (yes, it's simple, but I'm too lazy to DIY)
- dato1=`date +%A`; #day of the week
- dato2=`date +%d`; #day of the month
- dato3=`date +%B`; #month of the year
- dato4=`date +%Y`; #Year
- dato5=`date +%U`; #week of the year
-  
- echo "Date is now: $dato1, $dato2. $dato3, $dato4 (W$dato5)"
- echo "Your host is: `hostname`"
 
 # if the command-not-found package is installed, use it
 if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found ]; then
