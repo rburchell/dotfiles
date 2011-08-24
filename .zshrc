@@ -45,11 +45,11 @@ function precmd {
         export GIT_COMMITTER_EMAIL="viroteck@viroteck.net"
     fi
 
-    export HOSTNAME="`hostname`$CHDOOT_PS1"
+    export HOSTNAME="`hostname -f`$CHDOOT_PS1"
 
     case $HOSTNAME in
-        virgin)
-            COLORHOST="%{$fg[yellow]%}$HOSTNAME%{$reset_color%}"
+        virgin.local.viroteck.net)
+            COLORHOST="%{$fg[yellow]%}virgin%{$reset_color%}"
             ;;
         iris.dereferenced.net)
             COLORHOST="%{$fg[green]%}iris%{$reset_color%}"
