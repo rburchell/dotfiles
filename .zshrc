@@ -49,10 +49,10 @@ function precmd {
 
     case $HOSTNAME in
         virgin)
-            COLORHOST="$fg[yellow]$HOSTNAME$reset_color"
+            COLORHOST="%{$fg[yellow]%}$HOSTNAME%{$reset_color%}"
             ;;
         iris.dereferenced.net)
-            COLORHOST="$fg[green]iris$reset_color"
+            COLORHOST="%{$fg[green]%}iris%{$reset_color%}"
             ;;
         *)
             COLORHOST=$HOSTNAME
@@ -64,8 +64,11 @@ function precmd {
         burchr)
             COLORWHOAMI=""
             ;;
+        root)
+            COLORWHOAMI="%{$fg[white]$bg[red]%}$WHOAMI%{$reset_color%}@"
+            ;;
         *)
-            COLORWHOAMI=$fg[blue]$bg[red]$WHOAMI$reset_color@
+            COLORWHOAMI="%{$fg[blue]$bg[yellow]%}$WHOAMI%{$reset_color%}@"
             ;;
     esac
 
