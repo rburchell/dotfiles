@@ -74,7 +74,7 @@ function precmd {
 
     export PS1="$COLORWHOAMI$COLORHOST:%~%% "
 
-    export RPS1="($(date '+W%U - %m/%d@%H:%M:%S'))"
+    export RPS1="($(date '+W%U - %m/%d@%H:%M:%S %Z'))"
 }
 
 preexec() {
