@@ -54,6 +54,9 @@ function precmd {
         iris.dereferenced.net)
             COLORHOST="%{$fg[green]%}iris%{$reset_color%}"
             ;;
+        *.collabora.co.uk)
+            COLORHOST="%{$fg[red]%}$HOSTNAME%{$reset_color%}"
+            ;;
         *)
             COLORHOST=$HOSTNAME
             ;;
