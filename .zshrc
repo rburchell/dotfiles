@@ -49,13 +49,13 @@ function precmd {
 
     case $HOSTNAME in
         vestal.local.viroteck.net)
-            COLORHOST="%{$fg[cyan]%}virgin%{$reset_color%}"
+            COLORHOST="%{$fg[cyan]%}`hostname -s`%{$reset_color%}"
             ;;
         virgin.local.viroteck.net)
-            COLORHOST="%{$fg[yellow]%}virgin%{$reset_color%}"
+            COLORHOST="%{$fg[yellow]%}`hostname -s`%{$reset_color%}"
             ;;
         iris.dereferenced.net)
-            COLORHOST="%{$fg[green]%}iris%{$reset_color%}"
+            COLORHOST="%{$fg[green]%}`hostname -s`%{$reset_color%}"
             ;;
         *.collabora.co.uk)
             COLORHOST="%{$fg[red]%}`hostname -s`%{$reset_color%}"
