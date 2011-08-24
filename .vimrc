@@ -114,3 +114,10 @@ set sessionoptions-=winsize
 vnoremap y "+y
 vnoremap p "+gP
 vnoremap d "+x
+
+nnoremap y "+y
+nnoremap yy V"+y
+nnoremap dd V"+x
+nnoremap d "+x
+nnoremap p "+gP
+
