@@ -1,5 +1,8 @@
 umask 022
 
+autoload colors
+colors
+
 source ~/.zsh/functions
 source ~/.zsh/vim-mode
 
@@ -42,14 +45,38 @@ function precmd {
         export GIT_COMMITTER_EMAIL="viroteck@viroteck.net"
     fi
 
-    export PS1="%n@%m$CHROOT_PS1:%~%% "
+    export HOSTNAME="`hostname`$CHDOOT_PS1"
+
+    case $HOSTNAME in
+        virgin)
+            COLORHOST="$fg[yellow]$HOSTNAME$reset_color"
+            ;;
+        iris)
+            COLORHOST="$fg[green]$HOSTNAME$reset_color"
+            ;;
+        *)
+            COLORHOST=$HOSTNAME
+            ;;
+    esac
+
+    export WHOAMI="`whoami`"
+    case $WHOAMI in
+        burchr)
+            COLORWHOAMI=""
+            ;;
+        *)
+            COLORWHOAMI=$fg[blue]$bg[red]$WHOAMI$reset_color@
+            ;;
+    esac
+
+    export PS1="$COLORWHOAMI$COLORHOST:%~%% "
     export RPS1="($(date))"
 }
 
 preexec() {
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ]; then
-        if [ `whoami` = "burchr" ]; then
+        if [ $WHOAMI = "burchr" ]; then
             print -Pn "\e]0;$1 (%m: %~)\a";
         else
             print -Pn "\e]0;$1 (%n@%m: %~)\a";
