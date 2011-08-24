@@ -51,8 +51,8 @@ function precmd {
         virgin)
             COLORHOST="$fg[yellow]$HOSTNAME$reset_color"
             ;;
-        iris)
-            COLORHOST="$fg[green]$HOSTNAME$reset_color"
+        iris.dereferenced.net)
+            COLORHOST="$fg[green]iris$reset_color"
             ;;
         *)
             COLORHOST=$HOSTNAME
