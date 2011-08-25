@@ -27,17 +27,34 @@ function setTitle {
 }
 
 function precmd {
+    # must be done early to save status
+    local exit_status=$?
+
+    if (($+COMMAND_STARTTIME)); then
+
+        local endtime=`date +%s`
+        local endtime_ms=`date +%N`
+        ((starttime_ms = starttime_ms / 1000000))
+        local endtime_total=$endtime.$endtime_ms
+        ((runtime_total = $endtime_total - $COMMAND_STARTTIME))
+        if [ $exit_status -ne 0 ]; then
+            echo "zsh: exit $fg[red]$exit_status$reset_color, took $runtime_total";
+        else
+            echo "zsh: exit $exit_status, took $runtime_total";
+        fi
+    fi
+
     setTitle
-    COLLABORA=0
+    local collabora=0
 
     case `pwd` in
-        /home/burchr/code/qt/*) COLLABORA=1;;
-        /home/burchr/code/collabora/*) COLLABORA=1;;
-        /j/scratchbox/*) COLLABORA=1;;
-        /scratchbox/*) COLLABORA=1;;
+        /home/burchr/code/qt/*) collabora=1;;
+        /home/burchr/code/collabora/*) collabora=1;;
+        /j/scratchbox/*) collabora=1;;
+        /scratchbox/*) collabora=1;;
     esac
 
-    if [ $COLLABORA -eq 1 ]; then
+    if [ $collabora -eq 1 ]; then
         export GIT_AUTHOR_EMAIL="robin.burchell@collabora.co.uk"
         export GIT_COMMITTER_EMAIL="robin.burchell@collabora.co.uk"
     else
@@ -84,6 +101,10 @@ function precmd {
 }
 
 preexec() {
+    local starttime=`date +%s`
+    local starttime_ms=`date +%N`
+    ((starttime_ms = starttime_ms / 1000000))
+    export COMMAND_STARTTIME=$starttime.$starttime_ms
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ]; then
         if [ $WHOAMI = "burchr" ]; then
@@ -144,9 +165,10 @@ genlog() {
     git-log --no-merges $1-$2..'HEAD^1' | git shortlog > ~/x/xorg/final/$1-$3
 }
 
+# PRINT_EXIT_VALUE removed, we do that ourselves in precmd
 setopt GLOB EXTENDED_GLOB MAGIC_EQUAL_SUBST RC_EXPAND_PARAM \
        HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_VERIFY CORRECT HASH_CMDS \
-       PRINT_EXIT_VALUE RC_QUOTES AUTO_CONTINUE MULTIOS VI INC_APPEND_HISTORY \
+       RC_QUOTES AUTO_CONTINUE MULTIOS VI INC_APPEND_HISTORY \
        APPENDHISTORY
 unsetopt beep
 unset MAIL
