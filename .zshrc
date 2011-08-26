@@ -55,8 +55,8 @@ function precmd {
     esac
 
     if [ $collabora -eq 1 ]; then
-        export GIT_AUTHOR_EMAIL="robin.burchell@collabora.co.uk"
-        export GIT_COMMITTER_EMAIL="robin.burchell@collabora.co.uk"
+        export GIT_AUTHOR_EMAIL="robin.burchell@collabora.com"
+        export GIT_COMMITTER_EMAIL="robin.burchell@collabora.com"
     else
         export GIT_AUTHOR_EMAIL="viroteck@viroteck.net"
         export GIT_COMMITTER_EMAIL="viroteck@viroteck.net"
