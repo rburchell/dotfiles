@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/ruby1.8
 # A lot of this taken (with gratitude) from Dan Finnie's clipboard script.
 #   See: http://ruby.pastebin.com/f5ef5f028
 

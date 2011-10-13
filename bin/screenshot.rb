@@ -1,9 +1,11 @@
-#!/usr/bin/ruby
+#!/usr/bin/ruby1.8
 # Some of this taken (with gratitude) from Dan Finnie's clipboard script.
 #   See: http://ruby.pastebin.com/f5ef5f028
 
 require "gtk2"
 require "tempfile"
+require "rubygems"
+require "mechanize"
 
 module Clipboard
     Gtk.init
@@ -17,22 +19,28 @@ module Clipboard
     end
 end
 
-Tempfile.open("imgbin") { |tf|
-    # we don't really actually use the tempfile.
-    tf.close
+cfg = File.new(File.expand_path("~/.pastebin.cfg"))
+cfgVersion = cfg.readline.chomp # ignored for now
+cfgUser = cfg.readline.chomp
+cfgPass = cfg.readline.chomp
 
+Tempfile.open(["imgbin", ".png"]) { |tf|
     if ARGV.length == 0
         # -b captures border,-s selects a window, -u is use focused
-        `scrot -b -u #{tf.path}.jpg`
+        `scrot -b -u #{tf.path}`
     else
-        `scrot #{tf.path}.jpg`
+        `scrot #{tf.path}`
     end
 
-    fname = File.basename tf.path
-    fname += ".jpg"
-    path = "http://w00t.dereferenced.net/p/i/#{fname}"
-    Clipboard::set path
-    `scp #{tf.path}.jpg "w00t@dereferenced.net:/var/www/w00t.dereferenced.net/p/i/#{fname}"`
-    `ssh w00t@dereferenced.net 'chmod o+rw /var/www/w00t.dereferenced.net/p/i/#{fname}'`
-    puts "Uploaded screenshot to #{path}"
+    f = File.new(tf.path, "rb")
+    agent = Mechanize.new
+    agent.basic_auth(cfgUser, cfgPass)
+    reply = agent.post(
+                "http://qtl.me/upload/",
+                {
+                    :file => f
+                }
+            )
+    print reply.body + "\n"
+    Clipboard::set reply.body
 }

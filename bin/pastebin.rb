@@ -1,9 +1,12 @@
-#!/usr/bin/ruby
+#!/usr/bin/ruby1.8
 # A lot of this taken (with gratitude) from Dan Finnie's clipboard script.
 #   See: http://ruby.pastebin.com/f5ef5f028
 
 require "gtk2"
+require "pp"
 require "tempfile"
+require "rubygems"
+require "mechanize"
 
 module Clipboard
     Gtk.init
@@ -50,19 +53,10 @@ def stdin_text_or_clipboard
     text.chomp
 end
 
-def doPastebin(fileName, targetFileName)
-    # sanity checking
-    targetFileName.gsub!(/ /, "")
-
-    fileName.gsub!(/ /, "\\ ")
-
-    puts "Uploading #{fileName} to #{targetFileName}"
-    path = "http://w00t.dereferenced.net/p/t/#{targetFileName}"
-    Clipboard::set path
-    `scp #{fileName} "w00t@dereferenced.net:/var/www/w00t.dereferenced.net/p/t/#{targetFileName}"`
-    `ssh w00t@dereferenced.net 'chmod o+rw /var/www/w00t.dereferenced.net/p/t/#{targetFileName}'`
-    puts "Uploaded snippet to #{path}"
-end
+cfg = File.new(File.expand_path("~/.pastebin.cfg"))
+cfgVersion = cfg.readline.chomp # ignored for now
+cfgUser = cfg.readline.chomp
+cfgPass = cfg.readline.chomp
 
 text = stdin_text_or_clipboard
 
@@ -70,48 +64,28 @@ if File.file? text
     # TODO: it would be nice if we could verify somehow that they copied a file
     # to clipboard.
 
-    # make name safe/readable:
-    # - remove spaces
-    # - remove extension (we add it after random bit later)
-    # this is not exhaustive but should do.
-    targetFileName = text.split('.').first
-    targetExtension = text.split('.').last
-
-    if targetExtension == targetFileName
-        targetExtension = ""
-    end
-
-    # remove path bit
-    targetFileName = File.basename(targetFileName)
-
-    # create a temporary filename so we don't accidentally overwrite files
-    Tempfile.open(targetFileName) { |tf|
-        tf.close
-
-        # add temporary bit
-        targetFileName = File.basename(tf.path)
-
-        # add extension if it exists
-        if targetExtension != ""
-            targetFileName += "." + targetExtension
-        end
-
-        # yuck, I really need server side magic to avoid this
-        targetFileName += case targetExtension
-                when "rb"
-                    ".txt"
-                when "php"
-                    ".txt"
-                else ""
-            end
-
-        doPastebin(text, targetFileName)
-    }
+    f = File.new(text, "rb")
+    agent = Mechanize.new
+    agent.basic_auth(cfgUser, cfgPass)
+    reply = agent.post(
+                "http://qtl.me/upload/",
+                {
+                    :file => f
+                }
+            )
+    print reply.body + "\n"
+    Clipboard::set reply.body
+    exit
 else
-    Tempfile.open("pastebin") { |tf|
-        tf.write text
-        tf.close
-        doPastebin(tf.path, File.basename(tf.path) + ".txt")
-    }
+    agent = Mechanize.new
+    agent.basic_auth(cfgUser, cfgPass)
+    reply = agent.post(
+                "http://qtl.me/upload/",
+                {
+                    :content => text
+                }
+            )
+    print reply.body + "\n"
+    Clipboard::set reply.body
 end
 
