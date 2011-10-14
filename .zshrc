@@ -156,8 +156,8 @@ if [[ "$PLATFORM" == "linux" ]]; then
 elif [[ "$PLATFORM" == 'osx' ]]; then
     alias gvim='gvim'
     alias vim='vim'
-    alias ls='ls -A'
-    alias lsl='ls -A -l'
+    alias ls='ls -A -G'
+    alias lsl='ls -A -l -G'
 fi
 
 alias cl='clear && logout'
