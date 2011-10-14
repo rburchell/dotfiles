@@ -73,6 +73,7 @@ function precmd {
     fi
 
     local hostname=`hostname -f 2>/dev/null`
+
     if [ hostname = "" ]; then
         hostname=`hostname`
     fi
@@ -80,7 +81,7 @@ function precmd {
     export HOSTNAME="$hostname$CHDOOT_PS1"
 
     case $HOSTNAME in
-        vestal.local.viroteck.net)
+        vestal.local)
             COLORHOST="%{$fg[cyan]%}`hostname -s`%{$reset_color%}"
             ;;
         virgin.local.viroteck.net)
