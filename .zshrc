@@ -117,10 +117,14 @@ function precmd {
 }
 
 preexec() {
-    local starttime=`date +%s`
-    local starttime_ms=`date +%N`
-    ((starttime_ms = starttime_ms / 1000000))
-    export COMMAND_STARTTIME=$starttime.$starttime_ms
+    if [[ $PLATFORM != "osx" ]]; then
+        # TODO: figure out how to unbreak this bullshit
+        local starttime=`date +%s`
+        local starttime_ms=`date +%N`
+        ((starttime_ms = starttime_ms / 1000000))
+        export COMMAND_STARTTIME=$starttime.$starttime_ms
+    fi
+
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ]; then
         if [ $WHOAMI = "burchr" ]; then
