@@ -12,6 +12,16 @@ else
   CHROOT_PS1=
 fi
 
+export PLATFORM='unknown'
+local unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+   export PLATFORM='linux'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+   export PLATFORM='osx'
+else
+   echo "warning: platform unknown"
+fi
+
 function setTitle {
     [ "$_ZSH_VIM_MODE" ] || _ZSH_VIM_MODE="INSERT"
 
@@ -62,7 +72,12 @@ function precmd {
         export GIT_COMMITTER_EMAIL="viroteck@viroteck.net"
     fi
 
-    export HOSTNAME="`hostname -f`$CHDOOT_PS1"
+    local hostname=`hostname -f 2>/dev/null`
+    if [ hostname = "" ]; then
+        hostname=`hostname`
+    fi
+
+    export HOSTNAME="$hostname$CHDOOT_PS1"
 
     case $HOSTNAME in
         vestal.local.viroteck.net)
@@ -128,17 +143,20 @@ export DEBEMAIL=$EMAIL
 READNULLCMD=${PAGER:-/usr/bin/less}
 which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 
-alias gvim='gvim --servername VIM --remote-tab-silent'
-alias vim='vim --servername VIM --remote-tab-silent'
-alias ls='ls -A --color=auto'
-alias lsl='ls -A --color=auto -l'
+if [[ "$PLATFORM" == "linux" ]]; then
+    alias gvim='gvim --servername VIM --remote-tab-silent'
+    alias vim='vim --servername VIM --remote-tab-silent'
+    alias ls='ls -A --color=auto'
+    alias lsl='ls -A --color=auto -l'
+elif [[ "$PLATFORM" == 'osx' ]]; then
+    alias gvim='gvim'
+    alias vim='vim'
+    alias ls='ls -A'
+    alias lsl='ls -A -l'
+fi
+
 alias cl='clear && logout'
 alias g='grep -I --exclude-dir=debian --exclude-dir=obj-\* --exclude-dir=hw/dmx/doc --exclude-dir=autom4te.cache --exclude=configure --exclude=tags --exclude=Makefile.in --exclude=cscope.out'
-alias cs='cscope **/*.[ch]'
-alias nmctl='sudo invoke-rc.d network-manager'
-kbl () {
-    sudo sh -c "echo $1 > /sys/class/leds/smc::kbd_backlight/brightness"
-}
 
 alias gci='git commit'
 alias gco='git checkout'
