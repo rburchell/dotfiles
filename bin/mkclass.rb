@@ -18,7 +18,6 @@ pp opts
 
 
 def getLicense(licenseType)
-    print "Getting license " + licenseType
     if licenseType == "lgpl"
 return '/*
  * Copyright (C) 2011 Robin Burchell <viroteck@viroteck.net>
