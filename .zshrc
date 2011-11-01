@@ -68,8 +68,8 @@ function precmd {
         export GIT_AUTHOR_EMAIL="robin.burchell@collabora.com"
         export GIT_COMMITTER_EMAIL="robin.burchell@collabora.com"
     else
-        export GIT_AUTHOR_EMAIL="viroteck@viroteck.net"
-        export GIT_COMMITTER_EMAIL="viroteck@viroteck.net"
+        export GIT_AUTHOR_EMAIL="robin+git@viroteck.net"
+        export GIT_COMMITTER_EMAIL="robin+git@viroteck.net"
     fi
 
     export HOSTNAME="$HOST$CHDOOT_PS1"
@@ -140,7 +140,7 @@ export EDITOR="vim"
 #export LC_CTYPE="en_US.UTF-8"
 #export LC_NUMERIC=C
 #export LC_COLLATE=C
-export EMAIL="viroteck@viroteck.org"
+export EMAIL="robin@viroteck.net"
 export DEBEMAIL=$EMAIL
 
 READNULLCMD=${PAGER:-/usr/bin/less}
