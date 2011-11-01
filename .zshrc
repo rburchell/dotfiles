@@ -72,25 +72,23 @@ function precmd {
         export GIT_COMMITTER_EMAIL="viroteck@viroteck.net"
     fi
 
-    local hostname=`hostname -f 2>/dev/null`
-
-    if [ hostname = "" ]; then
-        hostname=`hostname`
-    fi
-
-    export HOSTNAME="$hostname$CHDOOT_PS1"
+    export HOSTNAME="$HOST$CHDOOT_PS1"
 
     case $HOSTNAME in
-        vestal.local)
+        vestal)
             COLORHOST="%{$fg[cyan]%}`hostname -s`%{$reset_color%}"
             ;;
-        virgin.local.viroteck.net)
+        virgin)
             COLORHOST="%{$fg[yellow]%}`hostname -s`%{$reset_color%}"
             ;;
-        iris.dereferenced.net)
+        iris)
             COLORHOST="%{$fg[green]%}`hostname -s`%{$reset_color%}"
             ;;
-        *.collabora.co.uk)
+        jalfrezi)
+            ;& # fallthrough
+        dhansak)
+            ;& # fallthrough
+        pasanda)
             COLORHOST="%{$fg[red]%}`hostname -s`%{$reset_color%}"
             ;;
         *)
