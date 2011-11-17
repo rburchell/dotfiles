@@ -24,10 +24,12 @@ def main
         :default => false
     opt :tag_version,
         "The package tag_version number, if not specified, grabs the newest tag prefixed with tag-prefix",
-        :default => false
+        :default => ""
   end
-  opts[:tag_version] = opts[:tag_version] || guess_package_version(opts[:tag_prefix])
-  pp opts
+  if !opts[:tag_version_given]
+    opts[:tag_version] = guess_package_version(opts[:tag_prefix])
+  end
+  pp opts[:tag_version]
   cmd = Packager.new(opts).command
   puts cmd
   system(cmd) unless opts[:dry_run]
