@@ -117,7 +117,7 @@ def main
     # update and create patch series
     runOrDie("cd #{sourcePath} && git checkout rb-integration", "checking out integration branch") # TODO: don't hardcode this branch
     runOrDie("cd #{sourcePath} && git rebase #{opts[:tag]}", "rebasing patches on top of upstream tag");
-    runOrDie("cd #{sourcePath} && git format-patch #{opts[:tag]}...", "converting patches to series")
+    runOrDie("cd #{sourcePath} && git format-patch --no-numbered #{opts[:tag]}...", "converting patches to series")
     runOrDie("cd #{sourcePath} && mv *.patch #{packagePath}", "moving patches to package dir", false)
 
     # OBS magic
