@@ -22,6 +22,13 @@ else
    echo "warning: platform unknown"
 fi
 
+vim --help | grep servername 2>&1 > /dev/null
+if [ $? -ne 0 ]; then
+    export VIM_GUI=0
+else
+    export VIM_GUI=1
+fi
+
 function setTitle {
     [ "$_ZSH_VIM_MODE" ] || _ZSH_VIM_MODE="INSERT"
 
@@ -147,15 +154,19 @@ READNULLCMD=${PAGER:-/usr/bin/less}
 which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 
 if [[ "$PLATFORM" == "linux" ]]; then
-    alias gvim='gvim --servername VIM --remote-tab-silent'
-    alias vim='vim --servername VIM --remote-tab-silent'
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
 elif [[ "$PLATFORM" == 'osx' ]]; then
-    alias gvim='gvim'
-    alias vim='vim'
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
+fi
+
+if [[ VIM_GUI -eq 1 ]]; then
+    alias gvim='gvim --servername VIM --remote-tab-silent'
+    alias vim='vim --servername VIM --remote-tab-silent'
+else
+    alias gvim='gvim'
+    alias vim='vim'
 fi
 
 alias cl='clear && logout'
