@@ -237,3 +237,81 @@ if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found ]; then
         fi
     }
 fi
+
+# thanks to Thiago Macieira for this.
+function removefrom()
+{
+    local varname=$1
+    local entry="$2"
+
+    unset newvar
+    for value in `IFS=: eval echo \\$$varname`; do
+	if [ "$value" != "$entry" ]; then
+	    newvar="${newvar}${newvar+:}${value}"
+	fi
+    done
+
+    # Set it again
+    eval $varname="$newvar"
+    unset newvar
+}
+
+function addto()
+{
+    local varname=$1
+    local newvalue=$2
+    eval $varname="$newvalue:\${$varname}"
+    eval $varname=\${$varname/%:}
+}
+
+function qt()
+{
+    local devhome=${DEVHOME-$HOME}
+    local srchome=${SRCHOME-$devhome/code}
+    local qthome=${QTHOME-$srchome/qt}
+
+    # Get or set the Qt version
+    if [ $# -eq 0 ]; then
+	# Get the Qt version
+	if [ -z "$QTDIR" ]; then
+	    echo "Not using Qt."
+	else
+	    ver=${QTDIR/#$qthome\/qt}
+	    ver=${ver/#-}
+	    echo "Using Qt $ver"
+	fi
+    else
+	# Set the working Qt version
+	wanted=$qthome/$1
+	test -d $wanted || wanted=$qthome/qt$1
+
+	if [ x$1 != xnone -a ! -d $wanted ]; then
+	    echo "Cannot find Qt $1 at $wanted"
+	else
+	    # Remove old
+	    removefrom PATH $QTDIR/bin
+	    removefrom LD_LIBRARY_PATH $QTDIR/lib
+	    removefrom PKG_CONFIG_PATH $QTDIR/lib/pkgconfig
+
+	    # Add new
+	    if [ x$1 != xnone ]; then
+		QTDIR=$wanted
+		{ pushd $QTDIR && updatedirs && QTSRCDIR=$srcdir && popd; } > /dev/null 2>/dev/null
+		QTSRCDIR=${QTSRCDIR-$QTDIR}
+
+		addto PATH $QTDIR/bin
+		addto LD_LIBRARY_PATH $QTDIR/lib
+		addto PKG_CONFIG_PATH $QTDIR/lib/pkgconfig
+
+		echo "Using Qt $1 from $QTDIR"
+	    else
+		echo "Not using Qt"
+	    fi
+	fi
+    fi
+
+    export LD_LIBRARY_PATH PKG_CONFIG_PATH
+    export QTDIR QTSRCDIR
+}
+
+
