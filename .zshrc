@@ -296,8 +296,6 @@ function qt()
 	    # Add new
 	    if [ x$1 != xnone ]; then
 		QTDIR=$wanted
-		{ pushd $QTDIR && updatedirs && QTSRCDIR=$srcdir && popd; } > /dev/null 2>/dev/null
-		QTSRCDIR=${QTSRCDIR-$QTDIR}
 
 		addto PATH $QTDIR/bin
 		addto LD_LIBRARY_PATH $QTDIR/lib
