@@ -1,6 +1,6 @@
 [user]
 	name = "Robin Burchell"
-	email = "robin.burchell@collabora.co.uk"
+	email = "robin.burchell@collabora.com"
 [core]
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 	editor = vim
