@@ -89,12 +89,12 @@ def main
     sourcePath = ENV["ROBOPACKAGE_GIT_DIR"] + opts[:package]
 
     if !File.directory?(packagePath)
-        puts "Your packaging working dir for " + opts[:package] + " doesn't exist"
+        puts "Your packaging working dir for " + opts[:package] + " doesn't exist: " + packagePath
         Process.exit 1
     end
 
     if !File.directory?(sourcePath)
-        puts "Your source dir for " + opts[:package] + " doesn't exist"
+        puts "Your source dir for " + opts[:package] + " doesn't exist: " + sourcePath
         Process.exit 1
     end
 
@@ -119,6 +119,7 @@ def main
     runOrDie("cd #{sourcePath} && git rebase #{opts[:tag]}", "rebasing patches on top of upstream tag");
     runOrDie("cd #{sourcePath} && git format-patch --no-numbered #{opts[:tag]}...", "converting patches to series")
     runOrDie("cd #{sourcePath} && mv *.patch #{packagePath}", "moving patches to package dir", false)
+    runOrDie("cd #{packagePath} && for i in *.patch; do mv \"$i\" `echo \"$i\" | sed -e \"s/^[0-9]*-\\(.*\\)/#{opts[:package]}-#{opts[:pversion]}-\\1/g\"`; done", "renaming patches to remove numerical prefixes")
 
     # OBS magic
     # TODO: automate me more
