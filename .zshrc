@@ -65,8 +65,8 @@ function precmd {
     local project=""
 
     case `pwd` in
-        /home/burchr/code/qt/*) project="qt";;
-        /home/burchr/code/collabora/*) project="collabora";;
+        */burchr/code/qt/*) project="qt";;
+        */burchr/code/collabora/*) project="collabora";;
         /j/scratchbox/*) project="collabora";;
     esac
 
