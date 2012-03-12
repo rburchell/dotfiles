@@ -62,22 +62,28 @@ function precmd {
     fi
 
     setTitle
-    local collabora=0
+    local project=""
 
     case `pwd` in
-        /home/burchr/code/qt/*) collabora=1;;
-        /home/burchr/code/collabora/*) collabora=1;;
-        /j/scratchbox/*) collabora=1;;
-        /scratchbox/*) collabora=1;;
+        /home/burchr/code/qt/*) project="qt";;
+        /home/burchr/code/collabora/*) project="collabora";;
+        /j/scratchbox/*) project="collabora";;
     esac
 
-    if [ $collabora -eq 1 ]; then
-        export GIT_AUTHOR_EMAIL="robin.burchell@collabora.com"
-        export GIT_COMMITTER_EMAIL="robin.burchell@collabora.com"
-    else
-        export GIT_AUTHOR_EMAIL="robin+git@viroteck.net"
-        export GIT_COMMITTER_EMAIL="robin+git@viroteck.net"
-    fi
+    case $project in
+        qt)
+            export GIT_AUTHOR_EMAIL="robin+qt@viroteck.net"
+            export GIT_COMMITTER_EMAIL="robin+qt@viroteck.net"
+            ;;
+        collabora)
+            export GIT_AUTHOR_EMAIL="robin.burchell@collabora.com"
+            export GIT_COMMITTER_EMAIL="robin.burchell@collabora.com"
+            ;;
+        *)
+            export GIT_AUTHOR_EMAIL="robin+git@viroteck.net"
+            export GIT_COMMITTER_EMAIL="robin+git@viroteck.net"
+            ;;
+    esac
 
     export HOSTNAME="$HOST$CHDOOT_PS1"
 
