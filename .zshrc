@@ -89,6 +89,9 @@ function precmd {
             COLORHOST="%{$fg[cyan]%}`hostname -s`%{$reset_color%}"
             ;;
         iris.dereferenced.net)
+            COLORHOST="%{$fg[red]%}`hostname -s`%{$reset_color%}"
+            ;;
+        zoe.dereferenced.net)
             COLORHOST="%{$fg[green]%}`hostname -s`%{$reset_color%}"
             ;;
         *)
