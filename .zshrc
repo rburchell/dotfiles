@@ -29,14 +29,12 @@ else
 fi
 
 function setTitle {
-    [ "$_ZSH_VIM_MODE" ] || _ZSH_VIM_MODE="INSERT"
-
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ]; then
         if [ `whoami` = "burchr" ]; then
-            print -Pn "\e]0;%m: %~ $_ZSH_VIM_MODE\a"
+            print -Pn "\e]0;%m: %~\a"
 	else
-	    print -Pn "\e]0;%n@%m: %~ $_ZSH_VIM_MODE\a"
+	    print -Pn "\e]0;%n@%m: %~\a"
 	fi
     fi
 
