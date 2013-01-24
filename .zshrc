@@ -85,21 +85,11 @@ function precmd {
     export HOSTNAME="$HOST$CHDOOT_PS1"
 
     case $HOSTNAME in
-        vestal)
+        vestal.local.viroteck.net)
             COLORHOST="%{$fg[cyan]%}`hostname -s`%{$reset_color%}"
             ;;
-        virgin)
-            COLORHOST="%{$fg[yellow]%}`hostname -s`%{$reset_color%}"
-            ;;
-        iris)
+        iris.dereferenced.net)
             COLORHOST="%{$fg[green]%}`hostname -s`%{$reset_color%}"
-            ;;
-        jalfrezi)
-            ;& # fallthrough
-        dhansak)
-            ;& # fallthrough
-        pasanda)
-            COLORHOST="%{$fg[red]%}`hostname -s`%{$reset_color%}"
             ;;
         *)
             COLORHOST=$HOSTNAME
