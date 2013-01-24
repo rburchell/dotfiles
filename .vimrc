@@ -30,7 +30,7 @@ endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GRAPHICAL SETTINGS
-colorscheme mytheme
+colorscheme xoria256
 " terminal colors!
 set t_Co=256
 
