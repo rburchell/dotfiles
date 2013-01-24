@@ -201,6 +201,10 @@ genlog() {
     git-log --no-merges $1-$2..'HEAD^1' | git shortlog > ~/x/xorg/final/$1-$3
 }
 
+ffind() {
+    find . -name "*$1*"
+}
+
 # PRINT_EXIT_VALUE removed, we do that ourselves in precmd
 setopt GLOB EXTENDED_GLOB MAGIC_EQUAL_SUBST RC_EXPAND_PARAM \
        HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_VERIFY CORRECT HASH_CMDS \
