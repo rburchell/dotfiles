@@ -4,7 +4,6 @@ autoload colors
 colors
 
 source ~/.zsh/functions
-source ~/.zsh/vim-mode
 
 if [ -e "/etc/chroot-name" ]; then
   CHROOT_PS1="(chroot-$(cat /etc/chroot-name))"
@@ -223,6 +222,7 @@ bindkey '^[OF' end-of-line
 bindkey '^E' end-of-line
 bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M vicmd '^R' history-incremental-search-backward
+bindkey -e
 
 source ~/.zsh/compinstall
 if [ -e ~/.zsh/host ]; then
