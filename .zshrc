@@ -317,4 +317,7 @@ function qt()
     export QTDIR QTSRCDIR
 }
 
-
+# make git completion not be so ridiculously slow
+__git_files () {
+    _wanted files expl 'local files' _files
+}
