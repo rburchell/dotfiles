@@ -53,22 +53,14 @@ function precmd {
     fi
 
     setTitle
-    local project=""
 
     case `pwd` in
-        */burchr/code/qt/*) project="qt";;
-        */burchr/code/collabora/*) project="collabora";;
-        /j/scratchbox/*) project="collabora";;
-    esac
-
-    case $project in
-        qt)
+        # TODO: is there a less awkward way to handle a path or anything under it?
+        */burchr/code/qt/*)
+            ;& # fallthrough
+        */burchr/code/qt)
             export GIT_AUTHOR_EMAIL="robin+qt@viroteck.net"
             export GIT_COMMITTER_EMAIL="robin+qt@viroteck.net"
-            ;;
-        collabora)
-            export GIT_AUTHOR_EMAIL="robin.burchell@collabora.com"
-            export GIT_COMMITTER_EMAIL="robin.burchell@collabora.com"
             ;;
         *)
             export GIT_AUTHOR_EMAIL="robin+git@viroteck.net"
