@@ -94,6 +94,9 @@ function precmd {
         zoe.dereferenced.net)
             COLORHOST="%{$fg[green]%}`hostname -s`%{$reset_color%}"
             ;;
+        fedora.vm)
+            COLORHOST="%{$fg[yellow]%}`hostname -s`%{$reset_color%}"
+            ;;
         *)
             COLORHOST=$HOSTNAME
             ;;
