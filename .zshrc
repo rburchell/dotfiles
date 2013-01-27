@@ -5,12 +5,6 @@ colors
 
 source ~/.zsh/functions
 
-if [ -e "/etc/chroot-name" ]; then
-  CHROOT_PS1="(chroot-$(cat /etc/chroot-name))"
-else
-  CHROOT_PS1=
-fi
-
 export PLATFORM='unknown'
 local unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
@@ -121,7 +115,13 @@ function precmd {
             ;;
     esac
 
-    export PS1="$COLORWHOAMI$COLORHOST:%~%% "
+    if [ -e "/etc/chroot-name" ]; then
+        CHROOT_PS1=":(chroot-$(cat /etc/chroot-name))"
+    else
+        CHROOT_PS1=
+    fi
+
+    export PS1="$COLORWHOAMI$COLORHOST$CHROOT_PS1:%~%% "
 
     export RPS1="($(date '+W%U - %m/%d@%H:%M:%S %Z'))"
 }
