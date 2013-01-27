@@ -136,7 +136,7 @@ preexec() {
     fi
 
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
-       [ $TERM = "xterm-color" ]; then
+       [ $TERM = "xterm-color" ] || [ $TERM = "xterm-256color" ]; then
         if [ $WHOAMI = "burchr" ]; then
             print -Pn "\e]0;$1 (%m: %~)\a";
         else
