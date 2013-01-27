@@ -83,19 +83,25 @@ function precmd {
     esac
 
     export HOSTNAME="$HOST$CHDOOT_PS1"
+    local shorthost
+    hostname -s 2>/dev/null | read shorthost
+    if [ $? -ne 0 ]; then
+        # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=531702
+        shorthost=`hostname`
+    fi
 
     case $HOSTNAME in
         vestal.local.viroteck.net)
-            COLORHOST="%{$fg[cyan]%}`hostname -s`%{$reset_color%}"
+            COLORHOST="%{$fg[cyan]%}$shorthost%{$reset_color%}"
             ;;
         iris.dereferenced.net)
-            COLORHOST="%{$fg[red]%}`hostname -s`%{$reset_color%}"
+            COLORHOST="%{$fg[red]%}$shorthost%{$reset_color%}"
             ;;
         zoe.dereferenced.net)
-            COLORHOST="%{$fg[green]%}`hostname -s`%{$reset_color%}"
+            COLORHOST="%{$fg[green]%}$shorthost%{$reset_color%}"
             ;;
         fedora.vm)
-            COLORHOST="%{$fg[yellow]%}`hostname -s`%{$reset_color%}"
+            COLORHOST="%{$fg[yellow]%}$shorthost%{$reset_color%}"
             ;;
         *)
             COLORHOST=$HOSTNAME
