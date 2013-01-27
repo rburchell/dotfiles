@@ -3,7 +3,7 @@ umask 022
 autoload colors
 colors
 
-source ~/.zsh/functions
+zmodload zsh/pcre &>/dev/null
 
 export PLATFORM='unknown'
 local unamestr=`uname`
