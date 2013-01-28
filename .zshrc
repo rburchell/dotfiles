@@ -38,18 +38,10 @@ function precmd {
     # must be done early to save status
     local exit_status=$?
 
-    if (($+COMMAND_STARTTIME)); then
-
-        local endtime=`date +%s`
-        local endtime_ms=`date +%N`
-        ((starttime_ms = starttime_ms / 1000000))
-        local endtime_total=$endtime.$endtime_ms
-        ((runtime_total = $endtime_total - $COMMAND_STARTTIME))
-        if [ $exit_status -ne 0 ]; then
-            echo "zsh: exit $fg[red]$exit_status$reset_color, took $runtime_total";
-        else
-            echo "zsh: exit $exit_status, took $runtime_total";
-        fi
+    if [ $exit_status -ne 0 ]; then
+        echo "zsh: exit $fg[red]$exit_status$reset_color";
+    else
+        echo "zsh: exit $exit_status";
     fi
 
     setTitle
@@ -119,14 +111,6 @@ function precmd {
 }
 
 preexec() {
-    if [[ $PLATFORM != "osx" ]]; then
-        # TODO: figure out how to unbreak this bullshit
-        local starttime=`date +%s`
-        local starttime_ms=`date +%N`
-        ((starttime_ms = starttime_ms / 1000000))
-        export COMMAND_STARTTIME=$starttime.$starttime_ms
-    fi
-
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ] || [ $TERM = "xterm-256color" ]; then
         if [ $WHOAMI = "burchr" ]; then
@@ -182,15 +166,7 @@ gs() {
 gc() {
     git cat-file -p $(git ls-tree $1 $2 | awk '{ print $3; }') | vim -
 }
-wifi() {
-    sudo -v
-    sudo killall wpa_supplicant dhclient
-    sudo wpa_supplicant -ieth0 -c/etc/wpa_supplicant/$1.conf &|
-    sleep 2
-    sudo dhclient -v eth0 &|
-}
 
-alias d='(test -d obj-i386 || mkdir obj-i386) && pushd obj-i386 && ../autogen.sh --prefix=/usr && make distcheck && popd'
 genlog() {
     git-log --no-merges $1-$2..'HEAD^1' | git shortlog > ~/x/xorg/final/$1-$3
 }
@@ -221,9 +197,6 @@ bindkey -M vicmd '^R' history-incremental-search-backward
 bindkey -e
 
 source ~/.zsh/compinstall
-if [ -e ~/.zsh/host ]; then
-    source ~/.zsh/host
-fi
 
 # if the command-not-found package is installed, use it
 if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found ]; then
