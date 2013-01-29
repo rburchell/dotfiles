@@ -99,8 +99,8 @@ function precmd {
             ;;
     esac
 
-    if [ -e "/etc/chroot-name" ]; then
-        CHROOT_PS1=":(chroot-$(cat /etc/chroot-name))"
+    if [ -e "/etc/debian_chroot" ]; then
+        CHROOT_PS1=":(chroot-$(cat /etc/debian_chroot))"
     else
         CHROOT_PS1=
     fi
