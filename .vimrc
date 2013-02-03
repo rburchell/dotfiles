@@ -102,6 +102,7 @@ if version >= 700
     source ~/.vim/vimrc/hex_hilight.vimrc
 endif
 source ~/.vim/vimrc/coding_rules.vimrc
+source ~/.vim/syntax/qml.vim
 
 let g:session_autoload='yes'
 let g:session_autosave='yes'
