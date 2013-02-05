@@ -308,10 +308,12 @@ function ocd() {
 
 function ccd() {
     if [ -z $1 ]; then
-        echo "ccd: software name required"
-        return 1
+        local software=`pwd`
+        software=`basename "$software"`
+    else
+        local software="$1"
     fi
 
-    local codedir=`find ~/code -path "*/$1" -print0 | cut -d '' -f1`
+    local codedir=`find ~/code -path "*/$software" -print0 | cut -d '' -f1`
     cd "$codedir"
 }
