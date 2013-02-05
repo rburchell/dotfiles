@@ -305,3 +305,13 @@ function ocd() {
     oscdir=`echo "$oscdir" | sed s,/.osc,,`
     cd "$oscdir"
 }
+
+function ccd() {
+    if [ -z $1 ]; then
+        echo "ccd: software name required"
+        return 1
+    fi
+
+    local codedir=`find ~/code -path "*/$1" -print0 | cut -d '' -f1`
+    cd "$codedir"
+}
