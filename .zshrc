@@ -292,3 +292,16 @@ function qt()
 __git_files () {
     _wanted files expl 'local files' _files
 }
+
+function ocd() {
+    if [ -z $1 ]; then
+        local software=`pwd`
+        software=`basename "$software"`
+    else
+        local software="$1"
+    fi
+
+    local oscdir=`find ~ -path "*/$software/.osc" -print0 | cut -d '' -f1`
+    oscdir=`echo "$oscdir" | sed s,/.osc,,`
+    cd "$oscdir"
+}
