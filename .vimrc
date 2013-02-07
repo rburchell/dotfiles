@@ -1,3 +1,5 @@
+" 10 tabs max is ridiculous
+set tabpagemax=999
 " give terminals our title.
 set title
 " let ~ be used as an action (e.g. ~e to change case of one word)
