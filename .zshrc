@@ -314,6 +314,5 @@ function ccd() {
         local software="$1"
     fi
 
-    local codedir=`find ~/code -path "*/$software" -print0 | cut -d '' -f1`
-    cd "$codedir"
+    cd `find ~/code -maxdepth 1 -path "*/$software"`
 }
