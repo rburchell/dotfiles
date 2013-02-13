@@ -15,11 +15,20 @@ else
    echo "warning: platform unknown"
 fi
 
-vim --help | grep servername 2>&1 > /dev/null
-if [ $? -ne 0 ]; then
-    export VIM_GUI=0
+# detect whether we can start vim graphically
+if [[ "$PLATFORM" == "osx" ]]; then
+    if [ -e /usr/local/bin/mvim ]; then
+        alias mvim='vim --servername VIM --remote-tab-silent'
+        alias gvim='vim --servername VIM --remote-tab-silent'
+        alias vim='vim --servername VIM --remote-tab-silent'
+    fi
 else
-    export VIM_GUI=1
+    vim --help | grep servername 2>&1 > /dev/null
+    if [ $? -eq 0 ]; then
+        alias mvim='gvim --servername VIM --remote-tab-silent'
+        alias gvim='gvim --servername VIM --remote-tab-silent'
+        alias vim='vim --servername VIM --remote-tab-silent'
+    fi
 fi
 
 function setTitle {
@@ -141,14 +150,6 @@ if [[ "$PLATFORM" == "linux" ]]; then
 elif [[ "$PLATFORM" == 'osx' ]]; then
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
-fi
-
-if [[ VIM_GUI -eq 1 ]]; then
-    alias gvim='gvim --servername VIM --remote-tab-silent'
-    alias vim='vim --servername VIM --remote-tab-silent'
-else
-    alias gvim='gvim'
-    alias vim='vim'
 fi
 
 alias cl='clear && logout'
