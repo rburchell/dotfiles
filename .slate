@@ -16,6 +16,7 @@ bind left:cmd ${lefthalf}
 bind right:cmd ${righthalf}
 bind down:cmd hide 'current'
 bind d:cmd hide 'all'
+bind e:cmd hint
 
 # numpad bindings
 bind pad1 ${bottomleft}
