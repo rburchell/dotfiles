@@ -18,8 +18,8 @@ bind up:cmd ${fullscreen}
 bind left:cmd ${lefthalf}
 bind right:cmd ${righthalf}
 bind down:cmd hide 'current'
-bind d:cmd hide 'all'
-bind e:cmd hint
+bind d:cmd;ctrl hide 'all'
+bind tab:cmd hint
 
 # numpad bindings
 bind pad1 ${bottomleft}
