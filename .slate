@@ -2,6 +2,9 @@ config defaultToCurrentScreen true
 config windowHintsShowIcons true
 config windowHintsIgnoreHiddenWindows false
 config windowHintsSpread true
+config windowHintsDuration 10
+# seems to break window hints after one entry
+# #config windowHintsOrder persist
 
 alias fullscreen move screenOriginX;screenOriginY screenSizeX;screenSizeY
 alias lefthalf move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
