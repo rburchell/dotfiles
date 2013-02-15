@@ -104,6 +104,7 @@ if version >= 700
     source ~/.vim/vimrc/hex_hilight.vimrc
 endif
 source ~/.vim/vimrc/coding_rules.vimrc
+au BufRead,BufNewFile *.qml setlocal filetype=qml
 source ~/.vim/syntax/qml.vim
 
 let g:session_autoload='yes'
