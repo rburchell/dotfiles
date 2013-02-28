@@ -32,5 +32,5 @@ bind pad7 ${topleft}
 bind pad8 push top bar-resize:screenSizeY/2
 bind pad9 ${topright}
 
-bind left:alt;ctrl move screenOriginX;screenOriginY screenSizeX;screenSizeY left
-bind right:alt;ctrl move screenOriginX;screenOriginY screenSizeX;screenSizeY right
+bind left:alt;ctrl move screenOriginX;screenOriginY windowSizeX;windowSizeY left
+bind right:alt;ctrl move screenOriginX;screenOriginY windowSizeX;windowSizeY right
