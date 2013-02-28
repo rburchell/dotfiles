@@ -321,3 +321,20 @@ function ccd() {
         cd ~/code
     fi
 }
+
+function pb() {
+    if [ -z $1 ]; then
+        echo "$0: need a filename to pastebin"
+        return 1
+    fi
+
+    if ! [ -f "$1" ]; then
+        echo "$0: file does not exist"
+        return 1
+    fi
+
+    local ext=`echo $1 | awk -F . '{ print $NF } '`
+    local rand=`hexdump -n 16 -v -e '/1 "%02X"' /dev/urandom`
+    scp "$1" "zoe:/var/www/qtl.me/www/$rand.$ext"
+    echo "pasted http://qtl.me/$rand.$ext"
+}
