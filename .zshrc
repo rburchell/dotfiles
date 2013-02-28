@@ -155,6 +155,7 @@ fi
 alias cl='clear && logout'
 alias g='grep -I --exclude-dir=debian --exclude-dir=obj-\* --exclude-dir=hw/dmx/doc --exclude-dir=autom4te.cache --exclude=configure --exclude=tags --exclude=Makefile.in --exclude=cscope.out'
 
+alias gpr='git pull --rebase'
 alias gci='git commit'
 alias gco='git checkout'
 alias gl='git log'
