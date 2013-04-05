@@ -130,7 +130,7 @@ preexec() {
     fi
 }
 
-export PATH=~/bin::/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
+export PATH=~/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
