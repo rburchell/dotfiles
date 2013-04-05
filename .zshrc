@@ -358,3 +358,13 @@ function up() {
     echo "uploaded http://qtl.me/$name"
 }
 
+function viyaml() {
+    if [ -z "$1" ]; then
+        vim rpm/*.yaml
+        (cd rpm; specify)
+    else
+        vim "$1"
+        (cd `dirname "$1"`; specify `basename "$1"`)
+    fi
+}
+
