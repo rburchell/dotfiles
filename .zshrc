@@ -305,7 +305,7 @@ function ocd() {
         local software="$1"
     fi
 
-    local oscdir=`find ~ -path "*/$software/.osc" -print0 | cut -d '' -f1`
+    local oscdir=`find ~/osc -path "*/$software/.osc" -print0 | cut -d '' -f1`
     oscdir=`echo "$oscdir" | sed s,/.osc,,`
     cd "$oscdir"
 }
