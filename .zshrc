@@ -325,7 +325,7 @@ function ccd() {
     fi
 }
 
-function pb() {
+function pastebin() {
     if [ -z $1 ]; then
         echo "$0: need a filename to pastebin"
         return 1
@@ -342,7 +342,7 @@ function pb() {
     echo "pasted http://qtl.me/$rand.$ext"
 }
 
-function up() {
+function upload() {
     if [ -z $1 ]; then
         echo "$0: need a filename to upload"
         return 1
