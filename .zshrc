@@ -325,6 +325,11 @@ function ccd() {
     fi
 }
 
+function randstr() {
+    local rand=`hexdump -n 16 -v -e '/1 "%02X"' /dev/urandom`
+    echo $rand
+}
+
 function pastebin() {
     if [ -z $1 ]; then
         echo "$0: need a filename to pastebin"
