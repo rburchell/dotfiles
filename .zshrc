@@ -6,7 +6,7 @@ colors
 zmodload zsh/pcre &>/dev/null
 
 export PLATFORM='unknown'
-local unamestr=`uname`
+local unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
    export PLATFORM='linux'
 elif [[ "$unamestr" == 'Darwin' ]]; then
@@ -34,11 +34,11 @@ fi
 function setTitle {
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ]; then
-        if [ `whoami` = "burchr" ]; then
+        if [ "$LOGNAME" = "burchr" ]; then
             print -Pn "\e]0;%m: %~\a"
-	else
-	    print -Pn "\e]0;%n@%m: %~\a"
-	fi
+        else
+            print -Pn "\e]0;%n@%m: %~\a"
+        fi
     fi
 
 }
@@ -55,7 +55,7 @@ function precmd {
 
     setTitle
 
-    case `pwd` in
+    case $(pwd) in
         # TODO: is there a less awkward way to handle a path or anything under it?
         */burchr/code/qt/*)
             ;& # fallthrough
@@ -74,7 +74,7 @@ function precmd {
     hostname -s 2>/dev/null | read shorthost
     if [ $? -ne 0 ]; then
         # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=531702
-        shorthost=`hostname`
+        shorthost=$(hostname)
     fi
 
     case $HOSTNAME in
@@ -95,8 +95,7 @@ function precmd {
             ;;
     esac
 
-    export WHOAMI="`whoami`"
-    case $WHOAMI in
+    case $LOGNAME in
         burchr)
             COLORWHOAMI=""
             ;;
@@ -122,7 +121,7 @@ function precmd {
 preexec() {
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ] || [ $TERM = "xterm-256color" ]; then
-        if [ $WHOAMI = "burchr" ]; then
+        if [ "$LOGNAME" = "burchr" ]; then
             print -Pn "\e]0;$1 (%m: %~)\a";
         else
             print -Pn "\e]0;$1 (%n@%m: %~)\a";
