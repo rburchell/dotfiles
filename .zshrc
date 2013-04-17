@@ -378,3 +378,33 @@ function vizsh() {
         echo "$0: syntax error, not reloading"
     fi
 }
+
+function syncup() {
+    local src
+    local target
+    if [ -z "$1" ]; then
+        src=.
+        target=$(realpath .)
+    else
+        src="$1"
+        target=$(dirname $(realpath "$1"))
+    fi
+
+    echo "syncup $src to $target"
+    sudo rsync -aAXvzog --super --rsync-path="sudo rsync --super" --delete "$src" "burchr@zoe.dereferenced.net:/$target"
+}
+
+function syncdown() {
+    local src
+    local target=.
+    if [ -z "$1" ]; then
+        src=`pwd`/
+    else
+        src="$(realpath "$1")"
+        target="$(dirname "$1")"
+    fi
+
+    echo "syncdown $src to $target"
+    sudo rsync -aAXvzog --super --delete --rsync-path='sudo rsync --super' "burchr@zoe.dereferenced.net:/$src" "$target"
+}
+
