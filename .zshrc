@@ -319,7 +319,7 @@ function ccd() {
     fi
 
     local pwd=`pwd`
-    cd `find ~/code -maxdepth 1 -path "*/$software"`
+    cd `find ~/code -maxdepth 2 -path "*/$software"`
     if [[ "$pwd" == `pwd` ]]; then
         cd ~/code
     fi
