@@ -368,3 +368,13 @@ function viyaml() {
     fi
 }
 
+function vizsh() {
+    vim ~/.zshrc
+    zsh -n ~/.zshrc
+
+    if [ $? -eq 0 ]; then
+        source ~/.zshrc
+    else
+        echo "$0: syntax error, not reloading"
+    fi
+}
