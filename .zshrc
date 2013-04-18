@@ -100,10 +100,10 @@ function precmd {
             COLORWHOAMI=""
             ;;
         root)
-            COLORWHOAMI="%{$fg[white]$bg[red]%}$WHOAMI%{$reset_color%}@"
+            COLORWHOAMI="%{$fg[white]$bg[red]%}$LOGNAME%{$reset_color%}@"
             ;;
         *)
-            COLORWHOAMI="%{$fg[blue]$bg[yellow]%}$WHOAMI%{$reset_color%}@"
+            COLORWHOAMI="%{$fg[blue]$bg[yellow]%}$LOGNAME%{$reset_color%}@"
             ;;
     esac
 
