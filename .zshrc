@@ -401,7 +401,7 @@ function syncup() {
 function syncdown() {
     local src
     local target=.
-    if [ -z "$1" ]; then
+    if [[ -z "$1" || "$1" == "." ]]; then
         src=`pwd`/
     else
         src="$(readlink -f "$1")"
