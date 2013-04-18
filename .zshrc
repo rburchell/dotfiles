@@ -386,16 +386,16 @@ function vizsh() {
 function syncup() {
     local src
     local target
-    if [ -z "$1" ]; then
+    if [[ -z "$1" || "$1" == "." ]]; then
         src=.
-        target=$(realpath .)
+        target=$(readlink -f .)
     else
         src="$1"
-        target=$(dirname $(realpath "$1"))
+        target=$(dirname $(readlink -f "$1"))
     fi
 
     echo "syncup $src to $target"
-    sudo rsync -aAXvzog --super --rsync-path="sudo rsync --super" --delete "$src" "burchr@zoe.dereferenced.net:/$target"
+    sudo rsync -aAXvzoglpEtHAXS --progress --super --rsync-path="sudo rsync --super" --delete "$src" "burchr@zoe.dereferenced.net:/$target"
 }
 
 function syncdown() {
@@ -404,11 +404,11 @@ function syncdown() {
     if [ -z "$1" ]; then
         src=`pwd`/
     else
-        src="$(realpath "$1")"
+        src="$(readlink -f "$1")"
         target="$(dirname "$1")"
     fi
 
     echo "syncdown $src to $target"
-    sudo rsync -aAXvzog --super --delete --rsync-path='sudo rsync --super' "burchr@zoe.dereferenced.net:/$src" "$target"
+    sudo rsync -aAXvzoglpEtHAXS --progress --super --rsync-path='sudo rsync --super' --delete "burchr@zoe.dereferenced.net:/$src" "$target"
 }
 
