@@ -387,6 +387,15 @@ function upload() {
     echo "uploaded http://qtl.me/$name"
 }
 
+function uploadpatch() {
+    if [ -z $1 ]; then
+        echo "$0: need a patch to upload"
+        return 1
+    fi
+
+    upload `git format-patch $1`
+}
+
 function viyaml() {
     if [ -z "$1" ]; then
         vim rpm/*.yaml
