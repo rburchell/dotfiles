@@ -456,3 +456,26 @@ function syncdown() {
     sudo rsync -aAXvzoglpEtHAXS --progress --super --rsync-path='sudo rsync --super' --delete "burchr@zoe.dereferenced.net:/$src" "$target"
 }
 
+function dialhome() {
+    which nc >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "$0: nc is not installed, pre-requisite"
+        return 1
+    fi
+
+    DIALHOME_PORT=6531
+    nc -w1 localhost $DIALHOME_PORT
+    if [ $? -eq 0 ]; then
+        return
+    fi
+
+    echo "$0: establishing tunnel"
+
+    echo "ssh -f -N -T -R ${DIALHOME_PORT}:localhost:22 zoe"
+    ssh -f -N -T -R ${DIALHOME_PORT}:localhost:22 zoe
+    if [ $? -ne 0 ]; then
+        echo "$0: error establishing dialhome on $DIALHOME_PORT"
+        return 1
+    fi
+}
+
