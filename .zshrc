@@ -439,7 +439,7 @@ function syncup() {
     fi
 
     echo "syncup $src to $target"
-    sudo rsync -aAXvzoglpEtHAXS --progress --super --rsync-path="sudo rsync --super" --delete "$src" "burchr@zoe.dereferenced.net:/$target"
+    sudo rsync -xaAXvzoglpEtHAXS --progress --super --rsync-path="sudo rsync --super" --delete "$src" "burchr@zoe.dereferenced.net:/$target"
 }
 
 function syncdown() {
@@ -453,7 +453,7 @@ function syncdown() {
     fi
 
     echo "syncdown $src to $target"
-    sudo rsync -aAXvzoglpEtHAXS --progress --super --rsync-path='sudo rsync --super' --delete "burchr@zoe.dereferenced.net:/$src" "$target"
+    sudo rsync -xaAXvzoglpEtHAXS --progress --super --rsync-path='sudo rsync --super' --delete "burchr@zoe.dereferenced.net:/$src" "$target"
 }
 
 function dialhome() {
