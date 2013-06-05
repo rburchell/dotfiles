@@ -70,12 +70,7 @@ function precmd {
     esac
 
     export HOSTNAME="$HOST$CHDOOT_PS1"
-    local shorthost
-    hostname -s 2>/dev/null | read shorthost
-    if [ $? -ne 0 ]; then
-        # workaround for https://bugzilla.redhat.com/show_bug.cgi?id=531702
-        shorthost=$(hostname)
-    fi
+    local shorthost=$(echo "$HOST" | cut -d'.' -f1)
 
     case $HOSTNAME in
         vestal.local.viroteck.net)
