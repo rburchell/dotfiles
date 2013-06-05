@@ -84,6 +84,9 @@ function precmd {
         zoe.dereferenced.net)
             COLORHOST="%{$fg[green]%}$shorthost%{$reset_color%}"
             ;;
+        sdk.vm)
+            COLORHOST="%{$fg[yellow]%}$shorthost%{$reset_color%}"
+            ;;
         fedora.vm)
             COLORHOST="%{$fg[yellow]%}$shorthost%{$reset_color%}"
             ;;
