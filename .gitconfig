@@ -21,3 +21,5 @@
     stage = add -v
     graph = log --pretty=oneline --topo-order --graph --abbrev-commit
     maintainer = "!f() { for file in \"$@\"; do echo \"Maintainers for $file\"; (cd $(dirname \"$file\"); git blame -w --line-porcelain $(basename \"$file\") | grep 'author '  | sort | uniq -c | sort -nr | head -n20;) done; }; f"
+[push]
+	default = matching
