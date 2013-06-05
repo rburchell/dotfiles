@@ -463,3 +463,4 @@ if [[ -z "$TMUX" && $? -eq 0 ]]; then
     fi
 fi
 
+(nohup git pull >/dev/null 2>/dev/null &)
