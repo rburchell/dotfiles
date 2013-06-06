@@ -1,0 +1,5 @@
+#!/bin/sh
+while true; do
+    dwm 2> ~/.dwm.log
+    sleep 1
+done
