@@ -34,7 +34,7 @@ fi
 function setTitle {
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ]; then
-        if [ "$LOGNAME" = "burchr" ]; then
+        if [ "$USER" = "burchr" ]; then
             print -Pn "\e]0;%m: %~\a"
         else
             print -Pn "\e]0;%n@%m: %~\a"
@@ -95,15 +95,15 @@ function precmd {
             ;;
     esac
 
-    case $LOGNAME in
+    case $USER in
         burchr)
             COLORWHOAMI=""
             ;;
         root)
-            COLORWHOAMI="%{$fg[white]$bg[red]%}$LOGNAME%{$reset_color%}@"
+            COLORWHOAMI="%{$fg[white]$bg[red]%}$USER%{$reset_color%}@"
             ;;
         *)
-            COLORWHOAMI="%{$fg[blue]$bg[yellow]%}$LOGNAME%{$reset_color%}@"
+            COLORWHOAMI="%{$fg[blue]$bg[yellow]%}$USER%{$reset_color%}@"
             ;;
     esac
 
@@ -121,7 +121,7 @@ function precmd {
 preexec() {
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ] || [ $TERM = "xterm-256color" ]; then
-        if [ "$LOGNAME" = "burchr" ]; then
+        if [ "$USER" = "burchr" ]; then
             print -Pn "\e]0;$1 (%m: %~)\a";
         else
             print -Pn "\e]0;$1 (%n@%m: %~)\a";
