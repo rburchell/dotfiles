@@ -81,9 +81,6 @@ function precmd {
         vestal.local.viroteck.net)
             COLORHOST="%{$fg[cyan]%}$shorthost%{$reset_color%}"
             ;;
-        iris.dereferenced.net)
-            COLORHOST="%{$fg[red]%}$shorthost%{$reset_color%}"
-            ;;
         zoe.dereferenced.net)
             COLORHOST="%{$fg[green]%}$shorthost%{$reset_color%}"
             ;;
