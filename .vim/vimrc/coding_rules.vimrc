@@ -59,8 +59,16 @@ function! <SID>openSh()
     exe 2
 endfunction
 au BufEnter *.sh if getline(1) == "" | :call s:openSh() | endif
-" automatically give executable permissions if file begins with #!/bin/sh
-au BufWritePost * if getline(1) =~ "^#!/bin/[a-z]*sh" | silent !chmod a+x <afile> | endif
+
+" automatically give executable permissions if it looks like a good candidate
+function! MySetExecutableIfScript(line1, current_file)
+    if a:line1 =~ '^#!\(/usr\)*/bin/'
+        set autoread
+        silent !chmod +x %
+        set autoread<
+    endif
+endfunction
+autocmd BufWritePost * call MySetExecutableIfScript(getline(1), expand("%:p"))
 
 " different reformatting rules
 " always useful, always enabled
