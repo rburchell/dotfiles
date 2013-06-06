@@ -1,30 +1,5 @@
 umask 022
 
-which tmux >/dev/null 2>&1
-if [[ -z "$TMUX" && $? -eq 0 ]]; then
-    tmux list-sessions >/dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        while true; do
-            local yn=""
-            #            vared -p "tmux session is running; do you want to attach?" yn
-            echo "tmux session is running; do you want to attach?"
-            read -sq yn
-            case $yn in
-                [Yy]*)
-                    tmux a
-                    break
-                    ;;
-                [Nn]*)
-                    break
-                    ;;
-                *)
-                    echo "Yes or no.";
-                    ;;
-            esac
-        done
-    fi
-fi
-
 autoload colors
 colors
 
@@ -478,4 +453,13 @@ function dialhome() {
         return 1
     fi
 }
+
+
+which tmux >/dev/null 2>&1
+if [[ -z "$TMUX" && $? -eq 0 ]]; then
+    tmux list-sessions >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        tmux a
+    fi
+fi
 
