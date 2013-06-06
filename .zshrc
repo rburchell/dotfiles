@@ -319,38 +319,6 @@ function ccd() {
     fi
 }
 
-function randstr() {
-    local rand=`hexdump -n 16 -v -e '/1 "%02X"' /dev/urandom`
-    echo $rand
-}
-
-function pastebin() {
-    if ! [ -z "$1" ]; then
-        if ! [ -f "$1" ]; then
-            echo "$0: file does not exist"
-            return 1
-        fi
-        local ext=`echo $1 | awk -F . '{ print $NF } '`
-        local rand=$(randstr)
-        scp "$1" "zoe:/var/www/qtl.me/www/$rand.$ext"
-        echo "pasted http://qtl.me/$rand.$ext"
-    else
-        # TODO: OS X specific
-        if [ "$PLATFORM" != "osx" ]; then
-            echo "$0: clipboard access does not work on anything except OS X right now"
-            return 1
-        fi
-
-        local data="$(pbpaste)"
-        local rand=$(randstr)
-        echo "$data" > "/tmp/$rand.txt"
-        scp "/tmp/$rand.txt" "zoe:/var/www/qtl.me/www/$rand.txt"
-        echo "pasted http://qtl.me/$rand.txt"
-        echo "http://qtl.me/$rand.txt" | pbcopy
-    fi
-
-}
-
 function upload() {
     if [ -z $1 ]; then
         echo "$0: need a filename to upload"
