@@ -2,21 +2,32 @@
 which nc >/dev/null 2>&1
 if [ $? -ne 0 ]; then
     echo "$0: nc is not installed, pre-requisite"
-    return 1
+    exit 1
+fi
+
+if [ -f ~/.dialhome.pid ]; then
+    kill -s 0 $(cat ~/.dialhome.pid) 2>/dev/null
+    if [ $? -eq 0 ]; then
+        echo "$0: already running as pid $(cat ~/.dialhome.pid)"
+        exit 1
+    fi
 fi
 
 DIALHOME_PORT=6531
 nc -w1 localhost $DIALHOME_PORT
 if [ $? -eq 0 ]; then
-    return
+    exit 0
 fi
 
 echo "$0: establishing tunnel"
 
-echo "ssh -f -N -T -R ${DIALHOME_PORT}:localhost:22 zoe"
-ssh -f -N -T -R ${DIALHOME_PORT}:localhost:22 zoe
+eval "ssh -N -T -R ${DIALHOME_PORT}:localhost:22 zoe &"
+pid=$!
+echo "$1"
+echo "$pid" > ~/.dialhome.pid
+
 if [ $? -ne 0 ]; then
     echo "$0: error establishing dialhome on $DIALHOME_PORT"
-    return 1
+    exit 1
 fi
 
