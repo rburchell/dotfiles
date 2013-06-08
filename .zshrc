@@ -147,8 +147,6 @@ elif [[ "$PLATFORM" == 'osx' ]]; then
 fi
 
 alias cl='clear && logout'
-alias g='grep -I --exclude-dir=debian --exclude-dir=obj-\* --exclude-dir=hw/dmx/doc --exclude-dir=autom4te.cache --exclude=configure --exclude=tags --exclude=Makefile.in --exclude=cscope.out'
-
 alias gp='git push'
 alias gpr='git pull --rebase'
 alias gci='git commit'
@@ -164,11 +162,6 @@ gs() {
 gc() {
     git cat-file -p $(git ls-tree $1 $2 | awk '{ print $3; }') | vim -
 }
-
-genlog() {
-    git-log --no-merges $1-$2..'HEAD^1' | git shortlog > ~/x/xorg/final/$1-$3
-}
-
 ffind() {
     find . -name "*$1*"
 }
