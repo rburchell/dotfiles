@@ -22,5 +22,6 @@
     graph = log --pretty=oneline --topo-order --graph --abbrev-commit
     maintainer = "!f() { for file in \"$@\"; do echo \"Maintainers for $file\"; (cd $(dirname \"$file\"); git blame -w --line-porcelain $(basename \"$file\") | grep 'author '  | sort | uniq -c | sort -nr | head -n20;) done; }; f"
     uploadpatch = "!f() { for patch in $(git format-patch \"$@\"); do upload $patch; rm $patch; done; }; f"
+    applypatch = "!f() { for patch in \"$@\"; do curl $patch -o $TMPDIR/gitpatch; git am $TMPDIR/gitpatch; rm $TMPDIR/gitpatch; done; }; f"
 [push]
 	default = matching
