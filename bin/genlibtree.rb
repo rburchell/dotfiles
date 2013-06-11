@@ -30,7 +30,7 @@ def recurseInto(libName)
       $currentNode = libName
   end
 
-  libs = `readelf -d #{libName} 2>&1 | grep NEEDED`.split("\n")
+  libs = `eu-readelf -d #{libName} 2>&1 | grep NEEDED`.split("\n")
   libs.each { |lib|
     # yuck, I am sure this can be done better
     lib.sub(/.+\[(.*)\]/) { lib = $1 }
