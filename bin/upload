@@ -1,12 +1,12 @@
 #!/bin/sh
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
     echo "$0: need a filename to upload"
-    return 1
+    exit 1
 fi
 
 if ! [ -f "$1" ]; then
-    echo "$0: file does not exist"
-    return 1
+    echo "$0: file $1 does not exist"
+    exit 1
 fi
 
 name=`basename "$1"`
