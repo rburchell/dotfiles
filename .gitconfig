@@ -22,7 +22,7 @@
     graph = log --pretty=oneline --topo-order --graph --abbrev-commit
     maintainer = "!f() { for file in \"$@\"; do echo \"Maintainers for $file\"; (cd $(dirname \"$file\"); git blame -w --line-porcelain $(basename \"$file\") | grep 'author '  | sort | uniq -c | sort -nr | head -n20;) done; }; f"
     uploadpatch = "!f() { if [ -z $1 ]; then local patches='HEAD~1'; else local patches=\"$@\"; fi; for patch in $(git format-patch \"$patches\"); do upload $patch; rm $patch; done; }; f"
-    applypatch = "!f() { for patch in \"$@\"; do curl $patch -o $TMPDIR/gitpatch; git am $TMPDIR/gitpatch; rm $TMPDIR/gitpatch; done; }; f"
+    applypatch = "!f() { for patch in \"$@\"; do local pname=$(mktemp -t $pname); curl $patch -o $pname; git am $pname; rm $pname; done; }; f"
     resetauthormail = "!f() { if [ -z $1 ]; then echo \"Author email not provided.\"; return 1; fi; GIT_AUTHOR_EMAIL=\"$1\" git commit --amend --reset-author; }; f"
 [push]
 	default = matching
