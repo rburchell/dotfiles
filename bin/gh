@@ -1,0 +1,51 @@
+#!/bin/sh
+
+function warn()
+{
+    echo "ERROR: $*" 1>&2
+}
+
+function error()
+{
+    echo "ERROR: $*" 1>&2
+    exit 1
+}
+
+function clone()
+{
+    local proj=$1
+    if [[ ! "$proj" ]]; then
+        error "user/project to clone must be given"
+    fi
+
+    git clone "git@github.com:/$proj.git"
+    if [[ $? -ne 0 ]]; then
+        exit $?
+    fi
+    local pname=$(basename "$proj")
+    local http_code=$(curl -sL -w "%{http_code}\n" -X POST -n https://api.github.com/repos/$proj/forks -o /dev/null)
+
+    if [[ "$http_code" -ne "202" ]]; then
+        warn "could not create fork for repository $proj, problem with the network connection?"
+    else
+        echo "forked OK"
+    fi
+
+    (
+        cd "$pname"
+        git remote add public "git@github.com:/rburchell/$pname.git"
+        echo "public remote added"
+    )
+}
+
+case "$1" in
+    clone)
+        shift
+        clone "$@"
+        ;;
+    *)
+        me=$(basename $0)
+        echo "$me: github helper script"
+        echo "$me clone - clone github repo"
+        ;;
+esac
