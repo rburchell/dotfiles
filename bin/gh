@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env zsh
 
 function warn()
 {
@@ -14,7 +14,7 @@ function error()
 function clone()
 {
     local proj=$1
-    if [[ ! "$proj" ]]; then
+    if [[ -z "$proj" ]]; then
         error "user/project to clone must be given"
     fi
 
