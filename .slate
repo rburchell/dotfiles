@@ -19,7 +19,7 @@ bind left:cmd ${lefthalf}
 bind right:cmd ${righthalf}
 bind down:cmd hide 'current'
 bind d:cmd;ctrl hide 'all'
-#bind tab:cmd hint
+bind tab:cmd hint
 
 # numpad bindings
 bind pad1 ${bottomleft}
