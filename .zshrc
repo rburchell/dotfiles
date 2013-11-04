@@ -1,3 +1,5 @@
+source /etc/profile
+
 umask 022
 
 autoload colors
