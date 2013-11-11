@@ -165,8 +165,9 @@ gs() {
 gc() {
     git cat-file -p $(git ls-tree $1 $2 | awk '{ print $3; }') | vim -
 }
+
 ffind() {
-    find . -name "*$1*"
+    find . -iname "*$1*"
 }
 
 # PRINT_EXIT_VALUE removed, we do that ourselves in precmd
