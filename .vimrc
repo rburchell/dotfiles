@@ -100,6 +100,8 @@ if version >= 700
     source ~/.vim/vimrc/hex_hilight.vimrc
 endif
 source ~/.vim/vimrc/coding_rules.vimrc
+source ~/.vim/vimrc/autoclose.vim
+
 au BufRead,BufNewFile *.qml setlocal filetype=qml
 source ~/.vim/syntax/qml.vim
 

@@ -75,26 +75,3 @@ autocmd BufWritePost * call MySetExecutableIfScript(getline(1), expand("%:p"))
 inoremap , ,<Space>
 inoremap " ""<Left>
 
-function! <SID>simpleCodingRules()
-    " {<enter> becomes: {<enter><tab>*cursor here*}
-    " good for if statements, functions, whatever. :>
-    inoremap { {<CR>}<Esc>kA<CR>
-    inoremap ( ()<Left>
-    inoremap [ []<Left>
-
-    " escape from stuff.
-    " TODO: would be nice if we could insert one if one didn't exist.
-    inoremap ) <Esc>:call search(')', "W")<CR>a
-    inoremap } <Esc>:call search('}', "W")<CR>a
-    inoremap ] <Esc>:call search(']', "W")<CR>a
-    " too annoying, can't < or > in if statements easily etc.
-    "inoremap > <Esc>:call search('>', "W")<CR>a
-endfunction
-
-" these are done seperately to avoid annoyance when writing emails
-au BufEnter *.cpp :call s:simpleCodingRules()
-au BufEnter *.h :call s:simpleCodingRules()
-au BufEnter *.py :call s:simpleCodingRules()
-au BufEnter *.rb :call s:simpleCodingRules()
-au BufEnter *.php :call s:simpleCodingRules()
-au BufEnter *.sh :call s:simpleCodingRules()
