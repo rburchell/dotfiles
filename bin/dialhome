@@ -13,12 +13,15 @@ if [ -f ~/.dialhome.pid ]; then
     fi
 fi
 
+# TODO: try a random port, try a few times before giving up
 DIALHOME_PORT=6531
 nc -w1 localhost $DIALHOME_PORT
 if [ $? -eq 0 ]; then
     exit 0
 fi
 
+# TODO: make zoe customisable (i.e. "dialhome zoe" will set up a forwarded port
+# to zoe)
 echo "$0: establishing tunnel"
 ssh -o "ExitOnForwardFailure yes" -f -N -T -R ${DIALHOME_PORT}:localhost:22 zoe
 pid=$(pgrep -f "ssh.*${DIALHOME_PORT}:localhost:22.*zoe")
