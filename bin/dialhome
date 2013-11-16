@@ -20,14 +20,14 @@ if [ $? -eq 0 ]; then
 fi
 
 echo "$0: establishing tunnel"
-
-eval "ssh -N -T -R ${DIALHOME_PORT}:localhost:22 zoe &"
-pid=$!
-echo "$1"
-echo "$pid" > ~/.dialhome.pid
+ssh -o "ExitOnForwardFailure yes" -f -N -T -R ${DIALHOME_PORT}:localhost:22 zoe
+pid=$(pgrep -f "ssh.*${DIALHOME_PORT}:localhost:22.*zoe")
 
 if [ $? -ne 0 ]; then
     echo "$0: error establishing dialhome on $DIALHOME_PORT"
     exit 1
 fi
 
+ssh zoe "mkdir .dialhome && echo ${DIALHOME_PORT} > .dialhome/$HOSTNAME"
+echo "$pid" > ~/.dialhome.pid
+echo "$0: tunnel established as pid $pid, port $DIALHOME_PORT"
