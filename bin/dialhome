@@ -5,20 +5,22 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-if [ -f ~/.dialhome.pid ]; then
-    kill -s 0 $(cat ~/.dialhome.pid) 2>/dev/null
-    if [ $? -eq 0 ]; then
-        echo "$0: already running as pid $(cat ~/.dialhome.pid)"
-        exit 1
-    fi
-fi
-
 if [ -z $1 ]; then
     echo "$0: need a place to dial home to"
     exit 1
 fi
 
 DIALHOME_HOST=$1
+DIALHOME_PIDFILE=~/.dialhome/outgoing/$DIALHOME_HOST.pid
+
+if [ -f "$DIALHOME_PIDFILE" ]; then
+    kill -s 0 $(cat "$DIALHOME_PIDFILE") 2>/dev/null
+    if [ $? -eq 0 ]; then
+        echo "$0: already connected to ${DIALHOME_HOST} as pid $(cat "$DIALHOME_PIDFILE")"
+        exit 1
+    fi
+fi
+
 DIALHOME_PORT=6531 # TODO: try a random port, try a few times before giving up
 nc -w1 localhost $DIALHOME_PORT
 if [ $? -eq 0 ]; then
@@ -34,6 +36,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-ssh $DIALHOME_HOST "mkdir .dialhome && echo ${DIALHOME_PORT} > .dialhome/$HOSTNAME"
-echo "$pid" > ~/.dialhome.pid
+mkdir -p ~/.dialhome/outgoing
+echo "$pid" > $DIALHOME_PIDFILE
+ssh $DIALHOME_HOST "mkdir -p .dialhome/incoming 2>/dev/null; echo ${DIALHOME_PORT} > .dialhome/incoming/$HOSTNAME"
 echo "$0: tunnel established as pid $pid, port $DIALHOME_PORT"
