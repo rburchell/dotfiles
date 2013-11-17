@@ -11,7 +11,7 @@ if [ -z $1 ]; then
 fi
 
 DIALHOME_HOST=$1
-DIALHOME_PIDFILE=~/.dialhome/outgoing/$DIALHOME_HOST.pid
+DIALHOME_PIDFILE=~/.dialhome/outgoing/$USER@$DIALHOME_HOST.pid
 
 if [ -f "$DIALHOME_PIDFILE" ]; then
     kill -s 0 $(cat "$DIALHOME_PIDFILE") 2>/dev/null
@@ -38,5 +38,5 @@ fi
 
 mkdir -p ~/.dialhome/outgoing
 echo "$pid" > $DIALHOME_PIDFILE
-ssh $DIALHOME_HOST "mkdir -p .dialhome/incoming 2>/dev/null; echo ${DIALHOME_PORT} > .dialhome/incoming/$HOSTNAME"
+ssh $DIALHOME_HOST "mkdir -p .dialhome/incoming 2>/dev/null; echo ${DIALHOME_PORT} > .dialhome/incoming/$USER@$HOSTNAME"
 echo "$0: tunnel established as pid $pid, port $DIALHOME_PORT"
