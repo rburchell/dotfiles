@@ -121,3 +121,12 @@ if version >= 700
     tab all
 endif
 
+let g:ctrlp_map = '<c-k>'
+let g:ctrlp_user_command = {
+	\ 'types': {
+		\ 1: ['.git', 'cd %s && git ls-files'],
+		\ 2: ['.hg', 'hg --cwd %s locate -I .'],
+		\ },
+	\ 'fallback': 'find %s -type f'
+	\ }
+set runtimepath^=~/.vim/bundle/ctrlp.vim
