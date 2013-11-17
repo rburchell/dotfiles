@@ -28,9 +28,9 @@ endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GRAPHICAL SETTINGS
-colorscheme xoria256
 " terminal colors!
 set t_Co=256
+colorscheme xoria256
 
 if version >= 700
     " hilight current column/line
