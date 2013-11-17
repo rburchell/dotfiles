@@ -105,13 +105,6 @@ source ~/.vim/vimrc/autoclose.vim
 au BufRead,BufNewFile *.qml setlocal filetype=qml
 source ~/.vim/syntax/qml.vim
 
-let g:session_autoload='yes'
-let g:session_autosave='yes'
-
-set sessionoptions-=resize
-set sessionoptions-=winpos
-set sessionoptions-=winsize
-
 " map delete/copy/paste to the system keyboard for ease of use
 vnoremap y "+y
 vnoremap p "+gP
