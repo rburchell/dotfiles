@@ -28,7 +28,7 @@ echo "# START cron for $USER@$HOSTNAME"
 case "$HOSTNAME" in
     zoe.dereferenced.net)
         if [ "$USER" = "burchr" ]; then
-            echo "0 0 * * * cd /var/www/qt.viroteck.net && pisg --silent"
+            echo "0 0 * * * cd /var/www/qt.viroteck.net && pisg 2>&1 | /usr/bin/logger -t pisg"
         fi
         ;;
 esac
