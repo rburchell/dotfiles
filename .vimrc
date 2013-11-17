@@ -91,7 +91,7 @@ set foldcolumn=1
 
 " for gui edit mode
 if has("gui_running")
-    set guifont=Consolas\ 10
+    set guifont=Consolas:h12
     set guioptions=em
 endif
 set mousemodel=popup
