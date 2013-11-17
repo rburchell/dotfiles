@@ -36,13 +36,12 @@ function clone()
         warn "could not create fork for repository $proj, problem with the network connection?"
     else
         echo "forked OK"
+        (
+            cd "$pname"
+            git remote add public "git@github.com:/rburchell/$pname.git"
+            echo "public remote added"
+        )
     fi
-
-    (
-        cd "$pname"
-        git remote add public "git@github.com:/rburchell/$pname.git"
-        echo "public remote added"
-    )
 }
 
 case "$1" in
