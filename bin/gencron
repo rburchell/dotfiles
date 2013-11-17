@@ -23,6 +23,10 @@ echo "# For more information see the manual pages of crontab(5) and cron(8)"
 echo "#"
 echo "# m h  dom mon dow   command"
 
+# NB: if you want to send output to syslog (you probably do), pipe it to syslog
+# something like this:
+# foo 2>&1 | /usr/bin/logger -t my_category
+
 echo "# START cron for $USER@$HOSTNAME"
 
 case "$HOSTNAME" in
