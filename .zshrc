@@ -337,6 +337,12 @@ function vizsh() {
     fi
 }
 
+function vicron() {
+    vim ~/bin/gencron
+    ~/bin/gencron | crontab
+    echo "$0: installed cron"
+}
+
 function syncup() {
     local src
     local target
