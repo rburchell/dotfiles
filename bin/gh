@@ -14,6 +14,13 @@ function error()
 function clone()
 {
     local proj=$1
+
+    # strip leading scheme & domain
+    proj=$(echo "$proj" | sed "s/http[s]*:\/\/github.com\///g")
+
+    # strip trailing .git
+    proj=$(echo "$proj" | sed "s/\.git$//g")
+
     if [[ -z "$proj" ]]; then
         error "user/project to clone must be given"
     fi
