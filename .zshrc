@@ -75,6 +75,8 @@ function precmd {
     local shorthost=$(echo "$HOST" | cut -d'.' -f1)
 
     case $HOSTNAME in
+        lea.local)
+            ;& # fallthrough
         vestal.local.viroteck.net)
             COLORHOST="%{$fg[cyan]%}$shorthost%{$reset_color%}"
             ;;
