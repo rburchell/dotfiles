@@ -185,13 +185,19 @@ HISTFILE=~/.zsh/history
 HISTSIZE=5000
 SAVEHIST=5000
 
-bindkey '^[OH' beginning-of-line
-bindkey '^A' beginning-of-line
-bindkey '^[OF' end-of-line
-bindkey '^E' end-of-line
+#bindkey '^[OH' beginning-of-line
+#bindkey '^A' beginning-of-line
+#bindkey '^[OF' end-of-line
+#bindkey '^E' end-of-line
 bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M vicmd '^R' history-incremental-search-backward
-bindkey -e
+#bindkey -e
+
+if [[ "$PLATFORM" == "osx" ]]; then
+    # OS X ctrl+left/right
+    bindkey '^[[1;5D' backward-word
+    bindkey '^[[1;5C' forward-word
+fi
 
 source ~/.zsh/compinstall
 
