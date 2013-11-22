@@ -194,11 +194,9 @@ bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M vicmd '^R' history-incremental-search-backward
 #bindkey -e
 
-if [[ "$PLATFORM" == "osx" ]]; then
-    # OS X ctrl+left/right
-    bindkey '^[[1;5D' backward-word
-    bindkey '^[[1;5C' forward-word
-fi
+# lea's preferred escapes
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
 
 source ~/.zsh/compinstall
 
