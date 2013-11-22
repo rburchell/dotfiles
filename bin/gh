@@ -17,6 +17,8 @@ function clone()
 
     # strip leading scheme & domain
     proj=$(echo "$proj" | sed "s/http[s]*:\/\/github.com\///g")
+    proj=$(echo "$proj" | sed "s/git@github.com://g")
+
 
     # strip trailing .git
     proj=$(echo "$proj" | sed "s/\.git$//g")
