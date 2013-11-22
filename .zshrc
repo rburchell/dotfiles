@@ -128,6 +128,7 @@ preexec() {
     fi
 }
 
+export WORDCHARS=''
 export PATH=~/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
