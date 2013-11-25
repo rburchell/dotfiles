@@ -186,6 +186,8 @@ HISTFILE=~/.zsh/history
 HISTSIZE=5000
 SAVEHIST=5000
 
+bindkey -e
+
 bindkey '^[OH' beginning-of-line
 bindkey '^A' beginning-of-line
 bindkey '^[OF' end-of-line
@@ -196,8 +198,6 @@ bindkey -M vicmd '^R' history-incremental-search-backward
 # lea's preferred escapes
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
-
-bindkey -e
 
 source ~/.zsh/compinstall
 
