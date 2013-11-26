@@ -188,9 +188,9 @@ SAVEHIST=5000
 
 bindkey -e
 
-bindkey '^[OH' beginning-of-line
+bindkey '^[[H' beginning-of-line
 bindkey '^A' beginning-of-line
-bindkey '^[OF' end-of-line
+bindkey '^[[F' end-of-line
 bindkey '^E' end-of-line
 bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M vicmd '^R' history-incremental-search-backward
