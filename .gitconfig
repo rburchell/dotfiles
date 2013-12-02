@@ -15,6 +15,7 @@
 	autopacklimit = 5
 [alias]
     ci = commit -a -v
+    fixup = commit -v -m "fixup"
 	ap = !sh -c 'git rev-list --reverse  | xargs -n1 git cherry-pick' -
     unadd = reset HEAD --
     unstage = reset HEAD --
