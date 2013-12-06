@@ -6,7 +6,7 @@ if ! [ -z "$1" ]; then
     fi
     ext=`echo $1 | awk -F . '{ print $NF } '`
     rand=$(randstr)
-    scp "$1" "zoe:/var/www/qtl.me/www/$rand.$ext"
+    scp "$1" "zoe:/var/www/qtl.me/www/content/$rand.$ext"
     echo "pasted http://qtl.me/$rand.$ext"
 else
     # TODO: OS X specific
@@ -18,7 +18,7 @@ else
     data="$(pbpaste)"
     rand=$(randstr)
     echo "$data" > "/tmp/$rand.txt"
-    scp "/tmp/$rand.txt" "zoe:/var/www/qtl.me/www/$rand.txt"
+    scp "/tmp/$rand.txt" "zoe:/var/www/qtl.me/www/content/$rand.txt"
     echo "pasted http://qtl.me/$rand.txt"
     echo "http://qtl.me/$rand.txt" | pbcopy
 fi
