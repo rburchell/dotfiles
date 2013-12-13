@@ -150,6 +150,7 @@ if [[ "$PLATFORM" == "linux" ]]; then
 elif [[ "$PLATFORM" == 'osx' ]]; then
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
+    alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 fi
 
 alias cl='clear && logout'
@@ -388,7 +389,9 @@ if [[ -z "$TMUX" && $? -eq 0 ]]; then
     fi
 fi
 
-(nohup git pull >/dev/null 2>/dev/null &)
+(nohup git pull >/dev/null 2>&1 &)
+(nohup git submodule init >/dev/null 2>&1 &)
+(nohup git submodule update >/dev/null 2>&1 &)
 
 if [ -f ~/.zsh/hosts/$HOST.sh ]; then
     source ~/.zsh/hosts/$HOST.sh
