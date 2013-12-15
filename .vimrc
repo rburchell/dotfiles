@@ -29,6 +29,8 @@ else
   autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
 endif
 
+nnoremap ; :
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GRAPHICAL SETTINGS
 " terminal colors!
