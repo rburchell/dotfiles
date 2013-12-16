@@ -6,31 +6,10 @@ config windowHintsDuration 10
 # seems to break window hints after one entry
 # #config windowHintsOrder persist
 
-alias fullscreen move screenOriginX;screenOriginY screenSizeX;screenSizeY
-alias lefthalf move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
-alias righthalf move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY
-alias topleft corner top-left resize:screenSizeX/2;screenSizeY/2
-alias topright corner top-right resize:screenSizeX/2;screenSizeY/2
-alias bottomleft corner bottom-left resize:screenSizeX/2;screenSizeY/2
-alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
 
-bind up:cmd ${fullscreen}
-bind left:cmd ${lefthalf}
-bind right:cmd ${righthalf}
 bind down:cmd hide 'current'
 bind d:cmd;ctrl hide 'all'
 #bind tab:cmd hint
-
-# numpad bindings
-bind pad1 ${bottomleft}
-bind pad2 push bottom bar-resize:screenSizeY/2
-bind pad3 ${bottomright}
-bind pad4 ${lefthalf}
-bind pad5 ${fullscreen}
-bind pad6 ${righthalf}
-bind pad7 ${topleft}
-bind pad8 push top bar-resize:screenSizeY/2
-bind pad9 ${topright}
 
 bind left:alt;ctrl move screenOriginX;screenOriginY windowSizeX;windowSizeY left
 bind right:alt;ctrl move screenOriginX;screenOriginY windowSizeX;windowSizeY right
