@@ -284,16 +284,11 @@ __git_files () {
 
 function ccd() {
     if [ -z $1 ]; then
-        local software=`pwd`
-        software=`basename "$software"`
+        cd ~/code
+        return 0
     else
         local software="$1"
-    fi
-
-    local pwd=`pwd`
-    cd `find ~/code -maxdepth 2 -path "*/$software"`
-    if [[ "$pwd" == `pwd` ]]; then
-        cd ~/code
+        cd `find ~/code -maxdepth 2 -path "*/$software"`
     fi
 }
 
