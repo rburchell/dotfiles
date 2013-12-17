@@ -137,6 +137,7 @@ elif [[ "$PLATFORM" == 'osx' ]]; then
     alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 fi
 
+alias pd='popd'
 alias cl='clear && logout'
 alias gp='git push'
 alias gpr='git pull --rebase'
@@ -162,7 +163,7 @@ ffind() {
 setopt GLOB EXTENDED_GLOB MAGIC_EQUAL_SUBST RC_EXPAND_PARAM \
        HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_VERIFY CORRECT HASH_CMDS \
        RC_QUOTES AUTO_CONTINUE MULTIOS VI INC_APPEND_HISTORY \
-       APPENDHISTORY INTERACTIVE_COMMENTS
+       APPENDHISTORY INTERACTIVE_COMMENTS autopushd
 unsetopt beep
 unset MAIL
 
