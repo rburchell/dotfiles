@@ -17,22 +17,6 @@ else
    echo "warning: platform unknown"
 fi
 
-# detect whether we can start vim graphically
-if [[ "$PLATFORM" == "osx" ]]; then
-    if [ -e /usr/local/bin/mvim ]; then
-        alias mvim='/usr/local/bin/mvim --remote-tab-silent'
-        alias gvim='/usr/local/bin/mvim --remote-tab-silent'
-        alias vim='/usr/local/bin/mvim --remote-tab-silent'
-    fi
-else
-    vim --help | grep servername 2>&1 > /dev/null
-    if [ $? -eq 0 ]; then
-        alias mvim='gvim --servername VIM --remote-tab-silent'
-        alias gvim='gvim --servername VIM --remote-tab-silent'
-        alias vim='vim --servername VIM --remote-tab-silent'
-    fi
-fi
-
 function setTitle {
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ]; then
