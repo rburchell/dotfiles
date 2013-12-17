@@ -12,8 +12,10 @@ set incsearch
 set wrapscan
 " ignore case.
 set ignorecase
-" don't save .swp files all the time.
+" don't save tilde backup files all the time.
 set nobackup
+" don't save swap files
+set noswapfile
 " show command results as they happen
 set showcmd
 " decent newlines support.
