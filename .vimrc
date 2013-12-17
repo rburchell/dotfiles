@@ -112,17 +112,6 @@ source ~/.vim/vimrc/autoclose.vim
 au BufRead,BufNewFile *.qml setlocal filetype=qml
 source ~/.vim/syntax/qml.vim
 
-" map delete/copy/paste to the system keyboard for ease of use
-vnoremap y "+y
-vnoremap p "+gP
-vnoremap d "+x
-
-nnoremap y "+y
-nnoremap yy V"+y
-nnoremap dd V"+x
-nnoremap d "+x
-nnoremap p "+gP
-
 if version >= 700
     " open new files in tabs
     tab all
