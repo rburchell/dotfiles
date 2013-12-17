@@ -123,6 +123,7 @@ export LC_NUMERIC=C
 export LC_COLLATE=C
 export EMAIL="robin@viroteck.net"
 export DEBEMAIL=$EMAIL
+export MAKEOPTS='-j8'
 
 READNULLCMD=${PAGER:-/usr/bin/less}
 which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
@@ -137,6 +138,8 @@ elif [[ "$PLATFORM" == 'osx' ]]; then
     alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 fi
 
+
+alias m='make'
 alias pd='popd'
 alias cl='clear && logout'
 alias gp='git push'
@@ -295,7 +298,9 @@ function ccd() {
 function viyaml() {
     if [ -z "$1" ]; then
         vim rpm/*.yaml
-        (cd rpm; specify)
+        if [ $? == 0 ]; then
+            (cd rpm; specify)
+        fi
     else
         vim "$1"
         (cd `dirname "$1"`; specify `basename "$1"`)
