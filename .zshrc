@@ -113,7 +113,7 @@ preexec() {
 }
 
 export WORDCHARS=''
-export PATH=~/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
+export PATH=~/bin:~/bin/$PLATFORM:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
@@ -135,7 +135,6 @@ if [[ "$PLATFORM" == "linux" ]]; then
 elif [[ "$PLATFORM" == 'osx' ]]; then
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
-    alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 fi
 
 
