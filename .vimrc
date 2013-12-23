@@ -42,7 +42,7 @@ if &term =~ '256color'
   set t_ut=
 endif
 
-
+set t_Co=256
 colorscheme xoria256
 
 if version >= 700
