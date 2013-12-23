@@ -11,5 +11,3 @@ bind down:cmd hide 'current'
 bind d:cmd;ctrl hide 'all'
 #bind tab:cmd hint
 
-bind left:alt;ctrl move screenOriginX;screenOriginY windowSizeX;windowSizeY left
-bind right:alt;ctrl move screenOriginX;screenOriginY windowSizeX;windowSizeY right

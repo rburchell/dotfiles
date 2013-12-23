@@ -29,6 +29,14 @@ var topHalf = slate.operation("push", {
 })
 var bottomHalf = topHalf.dup({"direction": "bottom"})
 
+var moveScreenLeft = slate.operation("move", {
+    "x": "screenOriginX",
+    "y": "screenOriginY",
+    "width": "windowSizeX",
+    "height": "windowSizeY",
+    "screen": "left"
+})
+var moveScreenRight = moveScreenLeft.dup({"screen": "right"})
 
 // key bindings
 function doFullscreen(win) { win.doOperation(fullscreen) }
@@ -51,3 +59,5 @@ slate.bind("pad3", function(win) { win.doOperation(bottomRight) })
 slate.bind("pad2", function(win) { win.doOperation(bottomHalf) })
 slate.bind("pad8", function(win) { win.doOperation(topHalf) })
 
+slate.bind("left:alt;ctrl", function(win) { win.doOperation(moveScreenLeft) })
+slate.bind("right:alt;ctrl", function(win) { win.doOperation(moveScreenRight) })
