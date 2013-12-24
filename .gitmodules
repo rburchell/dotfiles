@@ -1,6 +1,8 @@
 [submodule ".vim/bundle/ctrlp.vim"]
-	path = .vim/bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim.git
+    path = .vim/bundle/ctrlp.vim
+    url = https://github.com/kien/ctrlp.vim.git
+    ignore = dirty
 [submodule ".vim/bundle/snipmate.vim"]
-	path = .vim/bundle/snipmate.vim
-	url = git://github.com/msanders/snipmate.vim.git
+    path = .vim/bundle/snipmate.vim
+    url = git://github.com/msanders/snipmate.vim.git
+    ignore = dirty
