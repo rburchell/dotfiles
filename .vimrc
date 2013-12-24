@@ -49,7 +49,7 @@ if &term =~ '256color'
 endif
 
 set t_Co=256
-colorscheme xoria256
+colorscheme vividchalk
 
 if version >= 700
     " hilight current column/line
