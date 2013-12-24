@@ -1,3 +1,9 @@
+" Pathogen
+filetype off " Pathogen needs to run before plugin indent on
+call pathogen#incubate()
+call pathogen#helptags() " generate helptags for everything in 'runtimepath'
+filetype plugin indent on"
+
 " 10 tabs max is ridiculous
 set tabpagemax=999
 " give terminals our title.
@@ -73,7 +79,7 @@ set hlsearch
 
 " menu to select stuff when tab completing filenames (e.g.)
 set wildmenu
-set wildchar=<tab> " tab complete ^
+"set wildchar=<tab> " tab complete ^
 set wildmode=longest:full,full " how big the list should be
 
 
@@ -131,4 +137,3 @@ let g:ctrlp_user_command = {
 		\ },
 	\ 'fallback': 'find %s -type f'
 	\ }
-set runtimepath^=~/.vim/bundle/ctrlp.vim
