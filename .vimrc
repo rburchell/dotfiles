@@ -136,4 +136,8 @@ let g:ctrlp_user_command = {
 		\ 2: ['.hg', 'hg --cwd %s locate -I .'],
 		\ },
 	\ 'fallback': 'find %s -type f'
-	\ }
+    \ }
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<c-t>'],
+    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+    \ }
