@@ -30,6 +30,9 @@ set ffs=unix,dos,mac
 set textwidth=80
 set colorcolumn=81
 
+" make the yank work with the system clipboard
+set clipboard=unnamed
+
 " when loading a file, cd to the right place
 if exists('+autochdir')
   set autochdir
