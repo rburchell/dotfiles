@@ -4,5 +4,5 @@
     ignore = dirty
 [submodule ".vim/bundle/snipmate.vim"]
     path = .vim/bundle/snipmate.vim
-    url = git://github.com/msanders/snipmate.vim.git
+    url = git://github.com/rburchell/snipmate.vim.git
     ignore = dirty
