@@ -70,8 +70,6 @@ function! MySetExecutableIfScript(line1, current_file)
 endfunction
 autocmd BufWritePost * call MySetExecutableIfScript(getline(1), expand("%:p"))
 
-" different reformatting rules
-" always useful, always enabled
+" add a space after a comma
 inoremap , ,<Space>
-inoremap " ""<Left>
 
