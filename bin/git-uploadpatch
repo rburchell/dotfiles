@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+    patches='HEAD~1'
+else
+    patches="$@";
+fi
+
+for patch in $(git format-patch "$patches");
+    do upload $patch
+    rm $patch
+done
+
