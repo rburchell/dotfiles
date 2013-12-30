@@ -35,7 +35,7 @@ function clone()
     local http_code=$(curl -sL -w "%{http_code}\n" -X POST -n https://api.github.com/repos/$proj/forks -o /dev/null)
 
     if [[ "$http_code" -ne "202" ]]; then
-        warn "could not create fork for repository $proj, problem with the network connection?"
+        warn "could not create fork for repository $proj, problem with the network connection? (code $http_code)"
     else
         echo "forked OK"
         (
