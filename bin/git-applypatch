@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for patch in "$@"; do
+    pname=$(mktemp -t $(basename "$patch").XXXXXXXXXX);
+    curl $patch -o $pname;
+    git am $pname;
+    rm $pname;
+done
+
