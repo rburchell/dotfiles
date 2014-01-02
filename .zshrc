@@ -70,7 +70,7 @@ function precmd {
         sdk.vm)
             COLORHOST="%{$fg[yellow]%}$shorthost%{$reset_color%}"
             ;;
-        fedora.vm)
+        qt.vm)
             COLORHOST="%{$fg[yellow]%}$shorthost%{$reset_color%}"
             ;;
         *)
