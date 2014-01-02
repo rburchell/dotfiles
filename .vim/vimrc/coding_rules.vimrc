@@ -49,6 +49,10 @@ map <silent> <f5> :DoCompile<CR>
 inoremap <silent> <f5> <C-R>=DoCompile()<CR>
 "map <silent> <f5> :!make<cr>
 
+map <silent> <f6> :AT<CR>
+inoremap <silent> <f6> <C-R>=AT<CR>
+
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " filetype rules

@@ -123,6 +123,7 @@ if version >= 700
 endif
 source ~/.vim/vimrc/coding_rules.vimrc
 source ~/.vim/vimrc/autoclose.vim
+source ~/.vim/vimrc/a.vim
 
 au BufRead,BufNewFile *.qml setlocal filetype=qml
 source ~/.vim/syntax/qml.vim
