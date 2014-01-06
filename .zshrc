@@ -5,6 +5,16 @@ umask 022
 autoload colors
 colors
 
+setopt prompt_subst
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' actionformats \
+        '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
+zstyle ':vcs_info:*' formats       \
+        '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
+zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+
+zstyle ':vcs_info:*' enable git cvs svn
+
 zmodload zsh/pcre &>/dev/null
 
 export PLATFORM='unknown'
@@ -98,7 +108,12 @@ function precmd {
 
     export PS1="$COLORWHOAMI$COLORHOST$CHROOT_PS1:%~%% "
 
-    export RPS1="($(date '+W%U - %m/%d@%H:%M:%S %Z'))"
+    vcs_info
+    if [ -n "$vcs_info_msg_0_" ]; then
+        local vcs_info_wrapper="%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
+    fi
+
+    export RPS1="$vcs_info_wrapper ($(date '+W%U - %m/%d@%H:%M:%S %Z'))"
 }
 
 preexec() {
@@ -165,7 +180,7 @@ ffind() {
 setopt GLOB EXTENDED_GLOB MAGIC_EQUAL_SUBST RC_EXPAND_PARAM \
        HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_VERIFY CORRECT HASH_CMDS \
        RC_QUOTES AUTO_CONTINUE MULTIOS VI INC_APPEND_HISTORY \
-       APPENDHISTORY INTERACTIVE_COMMENTS autopushd
+       APPENDHISTORY INTERACTIVE_COMMENTS autopushd prompt_subst
 unsetopt beep
 unset MAIL
 
