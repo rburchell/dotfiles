@@ -52,7 +52,7 @@ if &term =~ '256color'
 endif
 
 set t_Co=256
-colorscheme vividchalk
+colorscheme solarized
 
 if version >= 700
     " hilight current column/line
