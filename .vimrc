@@ -83,7 +83,7 @@ set hlsearch
 
 " menu to select stuff when tab completing filenames (e.g.)
 set wildmenu
-"set wildchar=<tab> " tab complete ^
+set wildchar=<tab> " tab complete ^
 set wildmode=longest:full,full " how big the list should be
 
 
