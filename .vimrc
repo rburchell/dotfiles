@@ -52,6 +52,7 @@ if &term =~ '256color'
 endif
 
 set t_Co=256
+set background=dark
 colorscheme solarized
 
 if version >= 700
