@@ -2,7 +2,3 @@
     path = .vim/bundle/ctrlp.vim
     url = https://github.com/kien/ctrlp.vim.git
     ignore = dirty
-[submodule ".vim/bundle/snipmate.vim"]
-    path = .vim/bundle/snipmate.vim
-    url = git://github.com/rburchell/snipmate.vim.git
-    ignore = dirty
