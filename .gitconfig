@@ -27,3 +27,5 @@
 	default = matching
 [review "codereview.qt-project.org"]
 	username = w00t
+[rerere]
+	enabled = true
