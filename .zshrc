@@ -117,8 +117,8 @@ function precmd {
             ;;
         sdk.vm)
             ;& # fallthrough
-        qt.vm)
-            COLORHOST="%F{226}$shorthost%f"
+        eve.local)
+            COLORHOST="%F{213}$shorthost%f"
             ;;
         *)
             COLORHOST=$HOSTNAME
