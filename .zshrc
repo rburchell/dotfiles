@@ -107,16 +107,16 @@ function precmd {
 
     case $HOSTNAME in
         lea.local)
-            ;& # fallthrough
-        vestal.local.viroteck.net)
             COLORHOST="%{$fg[cyan]%}$shorthost%{$reset_color%}"
+            ;;
+        amy.local)
+            COLORHOST="%F{027}$shorthost%f"
             ;;
         zoe.dereferenced.net)
             COLORHOST="%{$fg[green]%}$shorthost%{$reset_color%}"
             ;;
         sdk.vm)
-            COLORHOST="%{$fg[yellow]%}$shorthost%{$reset_color%}"
-            ;;
+            ;& # fallthrough
         qt.vm)
             COLORHOST="%{$fg[yellow]%}$shorthost%{$reset_color%}"
             ;;
