@@ -107,18 +107,18 @@ function precmd {
 
     case $HOSTNAME in
         lea.local)
-            COLORHOST="%{$fg[cyan]%}$shorthost%{$reset_color%}"
+            COLORHOST="%F{045}$shorthost%f"
             ;;
         amy.local)
             COLORHOST="%F{027}$shorthost%f"
             ;;
         zoe.dereferenced.net)
-            COLORHOST="%{$fg[green]%}$shorthost%{$reset_color%}"
+            COLORHOST="%F{046}$shorthost%f"
             ;;
         sdk.vm)
             ;& # fallthrough
         qt.vm)
-            COLORHOST="%{$fg[yellow]%}$shorthost%{$reset_color%}"
+            COLORHOST="%F{226}$shorthost%f"
             ;;
         *)
             COLORHOST=$HOSTNAME
