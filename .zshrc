@@ -121,6 +121,9 @@ function precmd {
         sky.dereferenced.net)
             COLORHOST="%F{075}$shorthost%f"
             ;;
+        zac.sky)
+            COLORHOST="%F{202}$shorthost%f"
+            ;;
         *)
             COLORHOST=$HOSTNAME
             ;;
