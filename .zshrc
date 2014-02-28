@@ -112,13 +112,14 @@ function precmd {
         amy.local)
             COLORHOST="%F{027}$shorthost%f"
             ;;
+        eve.local)
+            COLORHOST="%F{213}$shorthost%f"
+            ;;
         zoe.dereferenced.net)
             COLORHOST="%F{046}$shorthost%f"
             ;;
-        sdk.vm)
-            ;& # fallthrough
-        eve.local)
-            COLORHOST="%F{213}$shorthost%f"
+        sky.dereferenced.net)
+            COLORHOST="%F{075}$shorthost%f"
             ;;
         *)
             COLORHOST=$HOSTNAME
