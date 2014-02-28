@@ -1,0 +1,86 @@
+#!/bin/bash
+
+# Setup the LV
+if [ $# -lt 1 ]; then 
+    echo "usage: $0 <guest>"
+    echo Creates a VM.
+    exit
+fi
+
+GUEST=$1
+
+echo "Creating new VM ${GUEST}"
+
+EXISTS=`lvdisplay |grep ${GUEST}_drive`
+
+if [[ "$EXISTS" != "" ]]
+then
+    echo "This GUEST has already been setup on the host!"
+    echo "Aborting..."
+    exit
+fi
+
+# Exit if variables not set or on error
+set -o nounset
+set -o errexit
+
+echo "Please enter LV size. Make sure you include the unit. (8G):"
+read -e ROOTSIZE
+
+if [[ "$ROOTSIZE" == "" ]]; then
+    ROOTSIZE="8G"
+fi
+
+# avoiding the indirection would be nice, but this isn't working on sky.
+# virt-builder fedora-20 --output /dev/lvg/dns --hostname dns.sky
+echo "Select distro (fedora-20):"
+read -e DISTRO
+if [[ "$DISTRO" == "" ]]; then
+    DISTRO="fedora-20"
+fi
+
+echo "Enter hostname"
+read -e HOSTNAME
+if [[ "$HOSTNAME" == "" ]]; then
+    echo "Hostname required"
+    exit 1
+fi
+
+echo "Total RAM in MB? (256):"
+read -e RAM
+if [[ "$RAM" == "" ]]; then
+    RAM=256
+fi
+
+echo "Total VCPUs? (2):"
+read -e VCPUS
+if [[ "$VCPUS" == "" ]]; then
+    VCPUS=2
+fi
+
+
+echo "Setting up $HOSTNAME running $DISTRO"
+echo " VCPUs: $VCPUS"
+echo " Disk: $ROOTSIZE"
+echo " RAM: $RAM"
+echo "Press enter to continue or ctrl-c to cancel."
+read
+
+
+lvcreate -L ${ROOTSIZE} /dev/lvg -n ${GUEST}_drive
+IMAGE=$(mktemp)
+virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE
+
+echo "Image built. Record the root password and press enter to continue."
+read
+echo "Copying to LV"
+# is there a better way?
+#cat $IMAGE > /dev/lvg/${GUEST}_drive
+dd if=$IMAGE of=/dev/lvg/${GUEST}_drive bs=1048576
+
+echo "Image copied. Importing."
+
+virt-install --import --name $GUEST --ram $RAM --disk path=/dev/lvg/${GUEST}_drive,format=raw --cpu host --vcpu $VCPUS
+rm $IMAGE
+
+###############################################################################################################################
