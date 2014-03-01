@@ -39,11 +39,10 @@ if [[ "$DISTRO" == "" ]]; then
     DISTRO="fedora-20"
 fi
 
-echo "Enter hostname"
+echo "Enter hostname ($GUEST.sky):"
 read -e HOSTNAME
 if [[ "$HOSTNAME" == "" ]]; then
-    echo "Hostname required"
-    exit 1
+    HOSTNAME=${GUEST}.sky
 fi
 
 echo "Total RAM in MB? (256):"
@@ -66,10 +65,31 @@ echo " RAM: $RAM"
 echo "Press enter to continue or ctrl-c to cancel."
 read
 
+INSTALL_PACKAGES=""
+COMMANDS=""
+FIRSTBOOT_COMMAND=""
+
+if [[ "$DISTRO" == "fedora-20" ]]; then
+    INSTALL_PACKAGES="--install zsh,git,nss-mdns,avahi,avahi-tools"
+    COMMANDS="
+    yum -y update
+    systemctl enable avahi-daemon.service
+    systemctl start avahi-daemon.service
+    yum install vim
+    "
+else
+    echo "WARNING: Unrecognised distro, I may not be able to customise the setup properly."
+fi
+
+if [[ "$COMMANDS" != "" ]]; then
+    FIRSTBOOT_COMMAND=$(mktemp)
+    echo "$COMMANDS" > $FIRSTBOOT_COMMAND
+    FIRSTBOOT_COMMAND="--firstboot-command $FIRSTBOOT_COMMAND"
+fi
 
 lvcreate -L ${ROOTSIZE} /dev/lvg -n ${GUEST}_drive
 IMAGE=$(mktemp)
-virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE
+virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRSTBOOT_COMMAND $INSTALL_PACKAGES
 
 echo "Image built. Record the root password and press enter to continue."
 read
