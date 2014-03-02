@@ -89,7 +89,7 @@ fi
 
 lvcreate -L ${ROOTSIZE} /dev/lvg -n ${GUEST}_drive
 IMAGE=$(mktemp)
-virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRSTBOOT_COMMAND $INSTALL_PACKAGES
+virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin
 
 echo "Image built. Record the root password and press enter to continue."
 read
