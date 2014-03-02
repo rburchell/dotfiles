@@ -35,7 +35,7 @@ function spectrum_ls() {
 function spectrum_bls() {
   for code in {000..255}; do
     ((cc = code + 1))
-    print -P -- "$BG[$code]$code: Test %{$reset_color%}"
+    print -P -- "%K{$code}$code: Test %k"
   done
 }
 
