@@ -1,0 +1,8 @@
+#!/bin/bash
+echo "pid		oom_score		oom_score_adj	oom_adj		comm"
+for i in `find /proc -maxdepth 1 -type d`; do
+    if [ -f $i/oom_score ]; then
+        echo "$i		$(cat $i/oom_score)		$(cat $i/oom_score_adj)		$(cat $i/oom_adj)		$(cat $i/comm)"
+    fi;
+done | sort -n -k2
+
