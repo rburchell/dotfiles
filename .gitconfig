@@ -29,3 +29,7 @@
 	username = w00t
 [rerere]
 	enabled = true
+[url "git@github.com:rburchell/"]
+    insteadOf = rb:
+[url "git@github.com:/"]
+    insteadOf = gh:
