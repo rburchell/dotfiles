@@ -75,7 +75,7 @@ if [[ "$DISTRO" == "fedora-20" ]]; then
     yum -y update
     systemctl enable avahi-daemon.service
     systemctl start avahi-daemon.service
-    yum install vim
+    yum install -y vim
     "
 else
     echo "WARNING: Unrecognised distro, I may not be able to customise the setup properly."
@@ -84,7 +84,7 @@ fi
 if [[ "$COMMANDS" != "" ]]; then
     FIRSTBOOT_COMMAND=$(mktemp)
     echo "$COMMANDS" > $FIRSTBOOT_COMMAND
-    FIRSTBOOT_COMMAND="--firstboot-command $FIRSTBOOT_COMMAND"
+    FIRSTBOOT_COMMAND="--firstboot $FIRSTBOOT_COMMAND"
 fi
 
 lvcreate -L ${ROOTSIZE} /dev/lvg -n ${GUEST}_drive
