@@ -115,9 +115,8 @@ function precmd {
         eve.local)
             COLORHOST="%F{213}$shorthost%f"
             ;;
-        zoe.dereferenced.net)
-            COLORHOST="%F{046}$shorthost%f"
-            ;;
+            # a nice green
+            #COLORHOST="%F{046}$shorthost%f"
         sky.dereferenced.net)
             COLORHOST="%F{075}$shorthost%f"
             ;;
@@ -377,35 +376,6 @@ function vicron() {
     vim ~/bin/gencron
     ~/bin/gencron | crontab
     echo "$0: installed cron"
-}
-
-function syncup() {
-    local src
-    local target
-    if [[ -z "$1" || "$1" == "." ]]; then
-        src=.
-        target=$(readlink -f .)
-    else
-        src="$1"
-        target=$(dirname $(readlink -f "$1"))
-    fi
-
-    echo "syncup $src to $target"
-    sudo rsync -xaAXvzoglpEtHAXS --progress --super --rsync-path="sudo rsync --super" --delete "$src" "burchr@zoe.dereferenced.net:/$target"
-}
-
-function syncdown() {
-    local src
-    local target=.
-    if [[ -z "$1" || "$1" == "." ]]; then
-        src=`pwd`/
-    else
-        src="$(readlink -f "$1")"
-        target="$(dirname "$1")"
-    fi
-
-    echo "syncdown $src to $target"
-    sudo rsync -xaAXvzoglpEtHAXS --progress --super --rsync-path='sudo rsync --super' --delete "burchr@zoe.dereferenced.net:/$src" "$target"
 }
 
 which tmux >/dev/null 2>&1
