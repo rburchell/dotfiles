@@ -10,5 +10,5 @@ if ! [ -f "$1" ]; then
 fi
 
 name=`basename "$1"`
-scp "$1" "zoe:/var/www/qtl.me/www/content/$name"
+scp "$1" "paste:/var/www/qtl.me/www/content/$name"
 echo "uploaded http://qtl.me/$name"
