@@ -90,7 +90,7 @@ function winfuncs.right_half()
     local win = window.focusedwindow()
     local screenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.w / 2,
+        x = screenrect.x + screenrect.w / 2,
         y = screenrect.y,
         w = screenrect.w,
         h = screenrect.h,
