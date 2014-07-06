@@ -92,7 +92,7 @@ function winfuncs.right_half()
     local newframe = {
         x = screenrect.x + screenrect.w / 2,
         y = screenrect.y,
-        w = screenrect.w,
+        w = screenrect.w / 2,
         h = screenrect.h,
     }
     win:setframe(newframe)
