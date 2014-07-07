@@ -72,6 +72,7 @@ function winfuncs.maximize_window()
         h = screenrect.h,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 2))
 end
 
 function winfuncs.top_half()
@@ -84,6 +85,7 @@ function winfuncs.top_half()
         h = screenrect.h / 2,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 4))
 end
 
 function winfuncs.bottom_half()
@@ -96,6 +98,7 @@ function winfuncs.bottom_half()
         h = screenrect.h / 2,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 4 * 3))
 end
 
 function winfuncs.left_half()
@@ -108,6 +111,7 @@ function winfuncs.left_half()
         h = screenrect.h,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 4, screenrect.y + screenrect.h / 2))
 end
 
 function winfuncs.right_half()
@@ -120,6 +124,7 @@ function winfuncs.right_half()
         h = screenrect.h,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 4 * 3, screenrect.y + screenrect.h / 2))
 end
 
 function winfuncs.hide()
@@ -143,6 +148,7 @@ function winfuncs.pushwindow_nextscreen()
     }
 
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 2))
 end
 
 function winfuncs.pushwindow_prevscreen()
@@ -160,6 +166,7 @@ function winfuncs.pushwindow_prevscreen()
     }
 
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 2))
 end
 
 function winfuncs.top_left()
@@ -172,6 +179,7 @@ function winfuncs.top_left()
         h = screenrect.h / 2,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 4, screenrect.y + screenrect.h / 4))
 end
 
 function winfuncs.bottom_left()
@@ -184,6 +192,7 @@ function winfuncs.bottom_left()
         h = screenrect.h / 2,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 4, screenrect.y + screenrect.h / 4 * 3))
 end
 
 function winfuncs.top_right()
@@ -196,6 +205,7 @@ function winfuncs.top_right()
         h = screenrect.h / 2,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 4 * 3, screenrect.y + screenrect.h / 4))
 end
 
 function winfuncs.bottom_right()
@@ -208,6 +218,7 @@ function winfuncs.bottom_right()
         h = screenrect.h / 2,
     }
     win:setframe(newframe)
+    mouse.set(geometry.point(screenrect.x + screenrect.w / 4 * 3, screenrect.y + screenrect.h / 4 * 3))
 end
 
 
