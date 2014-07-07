@@ -64,67 +64,67 @@ local winfuncs = {}
 
 function winfuncs.maximize_window()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x,
-        y = screenrect.y,
-        w = screenrect.w,
-        h = screenrect.h,
+        x = gscreenrect.x,
+        y = gscreenrect.y,
+        w = gscreenrect.w,
+        h = gscreenrect.h,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 2))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 2, gscreenrect.y + gscreenrect.h / 2))
 end
 
 function winfuncs.top_half()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x,
-        y = screenrect.y,
-        w = screenrect.w,
-        h = screenrect.h / 2,
+        x = gscreenrect.x,
+        y = gscreenrect.y,
+        w = gscreenrect.w,
+        h = gscreenrect.h / 2,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 4))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 2, gscreenrect.y + gscreenrect.h / 4))
 end
 
 function winfuncs.bottom_half()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x,
-        y = screenrect.y + screenrect.h / 2,
-        w = screenrect.w,
-        h = screenrect.h / 2,
+        x = gscreenrect.x,
+        y = gscreenrect.y + gscreenrect.h / 2,
+        w = gscreenrect.w,
+        h = gscreenrect.h / 2,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 4 * 3))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 2, gscreenrect.y + gscreenrect.h / 4 * 3))
 end
 
 function winfuncs.left_half()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x,
-        y = screenrect.y,
-        w = screenrect.w / 2,
-        h = screenrect.h,
+        x = gscreenrect.x,
+        y = gscreenrect.y,
+        w = gscreenrect.w / 2,
+        h = gscreenrect.h,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 4, screenrect.y + screenrect.h / 2))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 4, gscreenrect.y + gscreenrect.h / 2))
 end
 
 function winfuncs.right_half()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x + screenrect.w / 2,
-        y = screenrect.y,
-        w = screenrect.w / 2,
-        h = screenrect.h,
+        x = gscreenrect.x + gscreenrect.w / 2,
+        y = gscreenrect.y,
+        w = gscreenrect.w / 2,
+        h = gscreenrect.h,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 4 * 3, screenrect.y + screenrect.h / 2))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 4 * 3, gscreenrect.y + gscreenrect.h / 2))
 end
 
 function winfuncs.hide()
@@ -137,88 +137,88 @@ function winfuncs.pushwindow_nextscreen()
     local win = window.focusedwindow()
     local screen = win:screen():next()
     local winrect = win:frame()
-    local screenrect = screen:frame_without_dock_or_menu()
+    local gscreenrect = screen:frame_without_dock_or_menu()
 
     -- todo: make the screen move custom configured so we don't have to do this maximized
     local newframe = {
-        x = screenrect.x,
-        y = screenrect.y,
-        w = screenrect.w, -- winrect.w,
-        h = screenrect.h, -- winrect.h,
+        x = gscreenrect.x,
+        y = gscreenrect.y,
+        w = gscreenrect.w, -- winrect.w,
+        h = gscreenrect.h, -- winrect.h,
     }
 
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 2))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 2, gscreenrect.y + gscreenrect.h / 2))
 end
 
 function winfuncs.pushwindow_prevscreen()
     local win = window.focusedwindow()
     local screen = win:screen():previous()
     local winrect = win:frame()
-    local screenrect = screen:frame_without_dock_or_menu()
+    local gscreenrect = screen:frame_without_dock_or_menu()
 
     -- todo: make the screen move custom configured so we don't have to do this maximized
     local newframe = {
-        x = screenrect.x,
-        y = screenrect.y,
-        w = screenrect.w, -- winrect.w,
-        h = screenrect.h, -- winrect.h,
+        x = gscreenrect.x,
+        y = gscreenrect.y,
+        w = gscreenrect.w, -- winrect.w,
+        h = gscreenrect.h, -- winrect.h,
     }
 
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 2, screenrect.y + screenrect.h / 2))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 2, gscreenrect.y + gscreenrect.h / 2))
 end
 
 function winfuncs.top_left()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x,
-        y = screenrect.y,
-        w = screenrect.w / 2,
-        h = screenrect.h / 2,
+        x = gscreenrect.x,
+        y = gscreenrect.y,
+        w = gscreenrect.w / 2,
+        h = gscreenrect.h / 2,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 4, screenrect.y + screenrect.h / 4))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 4, gscreenrect.y + gscreenrect.h / 4))
 end
 
 function winfuncs.bottom_left()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x,
-        y = screenrect.y + screenrect.h / 2,
-        w = screenrect.w / 2,
-        h = screenrect.h / 2,
+        x = gscreenrect.x,
+        y = gscreenrect.y + gscreenrect.h / 2,
+        w = gscreenrect.w / 2,
+        h = gscreenrect.h / 2,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 4, screenrect.y + screenrect.h / 4 * 3))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 4, gscreenrect.y + gscreenrect.h / 4 * 3))
 end
 
 function winfuncs.top_right()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x + screenrect.w / 2,
-        y = screenrect.y,
-        w = screenrect.w / 2,
-        h = screenrect.h / 2,
+        x = gscreenrect.x + gscreenrect.w / 2,
+        y = gscreenrect.y,
+        w = gscreenrect.w / 2,
+        h = gscreenrect.h / 2,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 4 * 3, screenrect.y + screenrect.h / 4))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 4 * 3, gscreenrect.y + gscreenrect.h / 4))
 end
 
 function winfuncs.bottom_right()
     local win = window.focusedwindow()
-    local screenrect = win:screen():frame_without_dock_or_menu()
+    local gscreenrect = win:screen():frame_without_dock_or_menu()
     local newframe = {
-        x = screenrect.x + screenrect.w / 2,
-        y = screenrect.y + screenrect.h / 2,
-        w = screenrect.w / 2,
-        h = screenrect.h / 2,
+        x = gscreenrect.x + gscreenrect.w / 2,
+        y = gscreenrect.y + gscreenrect.h / 2,
+        w = gscreenrect.w / 2,
+        h = gscreenrect.h / 2,
     }
     win:setframe(newframe)
-    mouse.set(geometry.point(screenrect.x + screenrect.w / 4 * 3, screenrect.y + screenrect.h / 4 * 3))
+    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 4 * 3, gscreenrect.y + gscreenrect.h / 4 * 3))
 end
 
 
