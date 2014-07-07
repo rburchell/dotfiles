@@ -190,19 +190,18 @@ end
 hotkey.bind(ca, 'RIGHT', winfuncs.pushwindow_nextscreen)
 hotkey.bind(ca, 'LEFT', winfuncs.pushwindow_prevscreen)
 
-hotkey.bind(cmd, 'RIGHT', winfuncs.right_half)
-hotkey.bind({},  'PAD6', winfuncs.right_half)
-
-hotkey.bind(cmd, 'LEFT', winfuncs.left_half)
-hotkey.bind({},  'PAD4', winfuncs.left_half)
-
-hotkey.bind({},  'PAD9', winfuncs.top_right)
-hotkey.bind({},  'PAD7', winfuncs.top_left)
-hotkey.bind({},  'PAD1', winfuncs.bottom_left)
-hotkey.bind({},  'PAD3', winfuncs.bottom_right)
-
 hotkey.bind(cmd, 'UP', winfuncs.maximize_window)
-hotkey.bind({},  'PAD5', winfuncs.maximize_window)
-
+hotkey.bind(cmd, 'LEFT', winfuncs.left_half)
+hotkey.bind(cmd, 'RIGHT', winfuncs.right_half)
 hotkey.bind(cmd, 'DOWN', winfuncs.hide)
+
+hotkey.bind(cmd,  'PAD1', winfuncs.bottom_left)
+hotkey.bind(cmd,  'PAD3', winfuncs.bottom_right)
+
+hotkey.bind(cmd,  'PAD4', winfuncs.left_half)
+hotkey.bind(cmd,  'PAD5', winfuncs.maximize_window)
+hotkey.bind(cmd,  'PAD6', winfuncs.right_half)
+
+hotkey.bind(cmd,  'PAD7', winfuncs.top_left)
+hotkey.bind(cmd,  'PAD9', winfuncs.top_right)
 
