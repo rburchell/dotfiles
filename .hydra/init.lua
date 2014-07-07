@@ -74,6 +74,30 @@ function winfuncs.maximize_window()
     win:setframe(newframe)
 end
 
+function winfuncs.top_half()
+    local win = window.focusedwindow()
+    local screenrect = win:screen():frame_without_dock_or_menu()
+    local newframe = {
+        x = screenrect.x,
+        y = screenrect.y,
+        w = screenrect.w,
+        h = screenrect.h / 2,
+    }
+    win:setframe(newframe)
+end
+
+function winfuncs.bottom_half()
+    local win = window.focusedwindow()
+    local screenrect = win:screen():frame_without_dock_or_menu()
+    local newframe = {
+        x = screenrect.x,
+        y = screenrect.y + screenrect.h / 2,
+        w = screenrect.w,
+        h = screenrect.h / 2,
+    }
+    win:setframe(newframe)
+end
+
 function winfuncs.left_half()
     local win = window.focusedwindow()
     local screenrect = win:screen():frame_without_dock_or_menu()
@@ -196,6 +220,7 @@ hotkey.bind(cmd, 'RIGHT', winfuncs.right_half)
 hotkey.bind(cmd, 'DOWN', winfuncs.hide)
 
 hotkey.bind(cmd,  'PAD1', winfuncs.bottom_left)
+hotkey.bind(cmd,  'PAD2', winfuncs.bottom_half)
 hotkey.bind(cmd,  'PAD3', winfuncs.bottom_right)
 
 hotkey.bind(cmd,  'PAD4', winfuncs.left_half)
@@ -203,5 +228,6 @@ hotkey.bind(cmd,  'PAD5', winfuncs.maximize_window)
 hotkey.bind(cmd,  'PAD6', winfuncs.right_half)
 
 hotkey.bind(cmd,  'PAD7', winfuncs.top_left)
+hotkey.bind(cmd,  'PAD8', winfuncs.top_half)
 hotkey.bind(cmd,  'PAD9', winfuncs.top_right)
 
