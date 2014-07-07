@@ -135,38 +135,60 @@ end
 
 function winfuncs.pushwindow_nextscreen()
     local win = window.focusedwindow()
-    local screen = win:screen():next()
+    local screen = win:screen()
+    local nscreen = win:screen():next()
     local winrect = win:frame()
     local gscreenrect = screen:frame_without_dock_or_menu()
+    local gnscreenrect = nscreen:frame_without_dock_or_menu()
 
-    -- todo: make the screen move custom configured so we don't have to do this maximized
+    -- take current position and size (gscreenrect, winrect) and figure out the new frame
+    -- coordinates to use on gnscreenrect.
+    --
+    -- winrect.x - gscreenrect.x because we want to get the relative X
+    -- coordinate, then we divide by screen width to get the multiplier..
+    local xPosMul = ((winrect.x - gscreenrect.x) / gscreenrect.w)
+    local yPosMul = ((winrect.y - gscreenrect.y) / gscreenrect.h)
+    local widthMul = winrect.w / gscreenrect.w
+    local heightMul = winrect.h / gscreenrect.h
+
     local newframe = {
-        x = gscreenrect.x,
-        y = gscreenrect.y,
-        w = gscreenrect.w, -- winrect.w,
-        h = gscreenrect.h, -- winrect.h,
+        x = gnscreenrect.x + gnscreenrect.w * xPosMul,
+        y = gnscreenrect.y + gnscreenrect.h * yPosMul,
+        w = gnscreenrect.w * widthMul,
+        h = gnscreenrect.h * heightMul, -- winrect.h,
     }
 
     win:setframe(newframe)
-    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 2, gscreenrect.y + gscreenrect.h / 2))
+    mouse.set(geometry.point(newframe.x + newframe.w / 2, newframe.y + newframe.h / 2))
 end
 
 function winfuncs.pushwindow_prevscreen()
     local win = window.focusedwindow()
-    local screen = win:screen():previous()
+    local screen = win:screen()
+    local pscreen = win:screen():previous()
     local winrect = win:frame()
     local gscreenrect = screen:frame_without_dock_or_menu()
+    local gpscreenrect = pscreen:frame_without_dock_or_menu()
 
-    -- todo: make the screen move custom configured so we don't have to do this maximized
+    -- take current position and size (gscreenrect, winrect) and figure out the new frame
+    -- coordinates to use on gpscreenrect.
+    --
+    -- winrect.x - gscreenrect.x because we want to get the relative X
+    -- coordinate, then we divide by screen width to get the multiplier..
+    local xPosMul = ((winrect.x - gscreenrect.x) / gscreenrect.w)
+    local yPosMul = ((winrect.y - gscreenrect.y) / gscreenrect.h)
+    local widthMul = winrect.w / gscreenrect.w
+    local heightMul = winrect.h / gscreenrect.h
+
     local newframe = {
-        x = gscreenrect.x,
-        y = gscreenrect.y,
-        w = gscreenrect.w, -- winrect.w,
-        h = gscreenrect.h, -- winrect.h,
+        x = gpscreenrect.x + gpscreenrect.w * xPosMul,
+        y = gpscreenrect.y + gpscreenrect.h * yPosMul,
+        w = gpscreenrect.w * widthMul,
+        h = gpscreenrect.h * heightMul, -- winrect.h,
     }
 
     win:setframe(newframe)
-    mouse.set(geometry.point(gscreenrect.x + gscreenrect.w / 2, gscreenrect.y + gscreenrect.h / 2))
+    mouse.set(geometry.point(newframe.x + newframe.w / 2, newframe.y + newframe.h / 2))
 end
 
 function winfuncs.top_left()
