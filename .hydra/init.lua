@@ -132,12 +132,16 @@ function winfuncs.hide()
     win:application():hide()
 end
 
-
-function winfuncs.pushwindow_nextscreen()
-    local win = window.focusedwindow()
-    local screen = win:screen()
-    local nscreen = win:screen():next()
+-- helper to move window to a new screen
+-- this also takes care of preserving the position and size of the window, while
+-- keeping aspect ratio from old screen to the new screen.
+--
+-- args:
+--  - win (window to move)
+--  - nscreen (new screen to move it to)
+function chscreen_helper(win, nscreen)
     local winrect = win:frame()
+    local screen = win:screen()
     local gscreenrect = screen:frame_without_dock_or_menu()
     local gnscreenrect = nscreen:frame_without_dock_or_menu()
 
@@ -162,33 +166,16 @@ function winfuncs.pushwindow_nextscreen()
     mouse.set(geometry.point(newframe.x + newframe.w / 2, newframe.y + newframe.h / 2))
 end
 
+function winfuncs.pushwindow_nextscreen()
+    local win = window.focusedwindow()
+    local nscreen = win:screen():next()
+    chscreen_helper(win, nscreen)
+end
+
 function winfuncs.pushwindow_prevscreen()
     local win = window.focusedwindow()
-    local screen = win:screen()
     local pscreen = win:screen():previous()
-    local winrect = win:frame()
-    local gscreenrect = screen:frame_without_dock_or_menu()
-    local gpscreenrect = pscreen:frame_without_dock_or_menu()
-
-    -- take current position and size (gscreenrect, winrect) and figure out the new frame
-    -- coordinates to use on gpscreenrect.
-    --
-    -- winrect.x - gscreenrect.x because we want to get the relative X
-    -- coordinate, then we divide by screen width to get the multiplier..
-    local xPosMul = ((winrect.x - gscreenrect.x) / gscreenrect.w)
-    local yPosMul = ((winrect.y - gscreenrect.y) / gscreenrect.h)
-    local widthMul = winrect.w / gscreenrect.w
-    local heightMul = winrect.h / gscreenrect.h
-
-    local newframe = {
-        x = gpscreenrect.x + gpscreenrect.w * xPosMul,
-        y = gpscreenrect.y + gpscreenrect.h * yPosMul,
-        w = gpscreenrect.w * widthMul,
-        h = gpscreenrect.h * heightMul, -- winrect.h,
-    }
-
-    win:setframe(newframe)
-    mouse.set(geometry.point(newframe.x + newframe.w / 2, newframe.y + newframe.h / 2))
+    chscreen_helper(win, pscreen)
 end
 
 function winfuncs.top_left()
