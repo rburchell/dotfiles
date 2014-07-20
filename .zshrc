@@ -127,6 +127,7 @@ function precmd {
             COLORHOST="%F{075}$shorthost%f"
             ;;
         zac.sky)
+            iterm_r=255; iterm_g=187; iterm_b=108;
             COLORHOST="%F{202}$shorthost%f"
             ;;
         *)
