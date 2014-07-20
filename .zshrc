@@ -123,6 +123,7 @@ function precmd {
             # a nice green
             #COLORHOST="%F{046}$shorthost%f"
         sky.dereferenced.net)
+            iterm_r=108; iterm_g=148; iterm_b=255;
             COLORHOST="%F{075}$shorthost%f"
             ;;
         zac.sky)
