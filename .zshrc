@@ -134,9 +134,9 @@ function precmd {
     esac
 
     # iterm2: proprietary codes to set tab color
-    echo -e "\033]6;1;bg;red;brightness;$iterm_r\a"
-    echo -e "\033]6;1;bg;green;brightness;$iterm_g\a"
-    echo -e "\033]6;1;bg;blue;brightness;$iterm_b\a"
+    echo -n -e "\033]6;1;bg;red;brightness;$iterm_r\a"
+    echo -n -e "\033]6;1;bg;green;brightness;$iterm_g\a"
+    echo -n -e "\033]6;1;bg;blue;brightness;$iterm_b\a"
 
     case $USER in
         burchr)
