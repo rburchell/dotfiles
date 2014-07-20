@@ -1,9 +1,6 @@
 #!/bin/zsh
 #echo "$@"
-foo=$@
-if [[ "$foo" == "" ]]; then
-    foo=$(cat)
-fi
+foo=$(cat)
 printf "\e]50;CopyToClipboard\a"
 echo -n "$foo"
 printf "\e]50;EndCopy\a"
