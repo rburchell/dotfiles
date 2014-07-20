@@ -1,0 +1,9 @@
+#!/bin/zsh
+#echo "$@"
+foo=$@
+if [[ "$foo" == "" ]]; then
+    foo=$(cat)
+fi
+printf "\e]50;CopyToClipboard\a"
+echo -n "$foo"
+printf "\e]50;EndCopy\a"
