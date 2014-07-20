@@ -105,8 +105,13 @@ function precmd {
     export HOSTNAME="$HOST$CHDOOT_PS1"
     local shorthost=$(echo "$HOST" | cut -d'.' -f1)
 
+    local iterm_r=255
+    local iterm_g=255
+    local iterm_b=255
+
     case $HOSTNAME in
         lea.local)
+            iterm_r=0; iterm_g=171; iterm_b=255;
             COLORHOST="%F{045}$shorthost%f"
             ;;
         amy.local)
@@ -127,6 +132,11 @@ function precmd {
             COLORHOST=$HOSTNAME
             ;;
     esac
+
+    # iterm2: proprietary codes to set tab color
+    echo -e "\033]6;1;bg;red;brightness;$iterm_r\a"
+    echo -e "\033]6;1;bg;green;brightness;$iterm_g\a"
+    echo -e "\033]6;1;bg;blue;brightness;$iterm_b\a"
 
     case $USER in
         burchr)
