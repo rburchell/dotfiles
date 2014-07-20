@@ -9,6 +9,6 @@ if ! [ -f "$1" ]; then
     exit 1
 fi
 
-name=`basename "$1"`
+name=$(printf %q $(basename "$1"))
 scp "$1" "paste:/var/www/qtl.me/www/content/$name"
 echo "uploaded http://qtl.me/$name"
