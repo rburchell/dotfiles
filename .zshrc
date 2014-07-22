@@ -118,6 +118,7 @@ function precmd {
             COLORHOST="%F{027}$shorthost%f"
             ;;
         eve.local)
+            iterm_r=226; iterm_g=105; iterm_b=255;
             COLORHOST="%F{213}$shorthost%f"
             ;;
             # a nice green
