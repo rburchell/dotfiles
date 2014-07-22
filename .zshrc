@@ -110,6 +110,10 @@ function precmd {
     local iterm_b=255
 
     case $HOSTNAME in
+        Jolla)
+            iterm_r=30; iterm_g=159; iterm_b=30;
+            COLORHOST="%F{028}$shorthost%f"
+            ;;
         lea.local)
             iterm_r=0; iterm_g=171; iterm_b=255;
             COLORHOST="%F{045}$shorthost%f"
@@ -142,6 +146,8 @@ function precmd {
     echo -n -e "\033]6;1;bg;blue;brightness;$iterm_b\a"
 
     case $USER in
+        nemo)
+            ;& # fallthrough
         burchr)
             COLORWHOAMI=""
             ;;
