@@ -1,6 +1,8 @@
 hydra.alert("Hydra config loaded")
 pathwatcher.new(os.getenv("HOME") .. "/.hydra/", hydra.reload):start()
 
+hydra.dockicon.hide()
+
 -- open a repl
 --   the repl is a Lua prompt; type "print('hello world')"
 --   when you're in the repl, type "help" to get started
