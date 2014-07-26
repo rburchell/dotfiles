@@ -26,7 +26,12 @@ sub notify {
     $message = encode_base64($message);
 
     STDERR->autoflush(1);
-    print STDERR "\033]50;Notification=title=$summary\;description=$message\a"
+    if ($ENV{"TERM"} eq "screen-256color") {
+        # magical tmux escape sequence
+        print STDERR "\033Ptmux;\033\033]50;Notification=title=$summary;description=$message\a\033\\"
+    } else {
+        print STDERR "\033]50;Notification=title=$summary;description=$message\a"
+    }
 }
  
 sub print_text_notify {
@@ -50,3 +55,4 @@ sub message_private_notify {
 
 Irssi::signal_add('print text', 'print_text_notify');
 Irssi::signal_add('message private', 'message_private_notify');
+
