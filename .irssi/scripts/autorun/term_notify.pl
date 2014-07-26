@@ -45,7 +45,6 @@ sub message_private_notify {
     my ($server, $msg, $nick, $address) = @_;
 
     return unless $server;
-    print STDERR $server;
     notify($server, sprintf("%s @ %s", $nick, $server->{address}), $msg);
 }
 
