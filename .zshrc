@@ -397,13 +397,13 @@ function vicron() {
     echo "$0: installed cron"
 }
 
-which tmux >/dev/null 2>&1
-if [[ -z "$TMUX" && $? -eq 0 ]]; then
-    tmux list-sessions >/dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        tmux a
-    fi
-fi
+#which tmux >/dev/null 2>&1
+#if [[ -z "$TMUX" && $? -eq 0 ]]; then
+#    tmux list-sessions >/dev/null 2>&1
+#    if [ $? -eq 0 ]; then
+#        tmux a
+#    fi
+#fi
 
 (nohup git pull >/dev/null 2>&1 &)
 (nohup git submodule init >/dev/null 2>&1 &)
