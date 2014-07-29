@@ -28,7 +28,7 @@ sub notify {
     STDERR->autoflush(1);
     if ($ENV{"TERM"} eq "screen-256color") {
         # magical tmux escape sequence
-        print STDERR "\033Ptmux;\033\033]50;Notification=title=$summary;description=$message\a\033\\"
+        print STDERR "\033P\033\033]50;Notification=title=$summary;description=$message\a\033\\"
     } else {
         print STDERR "\033]50;Notification=title=$summary;description=$message\a"
     }
