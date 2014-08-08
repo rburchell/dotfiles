@@ -41,12 +41,21 @@ then
 		" remove from \"$git_dir/config\" to use $0"
 fi
 
-# don't link to a workdir
-if test -h "$git_dir/config"
-then
-	die "\"$orig_git\" is a working directory only, please specify" \
-		"a complete repository."
-fi
+#echo "checking $git_dir/config"
+#if test -f "$git_dir/config"; then
+#    echo "got a file for config"
+#fi
+#
+#if test -h "$git_dir/config"; then
+#    echo "got a h for config"
+#fi
+#
+## don't link to a workdir
+#if test -h "$git_dir/config"
+#then
+#	die "\"$orig_git\" is a working directory only, please specify" \
+#		"a complete repository."
+#fi
 
 # don't recreate a workdir over an existing repository
 if test -e "$new_workdir"
