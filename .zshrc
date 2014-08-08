@@ -209,6 +209,7 @@ if [[ "$PLATFORM" == "linux" ]]; then
 elif [[ "$PLATFORM" == 'osx' ]]; then
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
+    export LSCOLORS=GxFxCxDxBxegedabagaced # get slightly less obnoxious coloring
 fi
 
 
