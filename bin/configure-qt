@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ "$#" -gt 0 ]; then
+  ./configure -opensource -confirm-license -developer-build "$@"
+else
+  ./configure -opensource -confirm-license -developer-build
+fi
