@@ -93,8 +93,8 @@ function precmd {
         */burchr/code/qt/*)
             ;& # fallthrough
         */burchr/code/qt)
-            export GIT_AUTHOR_EMAIL="robin+qt@viroteck.net"
-            export GIT_COMMITTER_EMAIL="robin+qt@viroteck.net"
+            export GIT_AUTHOR_EMAIL="robin.burchell@viroteck.net"
+            export GIT_COMMITTER_EMAIL="robin.burchell@viroteck.net"
             ;;
         *)
             export GIT_AUTHOR_EMAIL="robin+git@viroteck.net"
