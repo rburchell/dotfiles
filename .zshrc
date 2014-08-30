@@ -198,6 +198,7 @@ export LC_COLLATE=C
 export EMAIL="robin@viroteck.net"
 export DEBEMAIL=$EMAIL
 export MAKEOPTS='-j8'
+export QT_MESSAGE_PATTERN="[%{if-debug}D%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}] %{function}:%{line} - %{message}"
 
 READNULLCMD=${PAGER:-/usr/bin/less}
 which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
