@@ -3,7 +3,7 @@
 for file in "$@"; do
     echo "Maintainers for $file";
     (cd $(dirname "$file");
-     git blame -w --line-porcelain $(basename "$file") | grep 'author '  | sort | uniq -c | sort -nr | head -n20;
+     git blame -w --line-porcelain $(basename "$file") | grep 'author-mail'  | sort | uniq -c | sort -nr | head -n20;
     )
 done
 
