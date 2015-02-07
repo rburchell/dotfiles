@@ -45,6 +45,7 @@ read HOSTNAME
 echo ${HOSTNAME} > /mnt/etc/hostname
 
 # locale, see /etc/locale.gen to modify
+echo "en_US.UTF-8 UTF-8" > /mnt/etc/locale.gen
 arch-chroot /mnt locale-gen
 
 echo "Setting up the bootloader..."
