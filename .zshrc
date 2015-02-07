@@ -121,7 +121,7 @@ function precmd {
         amy.local)
             COLORHOST="%F{027}$shorthost%f"
             ;;
-        eve.local)
+        aly.local)
             iterm_r=226; iterm_g=105; iterm_b=255;
             COLORHOST="%F{213}$shorthost%f"
             ;;
