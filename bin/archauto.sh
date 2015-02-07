@@ -90,3 +90,15 @@ umount /mnt
 echo "Install complete. Press enter to reboot."
 read
 reboot
+
+# UI stuff
+#arch-chroot /mnt pacman -S gnome --noconfirm
+#arch-chroot /mnt pacman -S extra/xorg-xinit --noconfirm
+
+# vmware stuff
+#arch-chroot /mnt pacman -S open-vm-tools --noconfirm
+#arch-chroot /mnt systemctl enable vmtoolsd.service
+#arch-chroot /mnt pacman -S extra/xf86-input-vmmouse --noconfirm
+#arch-chroot /mnt pacman -S extra/xf86-video-vmware --noconfirm
+# to use vmmouse, X needs to run as root.
+#echo "needs_root_rights = yes" |  /mnt/etc/X11/Xwrapper.config
