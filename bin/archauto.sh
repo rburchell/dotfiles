@@ -58,6 +58,7 @@ arch-chroot /mnt mkinitcpio -p linux
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "Installing additional stuff ..."
+arch-chroot /mnt pacman -S base-devel --noconfirm
 arch-chroot /mnt pacman -S git --noconfirm
 arch-chroot /mnt pacman -S vim --noconfirm
 arch-chroot /mnt pacman -S openssh --noconfirm
