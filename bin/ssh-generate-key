@@ -1,0 +1,4 @@
+#!/bin/sh
+echo "Enter a mail address for the key."
+read MAIL
+ssh-keygen -t rsa -C "$MAIL"
