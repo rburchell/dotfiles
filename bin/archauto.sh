@@ -30,9 +30,6 @@ mount ${DISK}1 /mnt
 #mkdir /mnt/home
 #mount ${DISK}3 /mnt/home
 
-echo "Updating base image ..."
-pacman -Syu
-
 echo "Installing the base system ..."
 pacstrap /mnt base base-devel
 
