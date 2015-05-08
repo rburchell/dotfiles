@@ -4,7 +4,7 @@
 if [ $# -lt 1 ]; then 
     echo "usage: $0 <guest>"
     echo Creates a VM.
-    exit
+    exit 1
 fi
 
 GUEST=$1
@@ -17,7 +17,7 @@ if [[ "$EXISTS" != "" ]]
 then
     echo "This GUEST has already been setup on the host!"
     echo "Aborting..."
-    exit
+    exit 1
 fi
 
 # Exit if variables not set or on error
