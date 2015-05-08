@@ -88,6 +88,12 @@ if [[ "$COMMANDS" != "" ]]; then
 fi
 
 lvcreate -L ${ROOTSIZE} /dev/lvg -n ${GUEST}_drive
+
+# for encryption:
+# cryptsetup luksFormat /dev/lvg/${GUEST}_drive
+# cryptsetup luksOpen /dev/lvg/${GUEST}_drive ${GUEST}
+# then use /dev/mapper/${GUEST}
+
 IMAGE=$(mktemp)
 virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin \
     --mkdir /root/.ssh/ --upload /var/lib/libvirt/authorized_keys:/root/.ssh/authorized_keys
@@ -95,12 +101,9 @@ virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRS
 echo "Image built. Record the root password and press enter to continue."
 read
 echo "Copying to LV"
-# is there a better way?
-#cat $IMAGE > /dev/lvg/${GUEST}_drive
 dd if=$IMAGE of=/dev/lvg/${GUEST}_drive bs=1048576
 
 echo "Image copied. Importing."
-
 virt-install --import --name $GUEST --ram $RAM --disk path=/dev/lvg/${GUEST}_drive,format=raw --cpu host --vcpu $VCPUS
 rm $IMAGE
 
