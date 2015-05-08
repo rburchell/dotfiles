@@ -75,10 +75,10 @@ if [[ "$HOSTNAME" == "" ]]; then
     HOSTNAME=${GUEST}.vm
 fi
 
-echo "Total RAM in MB? (256):"
+echo "Total RAM in MB? (512):"
 read -e RAM
 if [[ "$RAM" == "" ]]; then
-    RAM=256
+    RAM=512
 fi
 
 echo "Total VCPUs? (2):"
