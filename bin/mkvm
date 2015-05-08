@@ -71,12 +71,11 @@ COMMANDS=""
 FIRSTBOOT_COMMAND=""
 
 if [[ "$DISTRO" == "$DEFAULT_DISTRO" ]]; then
-    INSTALL_PACKAGES="--install zsh,git,nss-mdns,avahi,avahi-tools"
+    INSTALL_PACKAGES="--install zsh,git,avahi,avahi-tools,vim,yum-cron"
     COMMANDS="
     yum -y update
     systemctl enable avahi-daemon.service
     systemctl start avahi-daemon.service
-    yum install -y vim
     "
 else
     echo "WARNING: Unrecognised distro, I may not be able to customise the setup properly."
