@@ -1,0 +1,12 @@
+#!/bin/sh
+if [ $# -lt 1 ]; then 
+    echo "usage: $0 <guest>"
+    echo Creates a VM.
+    exit 1
+fi
+
+GUEST=$1
+
+virsh destroy "$GUEST"
+virsh undefine "$GUEST"
+lvremove "/dev/centos_static/${GUEST}_drive"
