@@ -61,8 +61,6 @@ if [[ "$ROOTSIZE" == "" ]]; then
 fi
 
 DEFAULT_DISTRO="centos-7.0"
-# avoiding the indirection would be nice, but this isn't working on sky.
-# virt-builder $DEFAULT_DISTRO --output /dev/$LVG/dns --hostname dns.vm
 echo "Select distro ($DEFAULT_DISTRO):"
 read -e DISTRO
 if [[ "$DISTRO" == "" ]]; then
@@ -134,6 +132,9 @@ virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRS
 
 echo "Image built. Record the root password and press enter to continue."
 read
+
+# avoiding the indirection would be nice, but this isn't working on sky.
+# virt-builder $DEFAULT_DISTRO --output /dev/$LVG/dns --hostname dns.vm
 echo "Copying to LV"
 dd if=$IMAGE of=/dev/$LVG/${GUEST}_drive bs=1048576
 
