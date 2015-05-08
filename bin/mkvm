@@ -31,12 +31,13 @@ if [[ "$ROOTSIZE" == "" ]]; then
     ROOTSIZE="8G"
 fi
 
+DEFAULT_DISTRO="centos7"
 # avoiding the indirection would be nice, but this isn't working on sky.
-# virt-builder fedora-20 --output /dev/lvg/dns --hostname dns.sky
-echo "Select distro (fedora-20):"
+# virt-builder $DEFAULT_DISTRO --output /dev/lvg/dns --hostname dns.sky
+echo "Select distro ($DEFAULT_DISTRO):"
 read -e DISTRO
 if [[ "$DISTRO" == "" ]]; then
-    DISTRO="fedora-20"
+    DISTRO="$DEFAULT_DISTRO"
 fi
 
 echo "Enter hostname ($GUEST.sky):"
@@ -69,7 +70,7 @@ INSTALL_PACKAGES=""
 COMMANDS=""
 FIRSTBOOT_COMMAND=""
 
-if [[ "$DISTRO" == "fedora-20" ]]; then
+if [[ "$DISTRO" == "$DEFAULT_DISTRO" ]]; then
     INSTALL_PACKAGES="--install zsh,git,nss-mdns,avahi,avahi-tools"
     COMMANDS="
     yum -y update
