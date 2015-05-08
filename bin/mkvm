@@ -24,6 +24,35 @@ fi
 set -o nounset
 set -o errexit
 
+# find a logical volume group to put the LV on
+LVGS=""
+LVG=""
+for i in $(vgs -o vg_name --noheadings); do
+    LVGS="$LVGS $i"
+done
+case "$LVGS" in
+    *\ )
+        echo "Select a LVG to put the VM onto."
+        read -e tmplvg
+
+        for i in "$LVGS"; do
+            if [[ "$i" == "$tmplvg" ]]; then
+                LVG="$tmplvg"
+            fi
+        done
+        ;;
+    *)
+        LVG=$(echo $LVGS | tr -d '[[:space:]]') # I love shell scripting.
+        echo "Putting the VM onto LVG $LVG"
+        ;;
+esac
+
+if [[ "$LVG" == "" ]]; then
+    echo "Please tell me what LVG to put the VM onto!"
+    echo "Aborting..."
+    exit 1
+fi
+
 echo "Please enter LV size. Make sure you include the unit. (8G):"
 read -e ROOTSIZE
 
@@ -33,7 +62,7 @@ fi
 
 DEFAULT_DISTRO="centos7"
 # avoiding the indirection would be nice, but this isn't working on sky.
-# virt-builder $DEFAULT_DISTRO --output /dev/lvg/dns --hostname dns.vm
+# virt-builder $DEFAULT_DISTRO --output /dev/$LVG/dns --hostname dns.vm
 echo "Select distro ($DEFAULT_DISTRO):"
 read -e DISTRO
 if [[ "$DISTRO" == "" ]]; then
@@ -87,11 +116,11 @@ if [[ "$COMMANDS" != "" ]]; then
     FIRSTBOOT_COMMAND="--firstboot $FIRSTBOOT_COMMAND"
 fi
 
-lvcreate -L ${ROOTSIZE} /dev/lvg -n ${GUEST}_drive
+lvcreate -L ${ROOTSIZE} /dev/$LVG -n ${GUEST}_drive
 
 # for encryption:
-# cryptsetup luksFormat /dev/lvg/${GUEST}_drive
-# cryptsetup luksOpen /dev/lvg/${GUEST}_drive ${GUEST}
+# cryptsetup luksFormat /dev/$LVG/${GUEST}_drive
+# cryptsetup luksOpen /dev/$LVG/${GUEST}_drive ${GUEST}
 # then use /dev/mapper/${GUEST}
 
 IMAGE=$(mktemp)
@@ -101,10 +130,10 @@ virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRS
 echo "Image built. Record the root password and press enter to continue."
 read
 echo "Copying to LV"
-dd if=$IMAGE of=/dev/lvg/${GUEST}_drive bs=1048576
+dd if=$IMAGE of=/dev/$LVG/${GUEST}_drive bs=1048576
 
 echo "Image copied. Importing."
-virt-install --import --name $GUEST --ram $RAM --disk path=/dev/lvg/${GUEST}_drive,format=raw --cpu host --vcpu $VCPUS
+virt-install --import --name $GUEST --ram $RAM --disk path=/dev/$LVG/${GUEST}_drive,format=raw --cpu host --vcpu $VCPUS
 rm $IMAGE
 
 ###############################################################################################################################
