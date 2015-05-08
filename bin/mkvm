@@ -33,17 +33,17 @@ fi
 
 DEFAULT_DISTRO="centos7"
 # avoiding the indirection would be nice, but this isn't working on sky.
-# virt-builder $DEFAULT_DISTRO --output /dev/lvg/dns --hostname dns.sky
+# virt-builder $DEFAULT_DISTRO --output /dev/lvg/dns --hostname dns.vm
 echo "Select distro ($DEFAULT_DISTRO):"
 read -e DISTRO
 if [[ "$DISTRO" == "" ]]; then
     DISTRO="$DEFAULT_DISTRO"
 fi
 
-echo "Enter hostname ($GUEST.sky):"
+echo "Enter hostname ($GUEST.vm):"
 read -e HOSTNAME
 if [[ "$HOSTNAME" == "" ]]; then
-    HOSTNAME=${GUEST}.sky
+    HOSTNAME=${GUEST}.vm
 fi
 
 echo "Total RAM in MB? (256):"
