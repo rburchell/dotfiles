@@ -60,7 +60,7 @@ if [[ "$ROOTSIZE" == "" ]]; then
     ROOTSIZE="8G"
 fi
 
-DEFAULT_DISTRO="centos7"
+DEFAULT_DISTRO="centos-7.0"
 # avoiding the indirection would be nice, but this isn't working on sky.
 # virt-builder $DEFAULT_DISTRO --output /dev/$LVG/dns --hostname dns.vm
 echo "Select distro ($DEFAULT_DISTRO):"
