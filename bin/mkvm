@@ -100,9 +100,12 @@ COMMANDS=""
 FIRSTBOOT_COMMAND=""
 
 if [[ "$DISTRO" == "$DEFAULT_DISTRO" ]]; then
-    INSTALL_PACKAGES="--install zsh,git,avahi,avahi-tools,vim,yum-cron"
+    # don't attempt to optimize this by moving the nss-mdns install into INSTALL_PACKAGES.
+    # nss-mdns lives in EPEL, which unfortunately means it needs to be done in a seperate step.
+    INSTALL_PACKAGES="--install zsh,git,avahi,avahi-tools,vim,yum-cron,epel-release"
     COMMANDS="
     yum -y update
+    yum install -y nss-mdns
     systemctl enable avahi-daemon.service
     systemctl start avahi-daemon.service
     "
