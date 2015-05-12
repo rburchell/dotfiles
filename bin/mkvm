@@ -100,7 +100,7 @@ FIRSTBOOT_COMMAND=""
 if [[ "$DISTRO" == "$DEFAULT_DISTRO" ]]; then
     # don't attempt to optimize this by moving the nss-mdns install into INSTALL_PACKAGES.
     # nss-mdns lives in EPEL, which unfortunately means it needs to be done in a seperate step.
-    INSTALL_PACKAGES="--install zsh,git,avahi,avahi-tools,vim,yum-cron"
+    INSTALL_PACKAGES="--install zsh,git,avahi,avahi-tools,vim,yum-cron,deltarpm"
     COMMANDS="
     yum -y update
     perl -p -i -e “s/^apply_updates = no/apply_updates = yes/“ yum-cron.conf
