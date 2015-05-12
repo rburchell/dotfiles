@@ -121,15 +121,15 @@ if [[ "$COMMANDS" != "" ]]; then
 fi
 
 # take the ROOTSIZE, convert it to mb.
+# we keep the gb value around for virt-builder's sake, so as to not ruin its
+# pretty little mind.
+ROOTSIZE_GB=$ROOTSIZE
 ROOTSIZE=$(($ROOTSIZE * 1024))
 
 # for encrypted LVs, let's add an extra 10mb
 ROOTSIZE=$(($ROOTSIZE + 10))
 
 lvcreate -L ${ROOTSIZE}mb /dev/$LVG -n ${GUEST}_drive
-
-# and after the LV creation, free it
-ROOTSIZE=$(($ROOTSIZE - 10))
 
 DDTO=/dev/$LVG/${GUEST}_drive
 
@@ -139,7 +139,7 @@ cryptsetup luksOpen /dev/$LVG/${GUEST}_drive ${GUEST}_drive
 DDTO=/dev/mapper/${GUEST}_drive
 
 IMAGE=$(mktemp)
-virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size ${ROOTSIZE}mb $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin \
+virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size ${ROOTSIZE_GB}G $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin \
     --mkdir /root/.ssh/ --upload /var/lib/libvirt/authorized_keys:/root/.ssh/authorized_keys
 
 echo "Image built. Record the root password and press enter to continue."
