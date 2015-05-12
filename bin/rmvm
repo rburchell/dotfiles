@@ -1,7 +1,7 @@
 #!/bin/sh
 if [ $# -lt 1 ]; then 
     echo "usage: $0 <guest>"
-    echo Creates a VM.
+    echo Deletes a VM.
     exit 1
 fi
 
