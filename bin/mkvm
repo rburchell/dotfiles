@@ -122,10 +122,12 @@ fi
 
 lvcreate -L ${ROOTSIZE} /dev/$LVG -n ${GUEST}_drive
 
+DDTO=/dev/$LVG/${GUEST}_drive
+
 # for encryption:
 # cryptsetup luksFormat /dev/$LVG/${GUEST}_drive
 # cryptsetup luksOpen /dev/$LVG/${GUEST}_drive ${GUEST}
-# then use /dev/mapper/${GUEST}
+# then use /dev/mapper/${GUEST} as DDTO
 
 IMAGE=$(mktemp)
 virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin \
@@ -137,10 +139,10 @@ read
 # avoiding the indirection would be nice, but this isn't working on sky.
 # virt-builder $DEFAULT_DISTRO --output /dev/$LVG/dns --hostname dns.vm
 echo "Copying to LV"
-dd if=$IMAGE of=/dev/$LVG/${GUEST}_drive bs=1048576
+dd if=$IMAGE of=$DDTO bs=1048576
 
 echo "Image copied. Importing."
-virt-install --import --name $GUEST --ram $RAM --disk path=/dev/$LVG/${GUEST}_drive,format=raw --cpu host --vcpu $VCPUS
+virt-install --import --name $GUEST --ram $RAM --disk path=$DDTO,format=raw --cpu host --vcpu $VCPUS
 rm $IMAGE
 
 ###############################################################################################################################
