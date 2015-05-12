@@ -103,7 +103,7 @@ if [[ "$DISTRO" == "$DEFAULT_DISTRO" ]]; then
     INSTALL_PACKAGES="--install zsh,git,avahi,avahi-tools,vim,yum-cron,deltarpm"
     COMMANDS="
     yum -y update
-    perl -p -i -e “s/^apply_updates = no/apply_updates = yes/“ yum-cron.conf
+    perl -p -i -e \"s/^apply_updates = no/apply_updates = yes/\" /etc/yum/yum-cron.conf
     yum install -y epel-release
     yum install -y nss-mdns
     systemctl enable avahi-daemon.service
