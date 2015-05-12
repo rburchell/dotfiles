@@ -53,11 +53,11 @@ if [[ "$LVG" == "" ]]; then
     exit 1
 fi
 
-echo "Please enter LV size. Make sure you include the unit. (8G):"
+echo "Please enter LV size in GB. (8):"
 read -e ROOTSIZE
 
 if [[ "$ROOTSIZE" == "" ]]; then
-    ROOTSIZE="8G"
+    ROOTSIZE="8"
 fi
 
 DEFAULT_DISTRO="centos-7.0"
@@ -120,7 +120,16 @@ if [[ "$COMMANDS" != "" ]]; then
     FIRSTBOOT_COMMAND="--firstboot $FIRSTBOOT_COMMAND"
 fi
 
-lvcreate -L ${ROOTSIZE} /dev/$LVG -n ${GUEST}_drive
+# take the ROOTSIZE, convert it to mb.
+ROOTSIZE=$(($ROOTSIZE * 1024))
+
+# for encrypted LVs, let's add an extra 10mb
+ROOTSIZE=$(($ROOTSIZE + 10))
+
+lvcreate -L ${ROOTSIZE}mb /dev/$LVG -n ${GUEST}_drive
+
+# and after the LV creation, free it
+ROOTSIZE=$(($ROOTSIZE - 10))
 
 DDTO=/dev/$LVG/${GUEST}_drive
 
@@ -130,7 +139,7 @@ cryptsetup luksOpen /dev/$LVG/${GUEST}_drive ${GUEST}_drive
 DDTO=/dev/mapper/${GUEST}_drive
 
 IMAGE=$(mktemp)
-virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin \
+virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size ${ROOTSIZE}mb $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin \
     --mkdir /root/.ssh/ --upload /var/lib/libvirt/authorized_keys:/root/.ssh/authorized_keys
 
 echo "Image built. Record the root password and press enter to continue."
