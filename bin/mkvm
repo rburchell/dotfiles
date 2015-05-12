@@ -125,9 +125,9 @@ lvcreate -L ${ROOTSIZE} /dev/$LVG -n ${GUEST}_drive
 DDTO=/dev/$LVG/${GUEST}_drive
 
 # for encryption:
-# cryptsetup luksFormat /dev/$LVG/${GUEST}_drive
-# cryptsetup luksOpen /dev/$LVG/${GUEST}_drive ${GUEST}
-# then use /dev/mapper/${GUEST} as DDTO
+cryptsetup luksFormat /dev/$LVG/${GUEST}_drive
+cryptsetup luksOpen /dev/$LVG/${GUEST}_drive ${GUEST}_drive
+DDTO=/dev/mapper/${GUEST}_drive
 
 IMAGE=$(mktemp)
 virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size $ROOTSIZE $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin \

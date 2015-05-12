@@ -9,4 +9,5 @@ GUEST=$1
 
 virsh destroy "$GUEST"
 virsh undefine "$GUEST"
+cryptsetup close "${GUEST}_drive" # just in case it was encrypted
 lvremove "/dev/centos_static/${GUEST}_drive"
