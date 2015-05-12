@@ -107,7 +107,7 @@ if [[ "$DISTRO" == "$DEFAULT_DISTRO" ]]; then
     yum install -y epel-release
     yum install -y nss-mdns
     systemctl enable avahi-daemon.service
-    systemctl start avahi-daemon.service
+    reboot
     "
 else
     echo "WARNING: Unrecognised distro, I may not be able to customise the setup properly."
