@@ -1,0 +1,2 @@
+#!/bin/sh
+HOME=$(dirname $(readlink -f $0)) exec zsh
