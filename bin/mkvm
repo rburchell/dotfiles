@@ -85,11 +85,19 @@ if [[ "$VCPUS" == "" ]]; then
     VCPUS=2
 fi
 
+echo "Encrypt VM? (n)"
+read -e ENCRYPT
 
-echo "Setting up $HOSTNAME running $DISTRO"
+if [[ "$ENCRYPT" == "y" ]]; then
+    echo "Setting up ENCRYPTED guest $HOSTNAME running $DISTRO"
+else
+    ENCRYPT="n"
+    echo "Setting up guest $HOSTNAME running $DISTRO"
+fi
+
 echo " VCPUs: $VCPUS"
-echo " Disk: $ROOTSIZE"
-echo " RAM: $RAM"
+echo " Disk: ${ROOTSIZE}G"
+echo " RAM: ${RAM}mb"
 echo "Press enter to continue or ctrl-c to cancel."
 read
 
@@ -120,23 +128,27 @@ if [[ "$COMMANDS" != "" ]]; then
     FIRSTBOOT_COMMAND="--firstboot $FIRSTBOOT_COMMAND"
 fi
 
-# take the ROOTSIZE, convert it to mb.
 # we keep the gb value around for virt-builder's sake, so as to not ruin its
 # pretty little mind.
 ROOTSIZE_GB=$ROOTSIZE
+# take the ROOTSIZE, convert it to mb.
 ROOTSIZE=$(($ROOTSIZE * 1024))
 
-# for encrypted LVs, let's add an extra 10mb
-ROOTSIZE=$(($ROOTSIZE + 10))
+if [[ "$ENCRYPT" == "y" ]]; then
+    # for encrypted LVs, let's add an extra 10mb
+    ROOTSIZE=$(($ROOTSIZE + 10))
+fi
 
 lvcreate -L ${ROOTSIZE}mb /dev/$LVG -n ${GUEST}_drive
 
 DDTO=/dev/$LVG/${GUEST}_drive
 
-# for encryption:
-cryptsetup luksFormat /dev/$LVG/${GUEST}_drive
-cryptsetup luksOpen /dev/$LVG/${GUEST}_drive ${GUEST}_drive
-DDTO=/dev/mapper/${GUEST}_drive
+if [[ "$ENCRYPT" == "y" ]]; then
+    # for encryption:
+    cryptsetup luksFormat /dev/$LVG/${GUEST}_drive
+    cryptsetup luksOpen /dev/$LVG/${GUEST}_drive ${GUEST}_drive
+    DDTO=/dev/mapper/${GUEST}_drive
+fi
 
 IMAGE=$(mktemp)
 virt-builder $DISTRO --output $IMAGE --hostname $HOSTNAME --size ${ROOTSIZE_GB}G $FIRSTBOOT_COMMAND $INSTALL_PACKAGES --timezone Europe/Berlin \
