@@ -6,8 +6,8 @@ use warnings;
 #
 ##  Calomel.org  ,:,  Download Youtube videos and music using wget
 ##    Script Name : youtube_wget_video.pl
-##    Version     : 0.45
-##    Valid from  : September 2014
+##    Version     : 0.51
+##    Valid from  : May 2015
 ##    URL Page    : https://calomel.org/youtube_wget.html
 ##    OS Support  : Linux, Mac OSX, OpenBSD, FreeBSD or any system with perl
 #                `:`
@@ -34,18 +34,12 @@ my $resolution = "itag=22,itag=18";
 # Option: How many times should the script retry the download if wget fails for
 # any reason? Do not make this too high as a reoccurring error will just hit
 # youtube over and over again. 
-my $retryTimes = 1;
+my $retryTimes = 3;
 
 # Option: do you want the resolution of the video in the file name? zero(0) is
 # no and one(1) is yes. This option simply puts "_hd1080.mp4" or similar at the
 # end of the file name.
 my $resolutionFilename = 0;
-
-# Option: Force all communication with YouTube to use SSL (https) links. The
-# script will simply convert all URL's you pass to the script to use https
-# instead of http. Encryption better protects your privacy and may help avoid
-# ISP rate limiting. 
-my $forceSSL = 1;
 
 # Option: turn on DEBUG mode. Use this to reverse engineering this code if you are
 # making changes or you are building your own youtube download script.
@@ -72,11 +66,18 @@ if (defined($ARGV[1])) {
    $prefix = "$1" if ($user_prefix =~ m/^([a-zA-Z0-9\_\-\.\ ]+)$/ or die "\nError: Illegal characters in filename prefix\n\n" );
 }
 
-# while loop to retry downloading the video if the script fails for any reason
-while ( $retry != 0 && $retryCounter < $retryTimes ) {
+# if the url down below does not parse correctly we start over here
+tryagain:
+
+# make sure we are not in a tryagain loop
+if ( $retryTimes < $retryCounter ) {
+   print "\n Stopping loop as retryCounter has exceeded retryTimes option.\n\n";
+   print "\nretryTimes counter = $retryTimes\n\n" if ($DEBUG == 1);
+   exit;
+}
 
 # Force SSL (https) download of the html page
-$url =~ s/http:\/\//https:\/\//gi if ($forceSSL == 1);
+$url =~ s/http:\/\//https:\/\//gi;
 
 # download the html from the youtube page containing the page title and video
 # url. The page title will be used for the local video file name and the url
@@ -92,7 +93,6 @@ $title =~ s/^_//ig;
 $title =~ s/_amp//ig;
 $title =~ s/_39_s/s/ig;
 $title =~ s/_quot//ig;
-
 
 # filter the URL of the video from the HTML page
 my ($download) = $html =~ /"url_encoded_fmt_stream_map"(.*)/ig;
@@ -131,9 +131,26 @@ $download =~ s/\\u0026/\&/g;
 $download =~ s/(type=[^&]+)//g;
 $download =~ s/(fallback_host=[^&]+)//g;
 $download =~ s/(quality=[^&]+)//g;
+$download =~ s/&+/&/g;
+$download =~ s/&$//g;
+$download =~ s/%2C/,/g;
+$download =~ s/%252F/\//g;
+$download =~ s/^:"url=//g;
+$download =~ s/&itag=22//;
+
+# print the URL before adding the page title.
+print $download if ($DEBUG == 1);
 
 # clean up the url 
 my ($youtubeurl) = $download =~ /(http?:.+)/;
+
+# is the URL in youtubeurl ? If not, goto tryagain above.
+if (!defined $youtubeurl) {
+    print "\n URL did not parse correctly. Let's try another mirror...\n";
+    $retryCounter++;
+    sleep 1;
+    goto tryagain;
+}
 
 # url title additon
 my ($titleurl) = $html =~ m/<title>(.+)<\/title>/si;
@@ -145,13 +162,6 @@ $titleurl =~ s/([^A-Za-z0-9\+-])/sprintf("%%%02X", ord($1))/seg;
 # combine the youtube url and title string
 $download = "$youtubeurl\&title=$titleurl";
 
-# secondary url cleanup after url and title combination
-$download =~ s/&+/&/g;
-$download =~ s/%2C/,/g;
-$download =~ s/%252F/\//g;
-
-# remove multiple itag strings
-$download =~ s/&itag=(\d+)// while $download =~ /(&itag=(\d+)).*\1/;
 
 # combine file variables into the full file name
 my $filename = "unknown";
@@ -172,14 +182,14 @@ if ($running >= 1)
   };
 
 # Force SSL (https) download of the video file.
-$download =~ s/http:\/\//https:\/\//g if ($forceSSL == 1);
+$download =~ s/http:\/\//https:\/\//g;
 
 # Print the long, sanitized youtube url for testing and debugging
 print "\n  The following url will be passed to wget:\n\n" if ($DEBUG == 1);
 print "\n$download\n" if ($DEBUG == 1);
 
 # print the file name of the video being downloaded for the user 
-print "\n Download: $filename\n\n" if ($retryCounter < 1);
+print "\n Download: $filename\n\n" if ($retryCounter == 0 || $DEBUG == 1);
 
 # Background the script before wget starts downloading. Use "ps" if you need to
 # look for the process running or use "ls -al" to look at the file size and
@@ -194,25 +204,20 @@ print "\n  wget error code: $?\n" if ($DEBUG == 1);
 
 # Exit Status: Check if the file exists and we received the correct error code
 # from wget system call. If the download experienced any problems the script
-# will run again and try continue the download until the retryTimes count limit
-# is reached.
+# will run again and try to continue the download until the retryTimes count
+# limit is reached.
 
 if( $? == 0 && -e "$filename" && ! -z "$filename" )
    {
       print "\n  Finished: $filename\n\n" if ($DEBUG == 1);
-    # print "\n  Success: $filename\n\n";
-      $retry = 0;
    }
  else
    {
       print STDERR "\n  FAILED: $filename\n\n" if ($DEBUG == 1);
-    # print "\n  FAILED: $filename\n\n";
-      $retry = 1;
       $retryCounter++;
-    # sleep $retryCounter;
-      sleep 1;
+      sleep $retryCounter;
+      goto tryagain;
    }
-}
 
 #### EOF #####
 
