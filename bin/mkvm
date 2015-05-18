@@ -162,7 +162,7 @@ read
 # avoiding the indirection would be nice, but this isn't working on sky.
 # virt-builder $DEFAULT_DISTRO --output /dev/$LVG/dns --hostname dns.vm
 echo "Copying to LV"
-dd if=$IMAGE of=$DDTO bs=1048576
+dd if=$IMAGE of=$DDTO bs=100M conv=sparse oflag=dsync
 
 echo "Image copied. Importing."
 virt-install --import --name $GUEST --ram $RAM --disk path=$DDTO,format=raw --cpu host --vcpu $VCPUS
