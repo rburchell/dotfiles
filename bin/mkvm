@@ -60,7 +60,7 @@ if [[ "$ROOTSIZE" == "" ]]; then
     ROOTSIZE="8"
 fi
 
-DEFAULT_DISTRO="centos-7.1"
+DEFAULT_DISTRO="centos-7.0"
 echo "Select distro ($DEFAULT_DISTRO):"
 read -e DISTRO
 if [[ "$DISTRO" == "" ]]; then
