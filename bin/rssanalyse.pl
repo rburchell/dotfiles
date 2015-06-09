@@ -63,7 +63,7 @@ for my $arg (@ARGV) {
 
         /(\w+):\s*(\d+) kB/ or next;
         $lines{$1} += $2;
-	if ($header[5] eq '[stack]' || %header[5] eq "[stack:$arg]") {
+	if ($header[5] eq '[stack]' || $header[5] eq "[stack:$arg]") {
 	    $lines{"Main_Stack_$1"} += $2;
         } elsif ($header[5] =~ m/\[stack:/) {
             $lines{"Thread_Stack_$1"} += $2;
