@@ -43,14 +43,6 @@ function spectrum_bls() {
 
 
 setopt prompt_subst
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' actionformats \
-        '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-zstyle ':vcs_info:*' formats       \
-        '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
-zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
-
-zstyle ':vcs_info:*' enable git cvs svn
 
 zmodload zsh/pcre &>/dev/null
 
@@ -166,13 +158,6 @@ function precmd {
     fi
 
     export PS1="$COLORWHOAMI$COLORHOST$CHROOT_PS1:%~%% "
-
-    vcs_info
-    if [ -n "$vcs_info_msg_0_" ]; then
-        local vcs_info_wrapper="%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
-    fi
-
-    export RPS1="$vcs_info_wrapper ($(date '+W%U - %m/%d@%H:%M:%S %Z'))"
 }
 
 preexec() {
