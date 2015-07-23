@@ -94,14 +94,14 @@ function precmd {
             ;;
     esac
 
-    export HOSTNAME="$HOST$CHDOOT_PS1"
+    # do this again to make sure it's up to date.
     local shorthost=$(echo "$HOST" | cut -d'.' -f1)
 
     local iterm_r=255
     local iterm_g=255
     local iterm_b=255
 
-    case $HOSTNAME in
+    case $HOST in
         Jolla)
             iterm_r=30; iterm_g=159; iterm_b=30;
             COLORHOST="%F{028}$shorthost%f"
@@ -128,7 +128,7 @@ function precmd {
             COLORHOST="%F{202}$shorthost%f"
             ;;
         *)
-            COLORHOST=$HOSTNAME
+            COLORHOST=$HOST
             ;;
     esac
 

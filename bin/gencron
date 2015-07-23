@@ -27,9 +27,9 @@ echo "# m h  dom mon dow   command"
 # something like this:
 # foo 2>&1 | /usr/bin/logger -t my_category
 
-echo "# START cron for $USER@$HOSTNAME"
+echo "# START cron for $USER@$HOST"
 
-case "$HOSTNAME" in
+case "$HOST" in
     zoe.dereferenced.net)
         if [ "$USER" = "burchr" ]; then
             echo "0 0 * * * cd /var/www/qt.viroteck.net && pisg 2>&1 | /usr/bin/logger -t pisg"

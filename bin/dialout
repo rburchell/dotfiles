@@ -38,5 +38,5 @@ fi
 
 mkdir -p ~/.dialhome/outgoing
 echo "$pid" > $DIALHOME_PIDFILE
-ssh $DIALHOME_HOST "mkdir -p .dialhome/incoming 2>/dev/null; echo ${DIALHOME_PORT} > .dialhome/incoming/$USER@$HOSTNAME"
+ssh $DIALHOME_HOST "mkdir -p .dialhome/incoming 2>/dev/null; echo ${DIALHOME_PORT} > .dialhome/incoming/$USER@$HOST"
 echo "$0: tunnel established as pid $pid, port $DIALHOME_PORT"
