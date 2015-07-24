@@ -323,6 +323,19 @@ function vicron() {
 (nohup git submodule init >/dev/null 2>&1 &)
 (nohup git submodule update >/dev/null 2>&1 &)
 
+# set up ssh key. we do this if it's a symlink always, so there's no chance of
+# it becoming stale. we also try link if there is no pubkey in the case of a
+# freshly restored host.
+if [[ -L ~/.ssh/id_rsa.pub || ! -f ~/.ssh/id_rsa.pub ]]; then
+    unlink ~/.ssh/id_rsa.pub 2>/dev/null
+
+    if [ -f ~/.ssh/pubkeys/$HOST.pub ]; then
+        ln -s ~/.ssh/pubkeys/$HOST.pub ~/.ssh/id_rsa.pub
+    else
+        echo "WARNING: No such SSH pubkey for: " $HOST
+    fi
+fi
+
 if [ -f ~/.zsh/hosts/$HOST.sh ]; then
     source ~/.zsh/hosts/$HOST.sh
 fi
