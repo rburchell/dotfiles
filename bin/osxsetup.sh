@@ -144,3 +144,12 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 
 # Disable continuous spell checking
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "continuousSpellCheckingEnabled" -bool false
+
+# homebrew bits
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install ssh-copy-id
+brew install git
+brew install go
+brew install vim
+brew install zsh
+chsh -s /bin/zsh
