@@ -110,6 +110,10 @@ function precmd {
             iterm_r=0; iterm_g=171; iterm_b=255;
             COLORHOST="%F{045}$shorthost%f"
             ;;
+        mia.local)
+            iterm_r=0; iterm_g=171; iterm_b=32;
+            COLORHOST="%F{046}$shorthost%f"
+            ;;
         amy.local)
             COLORHOST="%F{027}$shorthost%f"
             ;;
@@ -117,8 +121,6 @@ function precmd {
             iterm_r=226; iterm_g=105; iterm_b=255;
             COLORHOST="%F{213}$shorthost%f"
             ;;
-            # a nice green
-            #COLORHOST="%F{046}$shorthost%f"
         sky.dereferenced.net)
             iterm_r=108; iterm_g=148; iterm_b=255;
             COLORHOST="%F{075}$shorthost%f"
