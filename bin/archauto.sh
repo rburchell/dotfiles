@@ -101,5 +101,3 @@ reboot
 #arch-chroot /mnt systemctl enable vmtoolsd.service
 #arch-chroot /mnt pacman -S extra/xf86-input-vmmouse --noconfirm
 #arch-chroot /mnt pacman -S extra/xf86-video-vmware --noconfirm
-# to use vmmouse, X needs to run as root.
-#echo "needs_root_rights = yes" |  /mnt/etc/X11/Xwrapper.config
