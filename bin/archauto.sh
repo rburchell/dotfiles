@@ -101,3 +101,4 @@ reboot
 #arch-chroot /mnt systemctl enable vmtoolsd.service
 #arch-chroot /mnt pacman -S extra/xf86-input-vmmouse --noconfirm
 #arch-chroot /mnt pacman -S extra/xf86-video-vmware --noconfirm
+#echo "exec gnome-session" > /mnt/home/burchr/.xinitrc
