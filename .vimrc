@@ -4,6 +4,10 @@ call pathogen#infect('bundle/{}')
 call pathogen#helptags() " generate helptags for everything in 'runtimepath'
 filetype plugin indent on"
 
+let delimitMate_expand_cr = 2
+let delimitMate_jump_expansion = 1
+let delimitMate_balance_matchpairs = 1
+
 " 10 tabs max is ridiculous
 set tabpagemax=999
 " give terminals our title.
@@ -123,7 +127,7 @@ if version >= 700
     source ~/.vim/vimrc/hex_hilight.vimrc
 endif
 source ~/.vim/vimrc/coding_rules.vimrc
-source ~/.vim/vimrc/autoclose.vim
+" source ~/.vim/vimrc/autoclose.vim
 source ~/.vim/vimrc/a.vim
 
 au BufRead,BufNewFile *.qml setlocal filetype=qml
