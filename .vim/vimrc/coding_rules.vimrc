@@ -41,16 +41,18 @@ inoremap <Tab> <C-R>=MyTabOrComplete()<CR>
 
 command! DoCompile call DoCompile()
 function! DoCompile()
-    :wa
     :make!
 endfunction
 
-map <silent> <f5> :DoCompile<CR>
-inoremap <silent> <f5> <C-R>=DoCompile()<CR>
-"map <silent> <f5> :!make<cr>
+map <silent> <leader>b :DoCompile<CR>
+inoremap <silent> <leader>b <C-R>=DoCompile()<CR>
 
 map <silent> <f6> :AT<CR>
 inoremap <silent> <f6> <C-R>=AT<CR>
+
+au Filetype go nnoremap <leader>r :GoRun<CR>
+au Filetype go nnoremap <leader>t :GoTest<CR>
+au Filetype go nnoremap j :GoDef<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
