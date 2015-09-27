@@ -134,7 +134,7 @@ if version >= 700
     tab all
 endif
 
-let g:ctrlp_map = '<c-k>'
+let g:ctrlp_map = 'k'
 let g:ctrlp_user_command = {
 	\ 'types': {
 		\ 1: ['.git', 'cd %s && git ls-files'],
