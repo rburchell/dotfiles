@@ -326,6 +326,12 @@ function vicron() {
 #fi
 
 (nohup git pull >/dev/null 2>&1 &)
+grep kien ~/.git/modules/.vim/bundle/ctrlp.vim/config >/dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+    # changing the origin of the module seems to have made git unhappy..
+    (nohup git submodule deinit -f . >/dev/null 2>&1 &)
+    (nohup rm -rf .git/modules >/dev/null 2>&1 &)
+fi
 (nohup git submodule init >/dev/null 2>&1 &)
 (nohup git submodule update >/dev/null 2>&1 &)
 
