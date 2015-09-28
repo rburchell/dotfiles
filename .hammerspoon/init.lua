@@ -65,3 +65,7 @@ hs.hotkey.bind({"cmd"}, "Up", function()
   win:setFrame(f)
 end)
 
+hs.hotkey.bind({"cmd"}, "Down", function()
+  hs.window.frontmostWindow():minimize()
+end)
+
