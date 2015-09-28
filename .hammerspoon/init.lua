@@ -16,6 +16,16 @@ hs.alert.show("Hammerspoon config loaded")
 -- animations are super jerky and annoying.
 hs.window.animationDuration = 0
 
+hs.hotkey.bind({"cmd", "alt"}, "Left", function()
+  local win = hs.window.frontmostWindow()
+  win:moveOneScreenWest()
+end)
+
+hs.hotkey.bind({"cmd", "alt"}, "Right", function()
+  local win = hs.window.frontmostWindow()
+  win:moveOneScreenEast()
+end)
+
 hs.hotkey.bind({"cmd"}, "Right", function()
   local win = hs.window.frontmostWindow()
   local f = win:frame()
