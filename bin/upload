@@ -11,4 +11,4 @@ fi
 
 name=$(printf %q $(basename "$1"))
 scp "$1" "root@http.local:/var/www/qtl.me/www/$name"
-echo "uploaded http://qtl.me/$name"
+echo "uploaded https://qtl.me/$name"

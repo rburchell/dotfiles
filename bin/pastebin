@@ -19,7 +19,7 @@ else
     rand=$(randstr)
     echo "$data" > "/tmp/$rand.txt"
     scp "/tmp/$rand.txt" "root@http.local:/var/www/qtl.me/www/$rand.txt"
-    echo "pasted http://qtl.me/$rand.txt"
-    echo "http://qtl.me/$rand.txt" | pbcopy
+    echo "pasted https://qtl.me/$rand.txt"
+    echo "https://qtl.me/$rand.txt" | pbcopy
 fi
 
