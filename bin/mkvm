@@ -112,6 +112,8 @@ if [[ "$DISTRO" == "$DEFAULT_DISTRO" ]]; then
     COMMANDS="
     yum -y update
     yum install -y yum-cron
+    yum install -y ntp
+    systemctl enable ntpd
     perl -p -i -e \"s/^apply_updates = no/apply_updates = yes/\" /etc/yum/yum-cron.conf
     yum install -y epel-release
     yum install -y nss-mdns
