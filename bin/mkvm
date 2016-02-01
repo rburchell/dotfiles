@@ -117,6 +117,7 @@ if [[ "$DISTRO" == "$DEFAULT_DISTRO" ]]; then
     yum install -y nss-mdns
     yum install -y bind-utils
     yum install -y screen
+    yum install -y net-tools
     systemctl enable avahi-daemon.service
     firewall-cmd --permanent --zone=public --add-service=mdns
     reboot
