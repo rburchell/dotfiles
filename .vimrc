@@ -57,7 +57,8 @@ endif
 
 set t_Co=256
 set background=dark
-colorscheme xoria256
+colorscheme molokai
+let g:rehash256 = 1
 
 if version >= 700
     " hilight current column/line
