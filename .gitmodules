@@ -7,3 +7,6 @@
 [submodule ".vim/bundle/delimitMate.vim"]
 	path = .vim/bundle/delimitMate.vim
 	url = https://github.com/Raimondi/delimitMate.git
+[submodule ".irssi/irssi-relay"]
+	path = .irssi/irssi-relay
+	url = https://github.com/rburchell/irssi-relay.git
