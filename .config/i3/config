@@ -66,6 +66,7 @@ bindsym $mod+0 workspace 10: ias
 
 assign [class="^Firefox$"] 9: web
 assign [class="^IasOperatorStation$"] 10: ias
+assign [class="^IasLogPublisher$"] 10: ias
 
 
 # move focused container to workspace
