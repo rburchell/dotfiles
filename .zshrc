@@ -348,6 +348,7 @@ if [[ -L ~/.ssh/id_rsa.pub || ! -f ~/.ssh/id_rsa.pub ]]; then
     fi
 fi
 
-if [ -f ~/.zsh/hosts/$HOST.sh ]; then
-    source ~/.zsh/hosts/$HOST.sh
+if [ -f ~/.ssh/hosts/$HOST.sh ]; then
+    source ~/.ssh/hosts/$HOST.sh
 fi
+
