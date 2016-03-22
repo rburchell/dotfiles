@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ "$#" -gt 0 ]; then
-  ./configure -opensource -confirm-license -developer-build -DQT_MESSAGELOGCONTEXT -nomake tests -nomake examples "$@"
+  ./configure -opensource -confirm-license -developer-build -DQT_MESSAGELOGCONTEXT -nomake tests -nomake examples -v "$@"
 else
-  ./configure -opensource -confirm-license -developer-build -DQT_MESSAGELOGCONTEXT -nomake tests -nomake examples
+  ./configure -opensource -confirm-license -developer-build -DQT_MESSAGELOGCONTEXT -nomake tests -nomake examples -v
 fi
