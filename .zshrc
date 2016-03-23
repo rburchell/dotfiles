@@ -125,11 +125,11 @@ function precmd {
             iterm_r=226; iterm_g=105; iterm_b=255;
             COLORHOST="%F{213}$shorthost%f"
             ;;
-        sky.dereferenced.net)
+        liz.dereferenced.net)
             iterm_r=108; iterm_g=148; iterm_b=255;
             COLORHOST="%F{075}$shorthost%f"
             ;;
-        zac.sky)
+        zac.vm)
             iterm_r=255; iterm_g=187; iterm_b=108;
             COLORHOST="%F{202}$shorthost%f"
             ;;
