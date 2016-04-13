@@ -38,11 +38,7 @@ set colorcolumn=81
 set clipboard=unnamed
 
 " when loading a file, cd to the right place
-if exists('+autochdir')
-  set autochdir
-else
-  autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
-endif
+autocmd BufEnter * silent! lcd %:p:h:gs/ /\\ /
 
 nnoremap ; :
 
