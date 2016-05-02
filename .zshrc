@@ -89,8 +89,8 @@ function precmd {
             export GIT_COMMITTER_EMAIL="robin.burchell@viroteck.net"
             ;;
         */burchr/code/digia/*)
-            export GIT_AUTHOR_EMAIL="robin.burchell@theqtcompany.com"
-            export GIT_COMMITTER_EMAIL="robin.burchell@theqtcompany.com"
+            export GIT_AUTHOR_EMAIL="robin.burchell@qt.io"
+            export GIT_COMMITTER_EMAIL="robin.burchell@qt.io"
             ;;
         *)
             export GIT_AUTHOR_EMAIL="robin+git@viroteck.net"
