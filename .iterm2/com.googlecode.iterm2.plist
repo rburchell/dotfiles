@@ -4,6 +4,8 @@
 <dict>
 	<key>AllowClipboardAccess</key>
 	<true/>
+	<key>AlternateMouseScroll</key>
+	<true/>
 	<key>AppleAntiAliasingThreshold</key>
 	<integer>1</integer>
 	<key>AppleScrollAnimationEnabled</key>
@@ -65,15 +67,15 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>536 252 445 103 0 0 1440 877 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>269 408 606 456 0 0 1440 877 </string>
+	<string>394 570 606 456 0 0 1680 1027 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
-	<string>42 0 400 129 0 0 1440 877 </string>
+	<string>-45 -38 400 129 0 0 1680 1027 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>430 363 620 392 0 0 1440 877 </string>
+	<string>553 476 620 392 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>55 34 1360 843 0 0 1440 877 </string>
+	<string>49 0 1624 1027 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>268 194 605 78 0 0 1440 877 </string>
+	<string>344 0 585 452 0 0 1680 1027 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -2465,6 +2467,8 @@
 			<string></string>
 		</dict>
 	</array>
+	<key>NoSyncInstallationId</key>
+	<string>8624BFD0-5668-434C-AB95-639703E8CDF6</string>
 	<key>NoSyncLastTipTime</key>
 	<real>460418921.26753002</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
@@ -2535,13 +2539,13 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing3.xml</string>
+	<string>https://iterm2.com/appcasts/final.xml?shard=61</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-04-26T03:40:00Z</date>
+	<date>2016-07-21T19:40:23Z</date>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<true/>
 	<key>Window Arrangements</key>
@@ -2553,6 +2557,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>2.9.20160313</string>
+	<string>3.0.4</string>
 </dict>
 </plist>
