@@ -257,18 +257,6 @@ function ccd() {
     fi
 }
 
-function viyaml() {
-    if [ -z "$1" ]; then
-        vim rpm/*.yaml
-        if [ $? == 0 ]; then
-            (cd rpm; specify)
-        fi
-    else
-        vim "$1"
-        (cd `dirname "$1"`; specify `basename "$1"`)
-    fi
-}
-
 function vizsh() {
     vim ~/.zshrc
     zsh -n ~/.zshrc
