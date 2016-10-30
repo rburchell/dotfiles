@@ -247,16 +247,6 @@ __git_files () {
     _wanted files expl 'local files' _files
 }
 
-function ccd() {
-    if [ -z $1 ]; then
-        cd ~/code
-        return 0
-    else
-        local software="$1"
-        cd `find ~/code -maxdepth 2 -path "*/$software"`
-    fi
-}
-
 function vizsh() {
     vim ~/.zshrc
     zsh -n ~/.zshrc
