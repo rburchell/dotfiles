@@ -1,3 +1,4 @@
+# Load global settings (if any).
 source /etc/profile
 
 umask 022
@@ -8,6 +9,7 @@ setopt prompt_subst
 
 zmodload zsh/pcre &>/dev/null
 
+# Set a platform var, so my own scripts can easier handle platform differences.
 export PLATFORM='unknown'
 local unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
@@ -18,18 +20,8 @@ else
    echo "warning: platform unknown"
 fi
 
-function setTitle {
-    if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
-       [ $TERM = "xterm-color" ]; then
-        if [ "$USER" = "burchr" ]; then
-            print -Pn "\e]0;%m: %~\a"
-        else
-            print -Pn "\e]0;%n@%m: %~\a"
-        fi
-    fi
-
-}
-
+# This magical function is run before every prompt. Used for the little
+# niceties in life like setting a pretty PS1.
 function precmd {
     # must be done early to save status
     local exit_status=$?
@@ -40,8 +32,17 @@ function precmd {
         echo "zsh: exit $exit_status";
     fi
 
-    setTitle
+    # Set the terminal title.
+    if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
+       [ $TERM = "xterm-color" ]; then
+        if [ "$USER" = "burchr" ]; then
+            print -Pn "\e]0;%m: %~\a"
+        else
+            print -Pn "\e]0;%n@%m: %~\a"
+        fi
+    fi
 
+    # Set up git author info without me having to edit git config in each repo.
     case $(pwd) in
         # TODO: is there a less awkward way to handle a path or anything under it?
         */burchr/code/qt/*)
@@ -67,6 +68,7 @@ function precmd {
     local iterm_g=255
     local iterm_b=255
 
+    # Set up a pretty hostname for PS1 use.
     case $HOST in
         Jolla)
             iterm_r=30; iterm_g=159; iterm_b=30;
@@ -105,6 +107,7 @@ function precmd {
     echo -n -e "\033]6;1;bg;green;brightness;$iterm_g\a"
     echo -n -e "\033]6;1;bg;blue;brightness;$iterm_b\a"
 
+    # Add a pretty username to the PS1 too.
     case $USER in
         nemo)
             ;& # fallthrough
@@ -119,6 +122,7 @@ function precmd {
             ;;
     esac
 
+    # If we are inside a chroot, then note that.
     if [ -e "/etc/debian_chroot" ]; then
         CHROOT_PS1=":(chroot-$(cat /etc/debian_chroot))"
     else
@@ -128,7 +132,9 @@ function precmd {
     export PS1="$COLORWHOAMI$COLORHOST$CHROOT_PS1:%~%% "
 }
 
+# This function is executed when a command is read, before it is run.
 preexec() {
+    # Set the title.
     if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
        [ $TERM = "xterm-color" ] || [ $TERM = "xterm-256color" ]; then
         if [ "$USER" = "burchr" ]; then
