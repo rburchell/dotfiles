@@ -172,6 +172,12 @@ elif [[ "$PLATFORM" == 'osx' ]]; then
     alias lsl='ls -A -l -G'
     alias vim='mvim -v'
     export LSCOLORS=GxFxCxDxBxegedabagaced # get slightly less obnoxious coloring
+
+    # for some reason, osx screws up the bindings for word navigation.
+    # NB, to use this, you need to go to Keyboard settings, shortcuts tab &
+    # reconfigure "move left/right a space" to something else.
+    bindkey '^[[1;5D' backward-word
+    bindkey '^[[1;5C' forward-word
 fi
 
 
@@ -219,10 +225,6 @@ bindkey '^[[F' end-of-line
 bindkey '^E' end-of-line
 bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M vicmd '^R' history-incremental-search-backward
-
-# lea's preferred escapes
-bindkey '^[[1;5D' backward-word
-bindkey '^[[1;5C' forward-word
 
 source ~/.zsh/compinstall
 
