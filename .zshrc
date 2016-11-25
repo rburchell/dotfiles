@@ -145,6 +145,7 @@ preexec() {
     fi
 }
 
+export HOMEBREW_NO_ANALYTICS=1 # neuter homebrew's spying efforts
 export WORDCHARS=''
 export PATH=~/bin:~/bin/$PLATFORM:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go
 export GOPATH=~/code/go
