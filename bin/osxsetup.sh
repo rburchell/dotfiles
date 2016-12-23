@@ -157,6 +157,7 @@ defaults write com.apple.messageshelper.MessageController SOInputLineSettings -d
 
 # homebrew bits
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew analytics off # https://github.com/Homebrew/brew/blob/master/docs/Analytics.md
 brew install ssh-copy-id
 brew install git
 brew install go
