@@ -164,4 +164,5 @@ brew install git
 brew install go
 brew install vim
 brew install zsh
+brew install macvim
 chsh -s /bin/zsh
