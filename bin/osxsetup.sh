@@ -166,4 +166,5 @@ brew install vim
 brew install macvim
 brew install zsh
 brew install mosh
+brew install offlineimap
 chsh -s /bin/zsh
