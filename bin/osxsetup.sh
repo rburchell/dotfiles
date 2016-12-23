@@ -27,6 +27,16 @@ defaults -currentHost write NSGlobalDomain com.apple.trackpad.enableSecondaryCli
 defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
 
 ############
+# Dock
+############
+
+# Locate it on the left hand side of the screen
+defaults write com.apple.dock orientation left
+
+# Reload settings
+killall Dock
+
+############
 # i18l
 ############
 
