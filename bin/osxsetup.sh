@@ -163,6 +163,7 @@ brew install ssh-copy-id
 brew install git
 brew install go
 brew install vim
-brew install zsh
 brew install macvim
+brew install zsh
+brew install mosh
 chsh -s /bin/zsh
