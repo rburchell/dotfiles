@@ -17,65 +17,65 @@ hs.alert.show("Hammerspoon config loaded")
 hs.window.animationDuration = 0
 
 hs.hotkey.bind({"cmd", "alt"}, "Left", function()
-  local win = hs.window.frontmostWindow()
-  win:moveOneScreenWest()
+    local win = hs.window.frontmostWindow()
+    win:moveOneScreenWest()
 end)
 
 hs.hotkey.bind({"cmd", "alt"}, "Right", function()
-  local win = hs.window.frontmostWindow()
-  win:moveOneScreenEast()
+    local win = hs.window.frontmostWindow()
+    win:moveOneScreenEast()
 end)
 
 hs.hotkey.bind({"cmd"}, "Right", function()
-  local win = hs.window.frontmostWindow()
-  local f = win:frame()
-  local screen = win:screen()
-  local max = screen:frame()
+    local win = hs.window.frontmostWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
 
-  f.x = max.x + (max.w / 2)
-  f.y = max.y
-  f.w = max.w / 2
-  f.h = max.h
-  win:setFrame(f)
+    f.x = max.x + (max.w / 2)
+    f.y = max.y
+    f.w = max.w / 2
+    f.h = max.h
+    win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd"}, "Left", function()
-  local win = hs.window.frontmostWindow()
-  local f = win:frame()
-  local screen = win:screen()
-  local max = screen:frame()
+    local win = hs.window.frontmostWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
 
-  f.x = max.x
-  f.y = max.y
-  f.w = max.x + (max.w / 2)
-  f.h = max.h
-  win:setFrame(f)
+    f.x = max.x
+    f.y = max.y
+    f.w = max.x + (max.w / 2)
+    f.h = max.h
+    win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd"}, "Up", function()
-  local win = hs.window.frontmostWindow()
-  local f = win:frame()
-  local screen = win:screen()
-  local max = screen:frame()
+    local win = hs.window.frontmostWindow()
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
 
-  f.x = max.x
-  f.y = max.y
-  f.w = max.x + max.w
-  f.h = max.h
-  win:setFrame(f)
+    f.x = max.x
+    f.y = max.y
+    f.w = max.x + max.w
+    f.h = max.h
+    win:setFrame(f)
 end)
 
 hs.hotkey.bind({"cmd"}, "Down", function()
-  hs.window.frontmostWindow():minimize()
+    hs.window.frontmostWindow():minimize()
 end)
 
 function audioWatchCallback(arg)
-	-- If the default audio sink changes, then mute the volume.
-	-- This prevents annoying situations like losing BT or microphone jack
-	-- making me the center of attention.
-	if arg == "dOut" then
-		hs.audiodevice.defaultOutputDevice():setVolume(0)
-	end
+    -- If the default audio sink changes, then mute the volume.
+    -- This prevents annoying situations like losing BT or microphone jack
+    -- making me the center of attention.
+    if arg == "dOut" then
+        hs.audiodevice.defaultOutputDevice():setVolume(0)
+    end
 end
 
 hs.audiodevice.watcher.setCallback(audioWatchCallback)
