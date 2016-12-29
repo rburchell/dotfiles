@@ -80,3 +80,22 @@ end
 
 hs.audiodevice.watcher.setCallback(audioWatchCallback)
 hs.audiodevice.watcher.start()
+
+function usbWatchCallback(args)
+    local eventType = args["eventType"]
+    local productName = args["productName"]
+    local vendorName = args["vendorName"]
+    local vendorId = args["vendorId"]
+    local productId = args["productId"]
+
+    if eventType == "added" then
+        local str = string.format("USB device %s from %s plugged in", productName, vendorName)
+        hs.notify.show("USB inserted", "", str)
+    elseif eventType == "removed" then
+        local str = string.format("USB device %s from %s unplugged", productName, vendorName)
+        hs.notify.show("USB removed", "", str)
+    end
+end
+
+local usbWatcher = hs.usb.watcher.new(usbWatchCallback)
+usbWatcher:start()
