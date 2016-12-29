@@ -69,3 +69,14 @@ hs.hotkey.bind({"cmd"}, "Down", function()
   hs.window.frontmostWindow():minimize()
 end)
 
+function audioWatchCallback(arg)
+	-- If the default audio sink changes, then mute the volume.
+	-- This prevents annoying situations like losing BT or microphone jack
+	-- making me the center of attention.
+	if arg == "dOut" then
+		hs.audiodevice.defaultOutputDevice():setVolume(0)
+	end
+end
+
+hs.audiodevice.watcher.setCallback(audioWatchCallback)
+hs.audiodevice.watcher.start()
