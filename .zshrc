@@ -48,8 +48,14 @@ function precmd {
         */burchr/code/qt/*)
             ;& # fallthrough
         */burchr/code/qt)
-            export GIT_AUTHOR_EMAIL="robin.burchell@viroteck.net"
-            export GIT_COMMITTER_EMAIL="robin.burchell@viroteck.net"
+            export GIT_AUTHOR_EMAIL="robin.burchell@crimson.no"
+            export GIT_COMMITTER_EMAIL="robin.burchell@crimson.no"
+            ;;
+        */burchr/code/crimson/*)
+            ;& # fallthrough
+        */burchr/code/crimson/)
+            export GIT_AUTHOR_EMAIL="robin.burchell@crimson.no"
+            export GIT_COMMITTER_EMAIL="robin.burchell@crimson.no"
             ;;
         */burchr/code/digia/*)
             export GIT_AUTHOR_EMAIL="robin.burchell@qt.io"
