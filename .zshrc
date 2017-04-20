@@ -230,8 +230,11 @@ bindkey '^[[H' beginning-of-line
 bindkey '^A' beginning-of-line
 bindkey '^[[F' end-of-line
 bindkey '^E' end-of-line
+bindkey '^[[1~' beginning-of-line
+bindkey '^[[4~' end-of-line
 bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M vicmd '^R' history-incremental-search-backward
+bindkey "^[[3~" delete-char
 
 source ~/.zsh/compinstall
 
