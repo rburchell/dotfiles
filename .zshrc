@@ -57,6 +57,10 @@ function precmd {
             export GIT_AUTHOR_EMAIL="robin.burchell@crimson.no"
             export GIT_COMMITTER_EMAIL="robin.burchell@crimson.no"
             ;;
+        */burchr/code/ulstein/*)
+            export GIT_AUTHOR_EMAIL="robin.burchell@qt.io"
+            export GIT_COMMITTER_EMAIL="robin.burchell@qt.io"
+            ;;
         */burchr/code/digia/*)
             export GIT_AUTHOR_EMAIL="robin.burchell@qt.io"
             export GIT_COMMITTER_EMAIL="robin.burchell@qt.io"
