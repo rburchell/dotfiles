@@ -69,6 +69,8 @@ assign [class="^IasOperatorStation$"] 10: ias
 assign [class="^Ulstein IAS$"] 10: ias
 assign [class="^IasLogPublisher$"] 10: ias
 
+for_window [class="line-graph"] floating enable
+
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
