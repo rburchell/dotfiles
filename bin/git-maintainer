@@ -1,9 +1,16 @@
 #!/bin/sh
 
+TMPFILE=$(pwd)/.git-maintainer-tmp
+rm "$TMPFILE" 2>/dev/null # just in case
+touch "$TMPFILE"
+
 for file in "$@"; do
-    echo "Maintainers for $file";
+    echo "Processing $file";
     (cd $(dirname "$file");
-     git blame -w --line-porcelain $(basename "$file") | grep 'author-mail'  | sort | uniq -c | sort -nr | head -n20;
+    git blame -w --line-porcelain $(basename "$file") | grep 'author-mail' >> "$TMPFILE"
     )
 done
+
+cat "$TMPFILE" | sort | uniq -c | sort -nr | head -n20
+rm "$TMPFILE"
 
