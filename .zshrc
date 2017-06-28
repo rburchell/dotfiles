@@ -263,6 +263,9 @@ __git_files () {
     _wanted files expl 'local files' _files
 }
 
+# make tab completion case insensitive
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
 function vizsh() {
     vim ~/.zshrc
     zsh -n ~/.zshrc
