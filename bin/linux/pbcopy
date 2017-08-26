@@ -1,6 +1,2 @@
-#!/bin/zsh
-#echo "$@"
-foo=$(cat)
-printf "\e]50;CopyToClipboard\a"
-echo -n "$foo"
-printf "\e]50;EndCopy\a"
+#!/bin/sh
+xclip -selection clipboard
