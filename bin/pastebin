@@ -9,12 +9,6 @@ if ! [ -z "$1" ]; then
     scp "$1" "root@http.kvm:/var/www/qtl.me/www/$rand.$ext"
     echo "pasted http://qtl.me/$rand.$ext"
 else
-    # TODO: OS X specific
-    if [ "$PLATFORM" != "osx" ]; then
-        echo "$0: clipboard access does not work on anything except OS X right now"
-        exit 1
-    fi
-
     data="$(pbpaste)"
     rand=$(randstr)
     echo "$data" > "/tmp/$rand.txt"
