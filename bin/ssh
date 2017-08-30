@@ -1,0 +1,13 @@
+#!/bin/sh
+OLDIFS="$IFS"
+IFS="\n"
+
+# since we're in $PATH first, skip ourselves
+realssh=$(which ssh --all | tail -n +2 | tail -n1)
+IFS="$OLDIFS"
+
+if [[ $# -eq 1 && "$1" == "liz" || "$1" == "eli" ]]; then
+    exec "$realssh" "$1" -t zsh ./robin_dotfiles/enter
+else
+    exec "$realssh" "$@"
+fi
