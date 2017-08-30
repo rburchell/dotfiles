@@ -4,7 +4,7 @@
 realssh=$(which ssh --all | tail -n +2 | tail -n1)
 
 if [[ $# -eq 1 && "$1" == "liz" || "$1" == "eli" ]]; then
-    exec "$realssh" "$1" -t zsh ./robin_dotfiles/enter
+    exec "$realssh" "$1" -t "HOME=./robin_dotfiles zsh"
 else
     exec "$realssh" "$@"
 fi
