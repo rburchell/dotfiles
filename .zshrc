@@ -79,31 +79,25 @@ function precmd {
     local iterm_b=255
 
     # Set up a pretty hostname for PS1 use.
+    # nice, free colors:
+    # iterm_r=0; iterm_g=171; iterm_b=255;
+    # COLORHOST="%F{045}$shorthost%f"
+    # iterm_r=30; iterm_g=159; iterm_b=30;
+    # COLORHOST="%F{028}$shorthost%f"
     case $HOST in
-        Jolla)
-            iterm_r=30; iterm_g=159; iterm_b=30;
-            COLORHOST="%F{028}$shorthost%f"
-            ;;
-        lea.local)
-            iterm_r=0; iterm_g=171; iterm_b=255;
-            COLORHOST="%F{045}$shorthost%f"
-            ;;
-        mia.local)
+        adele*)
             iterm_r=0; iterm_g=171; iterm_b=32;
             COLORHOST="%F{046}$shorthost%f"
-            ;;
-        amy.local)
-            COLORHOST="%F{027}$shorthost%f"
-            ;;
-        aly.local)
-            iterm_r=226; iterm_g=105; iterm_b=255;
-            COLORHOST="%F{213}$shorthost%f"
             ;;
         liz.dereferenced.net)
             iterm_r=108; iterm_g=148; iterm_b=255;
             COLORHOST="%F{075}$shorthost%f"
             ;;
-        zac.vm)
+        eli.dereferenced.net)
+            iterm_r=226; iterm_g=105; iterm_b=255;
+            COLORHOST="%F{075}$shorthost%f"
+            ;;
+        zac*)
             iterm_r=255; iterm_g=187; iterm_b=108;
             COLORHOST="%F{202}$shorthost%f"
             ;;
