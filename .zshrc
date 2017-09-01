@@ -20,29 +20,40 @@ else
    echo "warning: platform unknown"
 fi
 
-# This magical function is run before every prompt. Used for the little
-# niceties in life like setting a pretty PS1.
-function precmd {
-    # must be done early to save status
-    local exit_status=$?
-
-    if [ $exit_status -ne 0 ]; then
-        echo "zsh: exit $fg[red]$exit_status$reset_color";
-    else
-        echo "zsh: exit $exit_status";
-    fi
-
+function set_title_if_needed {
     # Set the terminal title.
-    if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
-       [ $TERM = "xterm-color" ]; then
+    settitle=0 
+    case "$TERM" in
+        "xterm")
+            ;& # fallthrough
+        "xterm-256color")
+            ;& # fallthrough
+        "xterm-color")
+            ;& # fallthrough
+        "rxvt")
+            ;& # fallthrough
+        "screen")
+            ;& # fallthrough
+        "screen-256color")
+            ;& # fallthrough
+        "screen-color")
+            settitle=1
+            ;;
+        *)
+            ;;
+    esac
+
+    if [[ "$settitle" == "1" ]] ; then
         if [ "$USER" = "burchr" ]; then
-            print -Pn "\e]0;%m: %~\a"
+            print -Pn "\e]0;$1 (%m)\a";
         else
-            print -Pn "\e]0;%n@%m: %~\a"
+            print -Pn "\e]0;$1 (%n@%m)\a";
         fi
     fi
+}
 
-    # Set up git author info without me having to edit git config in each repo.
+# Set up git author info without me having to edit git config in each repo.
+function set_git_author_and_committer {
     case $(pwd) in
         # TODO: is there a less awkward way to handle a path or anything under it?
         */burchr/code/qt/*)
@@ -70,7 +81,9 @@ function precmd {
             export GIT_COMMITTER_EMAIL="robin+git@viroteck.net"
             ;;
     esac
+}
 
+function set_colorized_host {
     # do this again to make sure it's up to date.
     local shorthost=$(echo "$HOST" | cut -d'.' -f1)
 
@@ -107,9 +120,9 @@ function precmd {
     esac
 
     # iterm2: proprietary codes to set tab color
-    echo -n -e "\033]6;1;bg;red;brightness;$iterm_r\a"
-    echo -n -e "\033]6;1;bg;green;brightness;$iterm_g\a"
-    echo -n -e "\033]6;1;bg;blue;brightness;$iterm_b\a"
+#    echo -n -e "\033]6;1;bg;red;brightness;$iterm_r\a"
+#    echo -n -e "\033]6;1;bg;green;brightness;$iterm_g\a"
+#    echo -n -e "\033]6;1;bg;blue;brightness;$iterm_b\a"
 
     # Add a pretty username to the PS1 too.
     case $USER in
@@ -136,17 +149,26 @@ function precmd {
     export PS1="$COLORWHOAMI$COLORHOST$CHROOT_PS1:%~%% "
 }
 
+# This magical function is run before every prompt. Used for the little
+# niceties in life like setting a pretty PS1.
+function precmd {
+    # must be done early to save status
+    local exit_status=$?
+
+    # a nicer replacement for PRINT_EXIT_VALUE
+    if [ $exit_status -ne 0 ]; then
+        echo "zsh: exit $fg[red]$exit_status$reset_color";
+    else
+        echo "zsh: exit $exit_status";
+    fi
+
+    set_git_author_and_committer
+    set_colorized_host
+}
+
 # This function is executed when a command is read, before it is run.
 preexec() {
-    # Set the title.
-    if [ $TERM = "xterm" ] || [ $TERM = "rxvt" ] || \
-       [ $TERM = "xterm-color" ] || [ $TERM = "xterm-256color" ]; then
-        if [ "$USER" = "burchr" ]; then
-            print -Pn "\e]0;$1 (%m: %~)\a";
-        else
-            print -Pn "\e]0;$1 (%n@%m: %~)\a";
-        fi
-    fi
+    set_title_if_needed "$1"
 }
 
 export HOMEBREW_NO_ANALYTICS=1 # neuter homebrew's spying efforts
@@ -209,7 +231,6 @@ ffind() {
     find . -iname "*$1*"
 }
 
-# PRINT_EXIT_VALUE removed, we do that ourselves in precmd
 setopt GLOB EXTENDED_GLOB MAGIC_EQUAL_SUBST RC_EXPAND_PARAM \
        HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_VERIFY CORRECT HASH_CMDS \
        RC_QUOTES AUTO_CONTINUE MULTIOS VI INC_APPEND_HISTORY \
