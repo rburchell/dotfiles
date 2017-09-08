@@ -95,8 +95,6 @@ function set_colorized_host {
     # nice, free colors:
     # iterm_r=0; iterm_g=171; iterm_b=255;
     # COLORHOST="%F{045}$shorthost%f"
-    # iterm_r=30; iterm_g=159; iterm_b=30;
-    # COLORHOST="%F{028}$shorthost%f"
     case $HOST in
         adele*)
             iterm_r=0; iterm_g=171; iterm_b=32;
@@ -113,6 +111,10 @@ function set_colorized_host {
         zac*)
             iterm_r=255; iterm_g=187; iterm_b=108;
             COLORHOST="%F{202}$shorthost%f"
+            ;;
+        rey*)
+            iterm_r=30; iterm_g=159; iterm_b=30;
+            COLORHOST="%F{028}$shorthost%f"
             ;;
         *)
             COLORHOST=$HOST
