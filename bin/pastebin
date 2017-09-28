@@ -6,13 +6,13 @@ if ! [ -z "$1" ]; then
     fi
     ext=`echo $1 | awk -F . '{ print $NF } '`
     rand=$(randstr)
-    scp "$1" "root@http.kvm:/var/www/qtl.me/www/$rand.$ext"
+    scp "$1" "root@http.kvm:/media/http/www/qtl.me/www/$rand.$ext"
     echo "pasted http://qtl.me/$rand.$ext"
 else
     data="$(pbpaste)"
     rand=$(randstr)
     echo "$data" > "/tmp/$rand.txt"
-    scp "/tmp/$rand.txt" "root@http.kvm:/var/www/qtl.me/www/$rand.txt"
+    scp "/tmp/$rand.txt" "root@http.kvm:/media/http/www/qtl.me/www/$rand.txt"
     echo "pasted https://qtl.me/$rand.txt"
     echo "https://qtl.me/$rand.txt" | pbcopy
 fi
