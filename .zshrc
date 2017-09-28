@@ -195,7 +195,6 @@ which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 if [[ "$PLATFORM" == "linux" ]]; then
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
-    alias open='xdg-open'
 elif [[ "$PLATFORM" == 'osx' ]]; then
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
