@@ -10,5 +10,5 @@ if ! [ -f "$1" ]; then
 fi
 
 name=$(printf %q $(basename "$1"))
-scp "$1" "root@http.local:/var/www/qtl.me/www/$name"
+scp "$1" "root@http.kvm:/media/http/www/qtl.me/www/$name"
 echo "uploaded https://qtl.me/$name"
