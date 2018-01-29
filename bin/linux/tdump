@@ -1,0 +1,7 @@
+#!/bin/sh
+if [ -z "$1" ]; then
+    echo "Need a host"
+    exit 1
+fi
+
+ssh "$1" tcpdump -U -s0 'not port 22' -i eth0 -w - | wireshark -k -i -
