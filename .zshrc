@@ -340,3 +340,10 @@ if [ -f ~/.ssh/hosts/$HOST.sh ]; then
     source ~/.ssh/hosts/$HOST.sh
 fi
 
+if [ -f /usr/share/fzf/shell/key-bindings.zsh ]; then
+    source /usr/share/fzf/shell/key-bindings.zsh
+fi
+
+if [ -f /usr/share/zsh/site-functions/fzf ]; then
+    source /usr/share/zsh/site-functions/fzf
+fi
