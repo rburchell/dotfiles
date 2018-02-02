@@ -12,6 +12,7 @@ else
     if [ $? -ne 0 ]; then
         # and if it's not, i want to open it "normally".
         xdg-open "$1"
+        exit 0
     fi
     gvim --remote "$1"
 fi
