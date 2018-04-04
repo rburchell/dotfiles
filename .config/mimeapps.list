@@ -13,6 +13,7 @@ application/x-extension-xhtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
 video/mp2t=io.github.GnomeMpv.desktop
 video/mp4=io.github.GnomeMpv.desktop
+text/markdown=gvim.desktop
 
 [Added Associations]
 image/png=shotwell-viewer.desktop;
@@ -32,3 +33,5 @@ application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
 video/mp2t=io.github.GnomeMpv.desktop;
 video/mp4=io.github.GnomeMpv.desktop;
+text/markdown=gvim.desktop;
+x-scheme-handler/sms=org.gnome.Shell.Extensions.GSConnect.desktop;
