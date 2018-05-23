@@ -10,5 +10,7 @@ if ! [ -f "$1" ]; then
 fi
 
 name=$(printf %q $(basename "$1"))
-scp "$1" "root@http.kvm:/media/http/www/qtl.me/www/$name"
-echo "uploaded https://qtl.me/$name"
+scp "$1" "eli:/tmp/$name"
+ssh eli "scp /tmp/$name http.kvm:/media/http/www/qtl.me/www/$name && rm /tmp/$name && exit"
+
+echo "https://qtl.me/$name"
