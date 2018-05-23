@@ -4,7 +4,7 @@
 # the last real ssh binary
 realssh=$(which -a ssh | grep -v "$HOME" | tail -n1)
 
-if [[ $# -eq 1 && "$1" == "liz" || "$1" == "eli" ]]; then
+if [[ $# -eq 1 && ("$1" == "liz" || "$1" == "eli") ]]; then
     exec "$realssh" "$1" -t "HOME=~/robin_dotfiles zsh"
 else
     exec "$realssh" "$@"
