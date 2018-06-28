@@ -101,3 +101,4 @@ video/x-nsv=io.github.GnomeMpv.desktop;
 video/x-theora=io.github.GnomeMpv.desktop;
 video/x-theora+ogg=io.github.GnomeMpv.desktop;
 text/x-qml=org.gnome.gedit.desktop;
+text/x-c++src=org.gnome.gedit.desktop;
