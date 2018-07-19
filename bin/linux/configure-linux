@@ -1,0 +1,51 @@
+#!/bin/sh
+
+DISTRO_NAME=$(cat /etc/os-release | grep ^NAME= | cut -d'=' -f2)
+
+if [[ "$DISTRO_NAME" == "Fedora" ]]; then
+    # Pre-requisites:
+    # rpmfusion must be enabled
+    # flathub should be enabled
+
+    PACKAGES=""
+
+    # general tools
+    PACKAGES="$PACKAGES vim zsh"
+
+    # virtualization
+    PACKAGES="$PACKAGES virt-manager"
+
+    # IM. make sure to install Signal from flathub too.
+    PACKAGES="$PACKAGES telegram-desktop"
+
+    # for gtkplatform and stuff
+    PACKAGES="$PACKAGES qt5-qtdeclarative-devel qt5-qtbase-static redhat-rpm-config"
+
+    # golang stuff
+    PACKAGES="$PACKAGES go"
+
+    # gnome extensions
+    PACKAGES="$PACKAGES chrome-gnome-shell"
+    PACKAGES="$PACKAGES libgnome" # gnome-open binary, used by 'open' script
+
+    # media stuff
+    PACKAGES="$PACKAGES gnome-mpv"
+    PACKAGES="$PACKAGES gstreamer1-libav ffmpeg"
+    PACKAGES="$PACKAGES gstreamer1-*-free gstreamer1-*-nonfree"
+    PACKAGES="$PACKAGES gstreamer1-plugin-mpg123 mpg123-libs"
+
+    # wine
+    PACKAGES="$PACKAGES wine"
+
+    # compilation stuff...
+    PACKAGES="$PACKAGES icecream"
+
+    # for metrics
+    PACKAGES="$PACKAGES lm_sensors"
+
+    sudo yum install -y $PACKAGES
+    sudo lchsh -i burchr
+
+    echo "Probably all done. Make sure to use gnome tweaks as appropriate."
+fi
+
