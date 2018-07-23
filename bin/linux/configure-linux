@@ -10,10 +10,11 @@ if [[ "$DISTRO_NAME" == "Fedora" ]]; then
     PACKAGES=""
 
     # general tools
-    PACKAGES="$PACKAGES vim zsh"
+    PACKAGES="$PACKAGES vim zsh strace htop graphviz"
+    PACKAGES="$PACKAGES xclip" # pbcopy
 
     # virtualization
-    PACKAGES="$PACKAGES virt-manager"
+    PACKAGES="$PACKAGES virt-manager remmina"
 
     # IM. make sure to install Signal from flathub too.
     PACKAGES="$PACKAGES telegram-desktop"
@@ -42,6 +43,7 @@ if [[ "$DISTRO_NAME" == "Fedora" ]]; then
 
     # for metrics
     PACKAGES="$PACKAGES lm_sensors"
+    PACKAGES="$PACKAGES powertop"
 
     sudo yum install -y $PACKAGES
     sudo lchsh -i burchr
