@@ -12,6 +12,7 @@ if [[ "$DISTRO_NAME" == "Fedora" ]]; then
     # general tools
     PACKAGES="$PACKAGES vim zsh strace htop graphviz"
     PACKAGES="$PACKAGES xclip" # pbcopy
+    PACKAGES="$PACKAGES wireshark" # remember the usermod below.
 
     # virtualization
     PACKAGES="$PACKAGES virt-manager remmina"
@@ -23,7 +24,7 @@ if [[ "$DISTRO_NAME" == "Fedora" ]]; then
     PACKAGES="$PACKAGES qt5-qtdeclarative-devel qt5-qtbase-static redhat-rpm-config"
 
     # golang stuff
-    PACKAGES="$PACKAGES go"
+    PACKAGES="$PACKAGES golang golang-bin golang-src golang-misc"
 
     # gnome extensions
     PACKAGES="$PACKAGES chrome-gnome-shell"
@@ -39,6 +40,11 @@ if [[ "$DISTRO_NAME" == "Fedora" ]]; then
     PACKAGES="$PACKAGES wine"
 
     # compilation stuff...
+    # For icecream, edit /etc/sysconfig/icecream if you're a mobile client.
+    # Set allow remote off, max jobs low.
+    # For servers, all should be well.
+    # Also systemctl enable iceccd.service & start, and if on a server, add
+    # firewalld rules.
     PACKAGES="$PACKAGES icecream"
 
     # for metrics
@@ -47,6 +53,7 @@ if [[ "$DISTRO_NAME" == "Fedora" ]]; then
 
     sudo yum install -y $PACKAGES
     sudo lchsh -i burchr
+    sudo usermod -a -G wireshark burchr
 
     echo "Probably all done. Make sure to use gnome tweaks as appropriate."
 fi
