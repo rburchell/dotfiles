@@ -10,12 +10,12 @@ setopt prompt_subst
 zmodload zsh/pcre &>/dev/null
 
 # Set a platform var, so my own scripts can easier handle platform differences.
-export PLATFORM='unknown'
+export RB_PLATFORM='unknown'
 local unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
-   export PLATFORM='linux'
+   export RB_PLATFORM='linux'
 elif [[ "$unamestr" == 'Darwin' ]]; then
-   export PLATFORM='osx'
+   export RB_PLATFORM='osx'
 else
    echo "warning: platform unknown"
 fi
@@ -181,7 +181,7 @@ preexec() {
 
 export HOMEBREW_NO_ANALYTICS=1 # neuter homebrew's spying efforts
 export WORDCHARS=''
-export PATH=~/bin:~/bin/$PLATFORM:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
+export PATH=~/bin:~/bin/$RB_PLATFORM:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
 export GOPATH=~/code/go
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
@@ -198,10 +198,10 @@ export QT_MESSAGE_PATTERN="[%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}
 READNULLCMD=${PAGER:-/usr/bin/less}
 which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 
-if [[ "$PLATFORM" == "linux" ]]; then
+if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
-elif [[ "$PLATFORM" == 'osx' ]]; then
+elif [[ "$RB_PLATFORM" == 'osx' ]]; then
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
     alias vim='mvim -v'
