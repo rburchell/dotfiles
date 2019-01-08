@@ -43,8 +43,9 @@ if [[ "$DISTRO_NAME" == "Fedora" ]]; then
     # For icecream, edit /etc/sysconfig/icecream if you're a mobile client.
     # Set allow remote off, max jobs low.
     # For servers, all should be well.
-    # Also systemctl enable iceccd.service & start, and if on a server, add
-    # firewalld rules.
+    # Also systemctl enable iceccd.service & start.
+    # on a server, also start icecream-scheduler, and add appropriate firewall
+    # rules.
     PACKAGES="$PACKAGES icecream"
 
     # for metrics

@@ -48,13 +48,14 @@ video/x-msvideo=io.github.GnomeMpv.desktop
 video/x-nsv=io.github.GnomeMpv.desktop
 video/x-theora=io.github.GnomeMpv.desktop
 video/x-theora+ogg=io.github.GnomeMpv.desktop
+application/xml=org.gnome.gedit.desktop
 
 [Added Associations]
 image/png=shotwell-viewer.desktop;
 application/pdf=libreoffice-draw.desktop;
 image/svg+xml=inkscape.desktop;
 image/jpeg=gimp.desktop;shotwell-viewer.desktop;
-text/markdown=gvim.desktop;
+text/markdown=org.gnome.gedit.desktop;gvim.desktop;
 x-scheme-handler/sms=org.gnome.Shell.Extensions.GSConnect.desktop;
 video/mpeg=io.github.GnomeMpv.desktop;
 video/3gp=io.github.GnomeMpv.desktop;
