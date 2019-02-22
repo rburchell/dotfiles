@@ -313,15 +313,15 @@ function vicron() {
 #    fi
 #fi
 
-(nohup git pull >/dev/null 2>&1 &)
+(cd $HOME && nohup git pull >/dev/null 2>&1 &)
 grep kien ~/.git/modules/.vim/bundle/ctrlp.vim/config >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
     # changing the origin of the module seems to have made git unhappy..
-    (nohup git submodule deinit -f . >/dev/null 2>&1 &)
-    (nohup rm -rf .git/modules >/dev/null 2>&1 &)
+    (cd $HOME && nohup git submodule deinit -f . >/dev/null 2>&1 &)
+    (cd $HOME && nohup rm -rf .git/modules >/dev/null 2>&1 &)
 fi
-(nohup git submodule init >/dev/null 2>&1 &)
-(nohup git submodule update >/dev/null 2>&1 &)
+(cd $HOME && nohup git submodule init >/dev/null 2>&1 &)
+(cd $HOME && nohup git submodule update >/dev/null 2>&1 &)
 
 # set up ssh key. we do this if it's a symlink always, so there's no chance of
 # it becoming stale. we also try link if there is no pubkey in the case of a
