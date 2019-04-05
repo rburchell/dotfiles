@@ -4,10 +4,10 @@
 #export QML2_IMPORT_PATH=~/code/ulstein/Ias2Gui/products/ias-gui/app/qml/imports
 
 # everything
-export NDDSHOME=/opt/rti/rti_connext_dds-5.2.3/
+export NDDSHOME=/opt/rti/
 
 # gui
-export QT_QUICK_BACKEND=software
+#export QT_QUICK_BACKEND=software
 
 # Control System
 export LD_LIBRARY_PATH=$NDDSHOME/lib/x64Linux3gcc4.8.2
