@@ -1,0 +1,3 @@
+#!/bin/sh
+sudo perf sched record -- sleep 4
+sudo perf sched latency -s switch
