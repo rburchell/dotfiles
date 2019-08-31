@@ -52,8 +52,7 @@ if &term =~ '256color'
 endif
 
 set t_Co=256
-set background=dark
-colorscheme molokai
+"colorscheme molokai
 let g:rehash256 = 1
 
 if version >= 700
@@ -145,3 +144,8 @@ let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<c-t>'],
     \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
     \ }
+
+" override theme settings a little: black background
+highlight Normal guibg=black guifg=white
+set background=dark
+highlight Normal ctermbg=None

@@ -49,9 +49,10 @@ video/x-nsv=io.github.GnomeMpv.desktop
 video/x-theora=io.github.GnomeMpv.desktop
 video/x-theora+ogg=io.github.GnomeMpv.desktop
 application/xml=org.gnome.gedit.desktop
+application/x-ms-dos-executable=wine.desktop
 
 [Added Associations]
-image/png=shotwell-viewer.desktop;
+image/png=gimp.desktop;shotwell-viewer.desktop;
 application/pdf=libreoffice-draw.desktop;
 image/svg+xml=inkscape.desktop;
 image/jpeg=gimp.desktop;shotwell-viewer.desktop;
@@ -78,7 +79,7 @@ video/x-flc=io.github.GnomeMpv.desktop;
 video/x-fli=io.github.GnomeMpv.desktop;
 video/x-flv=io.github.GnomeMpv.desktop;
 video/x-m4v=io.github.GnomeMpv.desktop;
-video/x-matroska=io.github.GnomeMpv.desktop;
+video/x-matroska=vlc.desktop;io.github.GnomeMpv.desktop;
 video/x-mpeg=io.github.GnomeMpv.desktop;
 video/x-mpeg-system=io.github.GnomeMpv.desktop;
 video/x-mpeg2=io.github.GnomeMpv.desktop;

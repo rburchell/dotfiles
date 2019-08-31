@@ -76,6 +76,13 @@ function! MySetExecutableIfScript(line1, current_file)
 endfunction
 autocmd BufWritePost * call MySetExecutableIfScript(getline(1), expand("%:p"))
 
+let g:clang_format_fallback_style = "none"
+function! FormatWithClangFormatOnSave()
+  let l:formatdiff = 1
+  pyf /usr/share/clang/clang-format.py
+endfunction
+autocmd BufWritePre *.hpp,*.h,*.cc,*.cxx,*.cpp call FormatWithClangFormatOnSave()
+
 " add a space after a comma
 inoremap , ,<Space>
 

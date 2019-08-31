@@ -11,6 +11,6 @@ fi
 
 name=$(printf %q $(basename "$1"))
 scp "$1" "eli:/tmp/$name"
-ssh eli "scp /tmp/$name http.kvm:/media/http/www/qtl.me/www/$name && rm /tmp/$name && exit"
+ssh eli "scp /tmp/$name http.kvm:/media/http/www/paste.crimson.no/www/$name && rm /tmp/$name && exit"
 
-echo "https://qtl.me/$name"
+echo "https://paste.crimson.no/$name"

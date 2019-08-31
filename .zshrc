@@ -60,31 +60,21 @@ function set_git_author_and_committer {
             ;& # fallthrough
         */burchr/code/qt)
             ;& # fallthrough
-        */burchr/ge)
-            ;& # fallthrough
-        */burchr/ge/*)
-            ;& # fallthrough
         */burchr/code/go/src/github.com/CrimsonAS)
             ;& # fallthrough
         */burchr/code/go/src/github.com/CrimsonAS/*)
             ;& # fallthrough
         */burchr/code/crimson/*)
             ;& # fallthrough
+        */burchr/code/ulstein/*)
+            ;& # fallthrough
         */burchr/code/crimson/)
             export GIT_AUTHOR_EMAIL="robin.burchell@crimson.no"
             export GIT_COMMITTER_EMAIL="robin.burchell@crimson.no"
             ;;
-        */burchr/code/ulstein/*)
-            export GIT_AUTHOR_EMAIL="robin.burchell@qt.io"
-            export GIT_COMMITTER_EMAIL="robin.burchell@qt.io"
-            ;;
-        */burchr/code/digia/*)
-            export GIT_AUTHOR_EMAIL="robin.burchell@qt.io"
-            export GIT_COMMITTER_EMAIL="robin.burchell@qt.io"
-            ;;
         *)
-            export GIT_AUTHOR_EMAIL="robin+git@viroteck.net"
-            export GIT_COMMITTER_EMAIL="robin+git@viroteck.net"
+            export GIT_AUTHOR_EMAIL="robin.burchell@crimson.no"
+            export GIT_COMMITTER_EMAIL="robin.burchell@crimson.no"
             ;;
     esac
 }
@@ -181,7 +171,7 @@ preexec() {
 
 export HOMEBREW_NO_ANALYTICS=1 # neuter homebrew's spying efforts
 export WORDCHARS=''
-export PATH=~/bin:~/bin/$RB_PLATFORM:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
+export PATH=~/bin:~/bin/$RB_PLATFORM:~/bin/linux/wkhtmltox/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
 export GOPATH=~/code/go
 export EDITOR="vim"
 export LANG="en_US.UTF-8"
@@ -219,6 +209,7 @@ alias m='make'
 alias pd='popd'
 alias cl='clear && logout'
 alias gp='git push'
+alias gfb='git checkout -b origin/master'
 alias gpr='git pull --rebase'
 alias gci='git commit'
 alias gcia='git commit -a'

@@ -90,6 +90,7 @@ end
 $libSearchPaths << "/usr/local/lib"
 $libSearchPaths << "/usr/lib"
 $libSearchPaths << "/lib"
+$libSearchPaths << "/lib64"
 
 if ARGV[0][0].chr() == '-'
     if ARGV[0] == "-dot"
@@ -104,7 +105,8 @@ end
 
 print "Dependency tree for #{ARGV[0]}\n"
 
-
+#$outputType="dot"
+#ARGV[1]="out.dot"
 if $outputType == "dot"
     $outFile = File.new(ARGV[1], "w")
     $outFile.write("graph \"#{ARGV[0]}\" {\n");
