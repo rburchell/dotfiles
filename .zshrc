@@ -173,7 +173,7 @@ export HOMEBREW_NO_ANALYTICS=1 # neuter homebrew's spying efforts
 export WORDCHARS=''
 export PATH=~/bin:~/bin/$RB_PLATFORM:~/bin/linux/wkhtmltox/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
 export GOPATH=~/code/go
-export EDITOR="vim"
+export EDITOR="emacsclient --alternate-editor='' -c"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_MESSAGES="en_US.UTF-8"
@@ -191,10 +191,10 @@ which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
+    alias e="emacsclient --alternate-editor='' -c"
 elif [[ "$RB_PLATFORM" == 'osx' ]]; then
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
-    alias vim='mvim -v'
     export LSCOLORS=GxFxCxDxBxegedabagaced # get slightly less obnoxious coloring
 
     # for some reason, osx screws up the bindings for word navigation.
