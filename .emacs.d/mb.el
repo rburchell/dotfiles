@@ -157,7 +157,8 @@ a filesystem path."
         (progn
           ;; TODO: rather than running the binary as a part of compile, look into using gdb mode?
           ;; Or I suppose we could have a separate command for that.
-          ;; (setq mb/run-binary-with-args (format "gdb --args %s" mb/run-binary-with-args))
+          ;;(setq mb/run-binary-with-args (format "valgrind --track-origins=yes %s" mb/run-binary-with-args))
+          (setq mb/run-binary-with-args (format "gdb --args %s" mb/run-binary-with-args))
           (setq mb/final-command (format "%s && %s && make -k -j30 -w && %s && %s" mb/cd-to-build-dir mb/ensure-args-sourced mb/cd-to-run-dir mb/run-binary-with-args))
           mb/final-command)))))
 
@@ -183,6 +184,8 @@ a filesystem path."
                                mb/startup-page
                                "--fullScreen"))
                              mb/projdata))
+    (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
+        (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata)))
     (throw 'mb-done mb/projdata)))
 
 (defun mb/eas-project (root)
@@ -199,6 +202,8 @@ a filesystem path."
                                "--configFile"
                                mb/xconnect-uls))
                              mb/projdata))
+    (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
+        (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata)))
     (throw 'mb-done mb/projdata)))
 
 (defun mb/simulator-project (root)
@@ -217,6 +222,8 @@ a filesystem path."
                                "--configFile"
                                mb/xconnect-uls))
                              mb/projdata))
+    (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
+        (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata)))
     (throw 'mb-done mb/projdata)))
 
 (defun mb/identify-xconnect-project (file-name)
@@ -277,9 +284,9 @@ a filesystem path."
   (setq processed-filename (concat "/home/burchr/code/ulstein/X-Connect/gui/" processed-filename))
 
   (cond ((file-exists-p processed-filename)
-         (message "mb/process-error-filename: %s (found)" processed-filename) processed-filename)
+         processed-filename)
         (t
-         (message "mb/process-error-filename: %s (not found)" filename) filename)))
+         filename)))
 
 ;; XXX: this should be only used for X-Connect project, rather than forced globally.
 ;; XXX: it should probably also be made local to the compilation buffer/project.
