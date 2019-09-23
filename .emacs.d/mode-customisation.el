@@ -1,5 +1,5 @@
 
-(defun my-expand-comma ()
+(defun rb/expand-comma-to-space ()
   "Expand comma to a comma followed by a space."
   (interactive)
   (insert ", "))
@@ -25,11 +25,12 @@
               ("MEETING" :foreground "forest green" :weight bold)
               ("PHONE" :foreground "forest green" :weight bold))))
 
-(defun my-org-mode-hook ()
+(defun rb/org-mode-hook ()
   "Hook called when org mode is activated."
-  (local-set-key "," 'my-expand-comma))
+  (local-set-key "," 'rb/expand-comma-to-space)
+  (add-hook 'after-save-hook 'rb/appt-update-list nil 'make-it-local))
 
-(add-hook 'org-mode-hook 'my-org-mode-hook)
+(add-hook 'org-mode-hook 'rb/org-mode-hook)
 
 (global-set-key (kbd "<f10>") 'org-agenda)
 (global-set-key (kbd "<f9> i") 'org-clock-in)
@@ -66,6 +67,9 @@
 
 (setq org-directory "~/.emacs.d/org")
 (setq org-default-notes-file "~/.emacs.d/org/refile.org")
+
+;; Display a time grid for the week, day, today, etc.
+(setq org-agenda-time-grid '((daily today require-timed remove-match) (800 1000 1200 1400 1600) "......" "----------------"))
 
 ;; I use C-c c to start capture mode
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -128,7 +132,6 @@
 ;;;;;;;;;
 
 (require 'appt)
-(setq appt-time-msg-list nil)    ;; clear existing appt list
 (setq appt-display-interval '5)  ;; warn every 5 minutes from t - appt-message-warning-time
 (setq
   appt-message-warning-time '60  ;; send first warning 15 minutes before appointment
@@ -137,9 +140,15 @@
 (appt-activate 1)                ;; activate appointment notification
 (display-time)                   ;; activate time display
 
-(org-agenda-to-appt)             ;; generate the appt list from org agenda files on emacs launch
-(run-at-time "24:01" 3600 'org-agenda-to-appt)           ;; update appt list hourly
-(add-hook 'org-finalize-agenda-hook 'org-agenda-to-appt) ;; update appt list on agenda view
+(defun rb/appt-update-list ()
+  (message "Updating agenda")
+  (setq appt-time-msg-list nil)  ;; clear existing appt list
+  (org-agenda-to-appt)           ;; generate the appt list from org agenda
+  )
+
+(rb/appt-update-list)                                     ;; update on launch
+(run-at-time "24:01" 3600 'rb/appt-update-list)           ;; update appt list hourly
+(add-hook 'org-finalize-agenda-hook 'rb/appt-update-list) ;; update appt list on agenda view
 
 (defun rb/appt-display (min-to-app new-time msg)
   (notify
@@ -566,12 +575,12 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
 ;; Update formatting and imports on save of Go code.
 (setq gofmt-command "~/code/go/bin/goimports")
 
-(defun my-go-mode-hook ()
+(defun rb/go-mode-hook ()
   "Hook called when go mode is activated."
-  (local-set-key "," 'my-expand-comma)
+  (local-set-key "," 'rb/expand-comma-to-space)
   (add-hook 'before-save-hook 'gofmt-before-save))
 
-(add-hook 'go-mode-hook 'my-go-mode-hook)
+(add-hook 'go-mode-hook 'rb/go-mode-hook)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; evil mode
@@ -656,11 +665,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
             (backward-delete-char (- (match-end 1) (match-beginning 1)))
           (call-interactively 'backward-delete-char))))))
 
-(defun backspace-whitespace-c-mode ()
+(defun rb/backspace-whitespace-c-mode ()
  (interactive)
  (backspace-whitespace-to-tab-stop c-basic-offset))
 
-(defun my-c-mode-hook ()
+(defun rb/c-mode-hook ()
   ;; Use a 4 space indent
   (setq c-basic-offset 4)
 
@@ -670,13 +679,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   ;; Continue comments when pressing enter
   (local-set-key (kbd "RET") 'c-indent-new-comment-line)
 
-  (local-set-key (kbd "DEL") 'backspace-whitespace-c-mode)
+  (local-set-key (kbd "DEL") 'rb/backspace-whitespace-c-mode)
   ;; (setq local-abbrev-table c-mode-abbrev-table)
   )
-(add-hook 'c-mode-common-hook 'my-c-mode-hook)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; snippets
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'c-mode-common-hook 'rb/c-mode-hook)
 
 
