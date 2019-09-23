@@ -31,6 +31,3 @@
 (setq ivy-count-format "(%d/%d) ")
 ;; Use for both C-x b and C-x C-b.
 (global-set-key (kbd "C-x C-b") 'ivy-switch-buffer)
-
-
-(load "~/.emacs.d/snippet.el")
