@@ -88,14 +88,14 @@ a filesystem path."
 (defun mb/identify-serenity-project (file-name)
   "Identify compile command for Serenity (if in serenity), or nil."
   (let ((mb/projdata ()))
-    (setq mb/projdata (acons 'project "Serenity" mb/projdata))
-    (setq mb/projdata (acons 'sub-project "" mb/projdata))
+    (setq mb/projdata (cl-acons 'project "Serenity" mb/projdata))
+    (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
     ;; Serenity uses sudo to build, so we need to set up an interactive terminal.
-    (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata))
+    (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata))
     (mb/for-each-directory-part file-name
                                 (lambda (mb/dirpart mb/built-path)
                                   (if (string= mb/dirpart "serenity")
-                                      (setq mb/projdata (acons 'compile-command
+                                      (setq mb/projdata (cl-acons 'compile-command
                                                                (format "cd %s/Toolchain && source UseIt.sh && cd ../Kernel && ./makeall.sh && ./run" mb/built-path) mb/projdata)))))
     (if (mb/project-compile-command mb/projdata)
         (throw 'mb-done mb/projdata))))
@@ -104,22 +104,22 @@ a filesystem path."
   "Identify compile command for Go source, or nil."
   (if (string-suffix-p ".go" file-name)
       (let ((mb/projdata ()))
-        (setq mb/projdata (acons 'project "Generic Go" mb/projdata))
-        (setq mb/projdata (acons 'sub-project "" mb/projdata))
-        (setq mb/projdata (acons 'compile-command "go build && go test -v ./..." mb/projdata))
+        (setq mb/projdata (cl-acons 'project "Generic Go" mb/projdata))
+        (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
+        (setq mb/projdata (cl-acons 'compile-command "go build && go test -v ./..." mb/projdata))
         (throw 'mb-done mb/projdata))))
 
 (defun mb/identify-tinyscheme-project (file-name)
   "Identify compile command for tinyscheme source, or nil."
   (let ((mb/projdata ()))
-    (setq mb/projdata (acons 'project "tinyscheme" mb/projdata))
-    (setq mb/projdata (acons 'sub-project "" mb/projdata))
+    (setq mb/projdata (cl-acons 'project "tinyscheme" mb/projdata))
+    (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
     ;; Needs to be interactive. It's a command line binary, after all.
-    (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata))
+    (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata))
     (mb/for-each-directory-part file-name
                                 (lambda (mb/dirpart mb/built-path)
                                   (if (string= mb/dirpart "tinyscheme")
-                                      (setq mb/projdata (acons 'compile-command
+                                      (setq mb/projdata (cl-acons 'compile-command
                                                                "make && ./scheme" mb/projdata)))))
     (if (mb/project-compile-command mb/projdata)
         (throw 'mb-done mb/projdata))))
@@ -127,12 +127,12 @@ a filesystem path."
 (defun mb/identify-generic-makefile-project (file-name)
   "Identify project for a Makefile, or nil."
   (let ((mb/projdata ()))
-    (setq mb/projdata (acons 'project "Makefile" mb/projdata)) ;; TODO: use file-name directory?
-    (setq mb/projdata (acons 'sub-project "" mb/projdata))
+    (setq mb/projdata (cl-acons 'project "Makefile" mb/projdata)) ;; TODO: use file-name directory?
+    (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
     (mb/for-each-directory-part file-name
                                 (lambda (mb/dirpart mb/built-path)
                                   (if (file-exists-p (format "%s/Makefile" mb/built-path))
-                                      (setq mb/projdata (acons 'compile-command
+                                      (setq mb/projdata (cl-acons 'compile-command
                                                                "make" mb/projdata)))))
     (if (mb/project-compile-command mb/projdata)
         (throw 'mb-done mb/projdata))))
@@ -170,9 +170,9 @@ a filesystem path."
         (mb/startup-page "SignalLabView.qml")
         ;;(mb/startup-page (expand-file-name "~/battery.qml"))
         )
-    (setq mb/projdata (acons 'project "X-Connect" mb/projdata))
-    (setq mb/projdata (acons 'sub-project "IasGui" mb/projdata))
-    (setq mb/projdata (acons 'compile-command
+    (setq mb/projdata (cl-acons 'project "X-Connect" mb/projdata))
+    (setq mb/projdata (cl-acons 'sub-project "IasGui" mb/projdata))
+    (setq mb/projdata (cl-acons 'compile-command
                              (mb/get-xconnect-compile-command
                               root
                               "products/ias-gui/ias-gui-app/IasGui"
@@ -185,15 +185,15 @@ a filesystem path."
                                "--fullScreen"))
                              mb/projdata))
     (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
-        (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata)))
+        (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata)))
     (throw 'mb-done mb/projdata)))
 
 (defun mb/eas-project (root)
   "Get project data for EasGui."
   (let ((mb/projdata ()))
-    (setq mb/projdata (acons 'project "X-Connect" mb/projdata))
-    (setq mb/projdata (acons 'sub-project "EasGui" mb/projdata))
-    (setq mb/projdata (acons 'compile-command
+    (setq mb/projdata (cl-acons 'project "X-Connect" mb/projdata))
+    (setq mb/projdata (cl-acons 'sub-project "EasGui" mb/projdata))
+    (setq mb/projdata (cl-acons 'compile-command
                              (mb/get-xconnect-compile-command
                               root
                               "products/eas-gui/eas-gui-app/EasGui"
@@ -203,16 +203,16 @@ a filesystem path."
                                mb/xconnect-uls))
                              mb/projdata))
     (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
-        (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata)))
+        (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata)))
     (throw 'mb-done mb/projdata)))
 
 (defun mb/simulator-project (root)
   "Get project data for GuiSimulator."
   (let ((mb/projdata ()))
-    (setq mb/projdata (acons 'project "X-Connect" mb/projdata))
-    (setq mb/projdata (acons 'sub-project "GuiSimulator" mb/projdata))
-    ;; (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata))
-    (setq mb/projdata (acons 'compile-command
+    (setq mb/projdata (cl-acons 'project "X-Connect" mb/projdata))
+    (setq mb/projdata (cl-acons 'sub-project "GuiSimulator" mb/projdata))
+    ;; (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata))
+    (setq mb/projdata (cl-acons 'compile-command
                              (mb/get-xconnect-compile-command
                               root
                               "products/gui-simulator/gui-simulator-app/GuiSimulator"
@@ -223,7 +223,7 @@ a filesystem path."
                                mb/xconnect-uls))
                              mb/projdata))
     (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
-        (setq mb/projdata (acons 'interactive-compile-buffer-required t mb/projdata)))
+        (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata)))
     (throw 'mb-done mb/projdata)))
 
 (defun mb/identify-xconnect-project (file-name)
