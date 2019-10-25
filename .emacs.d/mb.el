@@ -157,17 +157,22 @@ a filesystem path."
         (progn
           ;; TODO: rather than running the binary as a part of compile, look into using gdb mode?
           ;; Or I suppose we could have a separate command for that.
-          ;;(setq mb/run-binary-with-args (format "valgrind --track-origins=yes %s" mb/run-binary-with-args))
-          (setq mb/run-binary-with-args (format "gdb --args %s" mb/run-binary-with-args))
+          ;; (setq mb/run-binary-with-args (format "valgrind --track-origins=yes %s" mb/run-binary-with-args))
+          ; (setq mb/run-binary-with-args (format "gdb --args %s" mb/run-binary-with-args))
           (setq mb/final-command (format "%s && %s && make -k -j30 -w && %s && %s" mb/cd-to-build-dir mb/ensure-args-sourced mb/cd-to-run-dir mb/run-binary-with-args))
           mb/final-command)))))
 
 (defvar mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
+;;(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201121_cmhi_196_1/201121_cmhi_196_1_sunstone1.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/Lab Config/00000_1_LAB.uls"))
+;;(setq mb/xconnect-uls "/home/burchr/code/ulstein/X-Connect/control-system/products/ias/configuration/components/power/pms-complete-example/1_1_PMSTest_Main.uls")
 
 (defun mb/ias-project (root)
   "Get project data for IasGui."
   (let ((mb/projdata ())
-        (mb/startup-page "SignalLabView.qml")
+        (mb/startup-page "PMSDemo_Fhd.ui.qml")
+        ;;(mb/startup-page "DeploymentView.qml")
+        ;;(mb/startup-page "SignalLabView.qml")
         ;;(mb/startup-page (expand-file-name "~/battery.qml"))
         )
     (setq mb/projdata (cl-acons 'project "X-Connect" mb/projdata))
@@ -178,8 +183,9 @@ a filesystem path."
                               "products/ias-gui/ias-gui-app/IasGui"
                               "products/ias-gui/ias-gui-app/"
                               (list
+                               "--editMimics"
                                "--configFile"
-                               mb/xconnect-uls
+                               (concat "\"" mb/xconnect-uls "\"")
                                "--startupPage"
                                mb/startup-page
                                "--fullScreen"))
@@ -241,6 +247,7 @@ a filesystem path."
             (if (string= mb/dirpart "gui-simulator")
                 (throw 'mb-done (mb/simulator-project mb/xconnect-root-path)))))))))
 
+;; TODO: return list rather than throw
 (defun mb/identify-project ()
   "Identify project information associated with the current file."
   (interactive)

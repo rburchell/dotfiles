@@ -13,7 +13,7 @@
 
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+              (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "MEETING"))))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
@@ -22,8 +22,7 @@
               ("WAITING" :foreground "orange" :weight bold)
               ("HOLD" :foreground "magenta" :weight bold)
               ("CANCELLED" :foreground "forest green" :weight bold)
-              ("MEETING" :foreground "forest green" :weight bold)
-              ("PHONE" :foreground "forest green" :weight bold))))
+              ("MEETING" :foreground "forest green" :weight bold))))
 
 (defun rb/org-mode-hook ()
   "Hook called when org mode is activated."
@@ -132,9 +131,9 @@
 ;;;;;;;;;
 
 (require 'appt)
-(setq appt-display-interval '5)  ;; warn every 5 minutes from t - appt-message-warning-time
+(setq appt-display-interval '5) ;; warn every N minutes from t - appt-message-warning-time
 (setq
-  appt-message-warning-time '60  ;; send first warning 15 minutes before appointment
+  appt-message-warning-time '120  ;; send first warning N minutes before appointment
   appt-display-mode-line nil     ;; don't show in the modeline
   appt-display-format 'window)   ;; pass warnings to the designated window function
 (appt-activate 1)                ;; activate appointment notification
