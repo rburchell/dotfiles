@@ -5,16 +5,6 @@
 ;; Automatically reload files that change on disk
 (global-auto-revert-mode t)
 
-;; (defface my-overlay-default-face
-;;   '((t (:inherit highlight)))
-;;   "Symbol Overlay default face"
-;;   :group 'symbol-overlay)
-
-;; (setq ov (make-overlay 1 15))
-;; (overlay-put ov 'face 'my-overlay-default-face)
-;; (overlay-put ov 'evaporate t)
-;; (delete-overlay ov)
-
 ;; Disable menu bar on console
 (defun contextual-menubar (&optional frame)
   "Display the menubar in FRAME (default: selected frame) if on a graphical display, but hide it if in terminal."
@@ -24,7 +14,8 @@
 (add-hook 'after-init-hook 'contextual-menubar)
 
 ;; Move save files out of line
-(setq backup-directory-alist `(("." . "~/.saves")))
+(setq backup-directory-alist `(("." . "~/.cache/emacs-backups")))
+(setq auto-save-file-name-transforms `((".*" "~/.cache/emacs-saves/" t)))
 
 ;; Set backup to save files for a while
 (setq delete-old-versions t

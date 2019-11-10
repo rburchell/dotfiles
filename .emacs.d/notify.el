@@ -26,117 +26,70 @@
 
 ;;; Commentary:
 
-;; This provides a single function, `notify', that will produce a notify
-;; pop-up via D-Bus, libnotify, simple message or growl.
 ;; To use, just put (autoload 'notify "notify" "Notify TITLE, BODY.")
-;;  in your init file.  You may override default chosen notification
-;;  method by assigning `notify-method' to one of 'notify-via-dbus
-;; 'notify-via-libnotify or 'notify-via-message
+;; in your init file.
 ;;; Code:
 
-(defvar notify-defaults (list :app "Emacs" :icon "emacs" :timeout 5000
-			      :urgency "low"
-			      :category "emacs.message")
+(defvar rb/notify-defaults
+  (list
+   :id nil
+   :app "Emacs"
+   :icon "emacs"
+   :timeout 0
+   :urgency "low"
+   :category "emacs.message")
   "Notification settings' defaults.
 May be overridden with key-value additional arguments to `notify'.")
-(defvar notify-delay '(0 5 0)
-  "Minimum time allowed between notifications in time format.")
-(defvar notify-last-notification '(0 0 0) "Time of last notification.")
-(defvar notify-method nil "Notification method among
-'notify-via-dbus, 'notify-via-libnotify, 'notify-via-message or
-'notify-via-growl")
 
-;; determine notification method unless already set
-;; prefer growl > D-Bus > libnotify > message
-(cond
- ((null notify-method)
-  (setq notify-method
-	(cond
-        ((executable-find "growlnotify") 'notify-via-growl)
-	 ((and (require 'dbus nil t)
-	       (dbus-ping :session "org.freedesktop.Notifications"))
-	  (defvar notify-id 0 "Current D-Bus notification id.")
-	  'notify-via-dbus)
-	 ((executable-find "notify-send") 'notify-via-libnotify)
-	 (t 'notify-via-message))))
- ((eq notify-method 'notify-via-dbus) ;housekeeping for pre-chosen DBus
-  (if (and (require 'dbus nil t)
-	   (dbus-ping :session "org.freedesktop.Notifications"))
-      (defvar notify-id 0 "Current D-Bus notification id.")
-    (setq notify-method (if (executable-find "notify-send")
-			    'notify-via-libnotify
-			  'notify-via-message))))
- ((and (eq notify-method 'notify-via-libnotify)
-       (not (executable-find "notify-send"))) ;housekeeping for pre-chosen libnotify
-  (setq notify-method
-	(if (and (require 'dbus nil t)
-		 (dbus-ping :session "org.freedesktop.Notifications"))
-	    (progn
-	      (defvar notify-id 0 "Current D-Bus notification id.")
-	      'notify-via-dbus)
-	  'notify-via-message)))
- ((and (eq notify-method 'notify-via-growl)
-       (not (executable-find "growlnotify")))
-  (setq notify-method 'notify-via-message)))
+(defvar rb/notify-id 0 "Current D-Bus notification id.")
+(defun rb/notify-allocate-id ()
+  (setq rb/notify-id (+ rb/notify-id 1)))
 
-(defun notify-via-dbus (title body)
-  "Send notification with TITLE, BODY `D-Bus'."
+(defun rb/notify-via-dbus (title body)
+  "Send notification with TITLE, BODY over `D-Bus'."
+  (let ((message-id
+         ;; If there isn't a provided id to replace, then allocate one.
+         (if (not (get 'rb/notify-defaults :id))
+             (rb/notify-allocate-id)
+           (get 'rb/notify-defaults :id))))
+    (message (format "Sending notification ID %s with title %s body %s" message-id title body))
+    (dbus-call-method :session "org.freedesktop.Notifications"
+                      "/org/freedesktop/Notifications"
+                      "org.freedesktop.Notifications"
+                      "Notify"
+                      (get 'rb/notify-defaults :app) ;; app_name
+                      ':uint32 message-id ;; replaces_id
+                      (get 'rb/notify-defaults :icon) ;; app_icon
+                      title ;; summary
+                      body ;; body
+                      '(:array) ;; actions
+                      '(:array :signature "{sv}") ;; hints
+                      ':int32 (get 'rb/notify-defaults :timeout) ;; expire_timeout
+                      )))
+
+(defun rb/notify-dismiss (id)
+  "Dismiss a notification with a given ID."
+  (message (format "Dismissing notification ID %s" id))
   (dbus-call-method :session "org.freedesktop.Notifications"
-		    "/org/freedesktop/Notifications"
-		    "org.freedesktop.Notifications" "Notify"
-		    (get 'notify-defaults :app)
-		    (setq notify-id (+ notify-id 1))
-		    (get 'notify-defaults :icon) title body '(:array)
-		    '(:array :signature "{sv}") ':int32
-		    (get 'notify-defaults :timeout)))
+                    "/org/freedesktop/Notifications"
+                    "org.freedesktop.Notifications"
+                    "CloseNotification"
+                    ':uint32 id))
 
-(defun notify-via-libnotify (title body)
-  "Notify with TITLE, BODY via `libnotify'."
-  (call-process "notify-send" nil 0 nil
-		title body "-t"
-		(number-to-string (get 'notify-defaults :timeout))
-		"-i" (get 'notify-defaults :icon)
-		"-u" (get 'notify-defaults :urgency)
-		"-c" (get 'notify-defaults :category)))
-
-(defun notify-via-message (title body)
-  "Notify TITLE, BODY with a simple message."
-  (message "%s: %s" title body))
-
-(defun notify-via-growl (title body)
-  "Notify TITLE, BODY with a growl"
-  (call-process "growlnotify" nil 0 nil
-                "-a" (get 'notify-defaults :app)
-                "-n" (get 'notify-defaults :category)
-                "-t" (notify-via-growl-stringify title)
-                "-m" (notify-via-growl-stringify body)))
-
-(defun notify-via-growl-stringify (thing)
-  (cond ((null thing) "")
-        ((stringp thing) thing)
-        (t (format "%s" thing))))
-
-(defun keywords-to-properties (symbol args &optional defaults)
+(defun rb/notify-keywords-to-properties (symbol args &optional defaults)
   "Add to SYMBOL's property list key-values from ARGS and DEFAULTS."
   (when (consp defaults)
-    (keywords-to-properties symbol defaults))
+    (rb/notify-keywords-to-properties symbol defaults))
   (while args
     (put symbol (car args) (cadr args))
     (setq args (cddr args))))
 
-
 ;;;###autoload
-(defun notify (title body &rest args)
-  "Notify TITLE, BODY via `notify-method'.
-ARGS may be amongst :timeout, :icon, :urgency, :app and :category."
-  (when (time-less-p notify-delay
-		     (time-since notify-last-notification))
-    (or (eq notify-method 'notify-via-message)
-	(keywords-to-properties 'notify-defaults args
-				notify-defaults))
-    (setq notify-last-notification (current-time))
-    (funcall notify-method title body)))
+(defun rb/notify (title body &rest args)
+  "Notify TITLE, BODY.'.
+ARGS may be amongst :timeout, :icon, :urgency, :app and :category.
+The return value is a unique identifier which may be used to alter the notification by using :id in ARGS."
+  (rb/notify-keywords-to-properties 'rb/notify-defaults args rb/notify-defaults)
+  (rb/notify-via-dbus title body))
 
 (provide 'notify)
-
-;;; notify.el ends here

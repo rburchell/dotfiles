@@ -206,7 +206,7 @@ a filesystem path."
                               "products/eas-gui/eas-gui-app/"
                               (list 
                                "--configFile"
-                               mb/xconnect-uls))
+                               (concat "\"" mb/xconnect-uls "\"")))
                              mb/projdata))
     (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
         (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata)))
@@ -226,7 +226,7 @@ a filesystem path."
                               (list 
                               "--enableSimulation"
                                "--configFile"
-                               mb/xconnect-uls))
+                               (concat "\"" mb/xconnect-uls "\"")))
                              mb/projdata))
     (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
         (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata)))
