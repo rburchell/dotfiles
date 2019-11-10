@@ -50,6 +50,12 @@ video/x-theora=io.github.GnomeMpv.desktop
 video/x-theora+ogg=io.github.GnomeMpv.desktop
 application/xml=org.gnome.gedit.desktop
 application/x-ms-dos-executable=wine.desktop
+x-scheme-handler/rdp=org.remmina.Remmina.desktop
+x-scheme-handler/spice=org.remmina.Remmina.desktop
+x-scheme-handler/vnc=org.remmina.Remmina.desktop
+x-scheme-handler/remmina=org.remmina.Remmina.desktop
+application/x-remmina=org.remmina.Remmina.desktop
+application/rti-package=rtilauncher.desktop
 
 [Added Associations]
 image/png=gimp.desktop;shotwell-viewer.desktop;
@@ -106,3 +112,14 @@ application/x-bzip-compressed-tar=org.gnome.FileRoller.desktop;
 image/vnd.adobe.photoshop=gimp.desktop;
 text/vcard=org.gnome.gedit.desktop;
 application/x-xz-compressed-tar=org.gnome.FileRoller.desktop;
+application/x-wine-extension-ini=org.gnome.gedit.desktop;
+video/mp4=vlc.desktop;mpv.desktop;
+application/x-compressed-tar=org.gnome.FileRoller.desktop;
+application/gzip=org.gnome.FileRoller.desktop;
+application/vnd.debian.binary-package=org.gnome.FileRoller.desktop;
+application/zip=org.gnome.FileRoller.desktop;
+x-scheme-handler/rdp=org.remmina.Remmina.desktop;
+x-scheme-handler/spice=org.remmina.Remmina.desktop;
+x-scheme-handler/vnc=org.remmina.Remmina.desktop;
+x-scheme-handler/remmina=org.remmina.Remmina.desktop;
+application/x-remmina=org.remmina.Remmina.desktop;
