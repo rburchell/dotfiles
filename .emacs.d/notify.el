@@ -41,6 +41,7 @@
   "Notification settings' defaults.
 May be overridden with key-value additional arguments to `notify'.")
 
+(require 'dbus nil t)
 (defvar rb/notify-id 0 "Current D-Bus notification id.")
 (defun rb/notify-allocate-id ()
   (setq rb/notify-id (+ rb/notify-id 1)))
