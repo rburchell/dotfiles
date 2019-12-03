@@ -85,6 +85,19 @@ a filesystem path."
 ;; finding project settings                                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun mb/identify-greenfield-project (file-name)
+  "Identify compile command for greenfield (if in greenfield), or nil."
+  (let ((mb/projdata ()))
+    (setq mb/projdata (cl-acons 'project "Greenfield" mb/projdata))
+    (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
+    (mb/for-each-directory-part file-name
+                                (lambda (mb/dirpart mb/built-path)
+                                  (if (string= mb/dirpart "greenfield")
+                                      (setq mb/projdata (cl-acons 'compile-command
+                                                               (format "source ~/.ssh/hosts/adele.home.viroteck.net.sh; cd %s && qmake-qt5 CONFIG+=debug && make -j10 && ./greenfield" mb/built-path) mb/projdata)))))
+    (if (mb/project-compile-command mb/projdata)
+        (throw 'mb-done mb/projdata))))
+
 (defun mb/identify-serenity-project (file-name)
   "Identify compile command for Serenity (if in serenity), or nil."
   (let ((mb/projdata ()))
@@ -158,21 +171,25 @@ a filesystem path."
           ;; TODO: rather than running the binary as a part of compile, look into using gdb mode?
           ;; Or I suppose we could have a separate command for that.
           ;; (setq mb/run-binary-with-args (format "valgrind --track-origins=yes %s" mb/run-binary-with-args))
-          ; (setq mb/run-binary-with-args (format "gdb --args %s" mb/run-binary-with-args))
-          (setq mb/final-command (format "%s && %s && make -k -j30 -w && %s && %s" mb/cd-to-build-dir mb/ensure-args-sourced mb/cd-to-run-dir mb/run-binary-with-args))
+          ;; (setq mb/run-binary-with-args (format "gdb --args %s" mb/run-binary-with-args))
+          (setq mb/final-command (format "%s && %s && make -k -j12 -w && %s && %s" mb/cd-to-build-dir mb/ensure-args-sourced mb/cd-to-run-dir mb/run-binary-with-args))
           mb/final-command)))))
 
 (defvar mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
-;;(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201121_cmhi_196_1/201121_cmhi_196_1_sunstone1.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201121_cmhi_196_1/201121_cmhi_196_1_sunstone1.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/Lab Config/00000_1_LAB.uls"))
-;;(setq mb/xconnect-uls "/home/burchr/code/ulstein/X-Connect/control-system/products/ias/configuration/components/power/pms-complete-example/1_1_PMSTest_Main.uls")
+(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/X-Connect/control-system/products/ias/configuration/components/power/pms-complete-example/1_1_PMSTest_Main.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201136_SlettaBN176_Coastcat20W/201136_SlettaBN176_Coastcat20W.uls"))
+
 
 (defun mb/ias-project (root)
   "Get project data for IasGui."
   (let ((mb/projdata ())
-        (mb/startup-page "PMSDemo_Fhd.ui.qml")
+        ;;(mb/startup-page "PMSDemo_Fhd.ui.qml")
         ;;(mb/startup-page "DeploymentView.qml")
-        ;;(mb/startup-page "SignalLabView.qml")
+        (mb/startup-page "LogsView.qml")
+        (mb/startup-page "SignalLabView.qml")
         ;;(mb/startup-page (expand-file-name "~/battery.qml"))
         )
     (setq mb/projdata (cl-acons 'project "X-Connect" mb/projdata))
@@ -188,7 +205,10 @@ a filesystem path."
                                (concat "\"" mb/xconnect-uls "\"")
                                "--startupPage"
                                mb/startup-page
-                               "--fullScreen"))
+                               "--fullScreen"
+                               ;; "--resolution"
+                               ;; "sxga"
+                              ))
                              mb/projdata))
     (if (string-match-p (regexp-quote " gdb ") (mb/project-compile-command mb/projdata))
         (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata)))
@@ -259,6 +279,7 @@ a filesystem path."
     (catch 'mb-done
       (mb/identify-xconnect-project mb/file-name)
       (mb/identify-serenity-project mb/file-name)
+      (mb/identify-greenfield-project mb/file-name)
       (mb/identify-go-project mb/file-name)
       (mb/identify-tinyscheme-project mb/file-name)
       (mb/identify-generic-makefile-project mb/file-name)
