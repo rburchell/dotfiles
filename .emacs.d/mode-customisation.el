@@ -140,7 +140,7 @@
 (appt-activate 1)                ;; activate appointment notification
 (display-time)                   ;; activate time display
 
-(defvar rb/appt-nag-about-overdue nil)
+(defvar rb/appt-nag-about-overdue t)
 (defvar rb/appt-last-overdue-id 0 "Current overdue notification ID.")
 
 (defun rb/appt-update-list ()
@@ -159,12 +159,12 @@
             (with-temp-buffer
               (insert-file-contents "~/.emacs.d/agenda-overdue.txt")
               (delete-file "~/.emacs.d/agenda-overdue.txt")
-              ;; (setq tmp-conn (open-network-stream "overdue"
-              ;;                                     nil
-              ;;                                     "cirrus.home.viroteck.net"
-              ;;                                     5151
-              ;;                                     :nowait t))
-              ;; (process-send-string tmp-conn (buffer-string))
+              (setq tmp-conn (open-network-stream "overdue"
+                                                  nil
+                                                  "cirrus.home.viroteck.net"
+                                                  5151
+                                                  :nowait t))
+              (process-send-string tmp-conn (buffer-string))
 
               ;; TODO: figure out how to strip the header so this won't be sent unless there actually are overdue tasks.
               ;; (setq rb/appt-last-overdue-id (rb/notify
