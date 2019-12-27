@@ -285,6 +285,44 @@ a filesystem path."
       (mb/identify-generic-makefile-project mb/file-name)
       )))
 
+(defun mb/identify-projectV2 ()
+  "Identify project information associated with the current file."
+  (interactive)
+  (throw 'incomplete t)))
+  (let ((mb/file-name buffer-file-name)
+        (mb/project-list))
+    (message (format "Initial before anything %s" mb/file-name))
+    (if (not mb/file-name)
+        ;; this might be the case for e.g. dired buffers
+        (setq mb/file-name (expand-file-name ".")))
+    
+    (mb/for-each-directory-part mb/file-name
+                                (lambda (last-part full-path)
+                                  (let ((mb/project-file-name (format "%s/projects.mb" full-path))
+                                        (mb/project-builder-function nil)
+                                        (mb/subproject-list nil))
+                                    (when (file-exists-p mb/project-file-name)
+                                      (load mb/project-file-name)
+                                      (when (fboundp 'mb/project-builder-function)
+                                        (setq mb/subproject-list (mb/project-builder-function mb/file-name))
+                                        (dolist (mb/tmpproj mb/subproject-list)
+                                          (setq mb/project-list (cons mb/tmpproj mb/project-list)))
+                                        )))
+                                  nil))
+
+    (message (format "%s" mb/project-list))
+    (if (> (length mb/project-list) 1)
+        (progn
+          ;; (dolist (mb/tmpproj mb/project-list)
+          ;;   (message (format "Got a project: %s %s" (mb/project-name mb/tmpproj) (mb/project-sub-project-name mb/tmpproj)))
+          ;;   )
+          ;; (completing-read
+          ;;  "Select a project: "
+          ;;  '(("foobar1" 1) ("barfoo" 2) ("foobaz" 3) ("foobar2" 4))
+          ;;  nil t "")
+          )
+      (message "Just the right number of projects"))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; actual compilation/notification stuff                                                      ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
