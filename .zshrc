@@ -192,18 +192,18 @@ if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
     alias e="emacsclient --alternate-editor='' -c"
+
 elif [[ "$RB_PLATFORM" == 'osx' ]]; then
     alias ls='ls -A -G'
     alias lsl='ls -A -l -G'
     export LSCOLORS=GxFxCxDxBxegedabagaced # get slightly less obnoxious coloring
-
-    # for some reason, osx screws up the bindings for word navigation.
-    # NB, to use this, you need to go to Keyboard settings, shortcuts tab &
-    # reconfigure "move left/right a space" to something else.
-    bindkey '^[[1;5D' backward-word
-    bindkey '^[[1;5C' forward-word
 fi
 
+# for some reason, zsh screws up the bindings for word navigation.
+# NB, to use this on Mac, you need to go to Keyboard settings, shortcuts tab &
+# reconfigure "move left/right a space" to something else.
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
 
 alias m='make'
 alias pd='popd'
