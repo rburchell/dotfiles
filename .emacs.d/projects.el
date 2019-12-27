@@ -5,8 +5,8 @@
 (defun project-list ()
   "Open buffers for persistent things we want around always."
   (interactive)
-  (find-file-noselect "~/code/ulstein/X-Connect/gui/products/ias-gui")
-  (find-file-noselect "~/code/ulstein/X-Connect/gui/products/eas-gui")
+  (find-file-noselect "~/code/bluectrl/X-Connect/gui/products/ias-gui")
+  (find-file-noselect "~/code/bluectrl/X-Connect/gui/products/eas-gui")
   (find-file-noselect "~/code/serenity")
   (find-file-noselect "~/code/workspace")
   (find-file-noselect "~/code/crimson")

@@ -175,12 +175,12 @@ a filesystem path."
           (setq mb/final-command (format "%s && %s && make -k -j12 -w && %s && %s" mb/cd-to-build-dir mb/ensure-args-sourced mb/cd-to-run-dir mb/run-binary-with-args))
           mb/final-command)))))
 
-(defvar mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
-(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
-(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201121_cmhi_196_1/201121_cmhi_196_1_sunstone1.uls"))
-(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/Lab Config/00000_1_LAB.uls"))
-(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/X-Connect/control-system/products/ias/configuration/components/power/pms-complete-example/1_1_PMSTest_Main.uls"))
-(setq mb/xconnect-uls (expand-file-name "~/code/ulstein/IasConfig/201136_SlettaBN176_Coastcat20W/201136_SlettaBN176_Coastcat20W.uls"))
+(defvar mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201121_cmhi_196_1/201121_cmhi_196_1_sunstone1.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/Lab Config/00000_1_LAB.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/X-Connect/control-system/products/ias/configuration/components/power/pms-complete-example/1_1_PMSTest_Main.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201136_SlettaBN176_Coastcat20W/201136_SlettaBN176_Coastcat20W.uls"))
 
 
 (defun mb/ias-project (root)
@@ -306,10 +306,10 @@ a filesystem path."
   (setq processed-filename (mb/strip-dots-prefix-repeatedly filename))
   ;; if processed-filename ends up with a prefix of gui_build/, strip it and replace it with
   ;; gui/. We always want the canonical location to be the source, not the build tree.
-  (while (string-prefix-p "/home/burchr/code/ulstein/X-Connect/gui_build/" processed-filename)
-    (setq processed-filename (replace-regexp-in-string "^\\/home\\/burchr\\/code\\/ulstein\\/X\\-Connect\\/gui_build\\/" "" processed-filename)))
+  (while (string-prefix-p "/home/burchr/code/bluectrl/X-Connect/gui_build/" processed-filename)
+    (setq processed-filename (replace-regexp-in-string "^\\/home\\/burchr\\/code\\/bluectrl\\/X\\-Connect\\/gui_build\\/" "" processed-filename)))
 
-  (setq processed-filename (concat "/home/burchr/code/ulstein/X-Connect/gui/" processed-filename))
+  (setq processed-filename (concat "/home/burchr/code/bluectrl/X-Connect/gui/" processed-filename))
 
   (cond ((file-exists-p processed-filename)
          processed-filename)

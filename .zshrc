@@ -66,7 +66,7 @@ function set_git_author_and_committer {
             ;& # fallthrough
         */burchr/code/crimson/*)
             ;& # fallthrough
-        */burchr/code/ulstein/*)
+        */burchr/code/bluectrl/*)
             ;& # fallthrough
         */burchr/code/crimson/)
             export GIT_AUTHOR_EMAIL="robin.burchell@crimson.no"
