@@ -94,7 +94,7 @@ a filesystem path."
                                 (lambda (mb/dirpart mb/built-path)
                                   (if (string= mb/dirpart "greenfield")
                                       (setq mb/projdata (cl-acons 'compile-command
-                                                               (format "source ~/.ssh/hosts/adele.home.viroteck.net.sh; cd %s && qmake-qt5 CONFIG+=debug && make -j10 && ./greenfield" mb/built-path) mb/projdata)))))
+                                                               (format "source ~/.ssh/hosts/adele.home.viroteck.net.sh; cd %s && cmake . -DCMAKE_BUILD_TYPE=Debug && make -j10 && ./AppGreenfield" mb/built-path) mb/projdata)))))
     (if (mb/project-compile-command mb/projdata)
         (throw 'mb-done mb/projdata))))
 
