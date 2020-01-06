@@ -288,7 +288,7 @@ a filesystem path."
 (defun mb/identify-projectV2 ()
   "Identify project information associated with the current file."
   (interactive)
-  (throw 'incomplete t)))
+  (throw 'incomplete t)
   (let ((mb/file-name buffer-file-name)
         (mb/project-list))
     (message (format "Initial before anything %s" mb/file-name))

@@ -90,7 +90,7 @@
  '(custom-enabled-themes (quote (wombat)))
  '(package-selected-packages
    (quote
-    (ag aggressive-fill-paragraph go-mode magit org evil-magit ivy evil-collection evil)))
+    (rust-mode ag aggressive-fill-paragraph go-mode magit org evil-magit ivy evil-collection evil)))
  '(term-char-mode-point-at-process-mark nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
