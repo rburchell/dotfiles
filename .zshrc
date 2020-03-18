@@ -199,11 +199,13 @@ elif [[ "$RB_PLATFORM" == 'osx' ]]; then
     export LSCOLORS=GxFxCxDxBxegedabagaced # get slightly less obnoxious coloring
 fi
 
-# for some reason, zsh screws up the bindings for word navigation.
+# set up keys for basic navigation. sigh...
 # NB, to use this on Mac, you need to go to Keyboard settings, shortcuts tab &
 # reconfigure "move left/right a space" to something else.
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
+bindkey "$(echotc kh)" beginning-of-line # home
+bindkey "$(echotc '@7')" end-of-line     # end
 
 alias m='make'
 alias pd='popd'

@@ -2,7 +2,7 @@
 
 set $mod Mod1
 
-font pango:monospace 8
+font pango:DejaVu Sans Mono 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -60,15 +60,20 @@ exec xrandr --output $sec_mon --right-of $pri_mon
 
 # Setup workspaces
 set $wksp1 1
-set $wksp2 2
-set $wksp3 3
-set $wksp4 4
-set $wksp5 5
+set $wksp2 "2: comm"
+set $wksp3 "3: web"
+set $wksp4 "4: work"
+set $wksp5 "5: workapp"
 set $wksp6 6
 set $wksp7 7
-set $wksp8 "8: tg"
-set $wksp9 "9: web"
-set $wksp10 "10: ias"
+set $wksp8 8
+set $wksp9 9
+set $wksp10 10
+
+set $wksp_web $wksp3
+set $wksp_comm $wksp2
+set $wksp_work $wksp4
+set $wksp_work_app $wksp5
 
 # Setup workspaces
 workspace $wksp1 output $pri_mon
@@ -94,12 +99,22 @@ bindsym $mod+8 workspace $wksp8
 bindsym $mod+9 workspace $wksp9
 bindsym $mod+0 workspace $wksp10
 
-assign [class="^Firefox$"] $wksp9
-assign [class="^IasOperatorStation$"] $wksp10
-assign [class="^Ulstein IAS$"] $wksp10
-assign [class="^IasLogPublisher$"] $wksp10
+# switch between current and prev workspace
+bindsym $mod+Tab workspace back_and_forth
+
+assign [class="^Firefox$"] $wksp_web
+assign [class="^Telegram$"] $wksp_comm
 
 for_window [class="line-graph"] floating enable
+for_window [class="^Ulstein IAS$"] \
+    floating enable, \
+    fullscreen toggle, \
+    move container to workspace "5: workapp"
+# not sure why a variable doesn't work ^^^ here but ok
+for_window [class="^X-Connect Development Aid$"] \
+    floating enable, \
+    move container to workspace "5: workapp"
+# not sure why a variable doesn't work ^^^ here but ok
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $wksp1
