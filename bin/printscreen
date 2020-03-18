@@ -1,0 +1,11 @@
+#!/bin/sh
+file=""
+if [ -z "$1" ]; then
+    file="/tmp/printscreen-$(randstr).png"
+else
+    file="$1"
+fi
+
+echo "using $file"
+import "$file"
+echo "$file"
