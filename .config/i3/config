@@ -115,6 +115,8 @@ bindsym $mod+Shift+0 move container to workspace $wksp10
 
 # lock the screen
 bindsym $mod+Shift+l exec i3lock -c 222222
+# print the screen
+bindsym --release Print exec /bin/zsh /home/burchr/bin/printscreen-clipboard
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)

@@ -1,0 +1,4 @@
+#!/bin/zsh
+echo $PATH
+# Should really be merged into printscreen proper but...
+pbcopy $(printscreen)

@@ -1,2 +1,12 @@
 #!/bin/sh
-xclip -selection clipboard
+if [ -z "$1" ]; then
+    xclip -selection clipboard
+else
+    ext=`echo $1 | awk -F . '{ print $NF } '`
+    if [[ "$ext" = "png" ]]; then
+        xclip -selection clipboard -target image/png "$1"
+    else
+        echo "Unexpected extension: $ext"
+        exit 1
+    fi
+fi
