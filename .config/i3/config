@@ -52,38 +52,69 @@ bindsym $mod+a focus parent
 # focus the child container
 bindsym $mod+c focus child
 
-# switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9: web
-bindsym $mod+0 workspace 10: ias
+set $pri_mon DP-1-1
+set $sec_mon eDP-1
 
-assign [class="^Firefox$"] 9: web
-assign [class="^IasOperatorStation$"] 10: ias
-assign [class="^Ulstein IAS$"] 10: ias
-assign [class="^IasLogPublisher$"] 10: ias
+exec xrandr --output $pri_mon --primary
+exec xrandr --output $sec_mon --right-of $pri_mon
+
+# Setup workspaces
+set $wksp1 1
+set $wksp2 2
+set $wksp3 3
+set $wksp4 4
+set $wksp5 5
+set $wksp6 6
+set $wksp7 7
+set $wksp8 "8: tg"
+set $wksp9 "9: web"
+set $wksp10 "10: ias"
+
+# Setup workspaces
+workspace $wksp1 output $pri_mon
+workspace $wksp2 output $pri_mon
+workspace $wksp3 output $pri_mon
+workspace $wksp4 output $pri_mon
+workspace $wksp5 output $pri_mon
+workspace $wksp6 output $pri_mon
+workspace $wksp7 output $pri_mon
+workspace $wksp8 output $pri_mon
+workspace $wksp9 output $pri_mon
+workspace $wksp10 output $pri_mon
+
+# switch to workspace
+bindsym $mod+1 workspace $wksp1
+bindsym $mod+2 workspace $wksp2
+bindsym $mod+3 workspace $wksp3
+bindsym $mod+4 workspace $wksp4
+bindsym $mod+5 workspace $wksp5
+bindsym $mod+6 workspace $wksp6
+bindsym $mod+7 workspace $wksp7
+bindsym $mod+8 workspace $wksp8
+bindsym $mod+9 workspace $wksp9
+bindsym $mod+0 workspace $wksp10
+
+assign [class="^Firefox$"] $wksp9
+assign [class="^IasOperatorStation$"] $wksp10
+assign [class="^Ulstein IAS$"] $wksp10
+assign [class="^IasLogPublisher$"] $wksp10
 
 for_window [class="line-graph"] floating enable
 
-
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9: web
-bindsym $mod+Shift+0 move container to workspace 10: ias
+bindsym $mod+Shift+1 move container to workspace $wksp1
+bindsym $mod+Shift+2 move container to workspace $wksp2
+bindsym $mod+Shift+3 move container to workspace $wksp3
+bindsym $mod+Shift+4 move container to workspace $wksp4
+bindsym $mod+Shift+5 move container to workspace $wksp5
+bindsym $mod+Shift+6 move container to workspace $wksp6
+bindsym $mod+Shift+7 move container to workspace $wksp7
+bindsym $mod+Shift+8 move container to workspace $wksp8
+bindsym $mod+Shift+9 move container to workspace $wksp9
+bindsym $mod+Shift+0 move container to workspace $wksp10
 
+# lock the screen
+bindsym $mod+Shift+l exec i3lock -c 222222
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
