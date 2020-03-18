@@ -178,10 +178,9 @@ a filesystem path."
 (defvar mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201121_cmhi_196_1/201121_cmhi_196_1_sunstone1.uls"))
-(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/Lab Config/00000_1_LAB.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/X-Connect/control-system/products/ias/configuration/components/power/pms-complete-example/1_1_PMSTest_Main.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201136_SlettaBN176_Coastcat20W/201136_SlettaBN176_Coastcat20W.uls"))
-
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/Lab Config/00000_1_LAB.uls"))
 
 (defun mb/ias-project (root)
   "Get project data for IasGui."
