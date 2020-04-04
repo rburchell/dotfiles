@@ -204,8 +204,8 @@ fi
 # reconfigure "move left/right a space" to something else.
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
-bindkey "$(echotc kh)" beginning-of-line # home
-bindkey "$(echotc '@7')" end-of-line     # end
+bindkey '^[OH' beginning-of-line # home
+bindkey '^[OF' end-of-line # home
 
 alias m='make'
 alias pd='popd'

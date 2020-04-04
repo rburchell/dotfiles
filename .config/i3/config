@@ -4,17 +4,19 @@ set $mod Mod1
 
 font pango:DejaVu Sans Mono 8
 
+mouse_warping none
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+# start a terminal. nb: was i3-sensible-terminal, but that doesn't load urvxt256c.
+bindsym $mod+Return exec urxvt256c
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec --no-startup-id dmenu_run
 
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
@@ -55,8 +57,14 @@ bindsym $mod+c focus child
 set $pri_mon DP-1-1
 set $sec_mon eDP-1
 
-exec xrandr --output $pri_mon --primary
-exec xrandr --output $sec_mon --right-of $pri_mon
+#set $sec_mon DP-1-1
+#set $pri_mon eDP-1
+
+exec_always --no-startup-id xrandr --output $pri_mon --primary --screen 0 --mode 1920x1080
+exec_always --no-startup-id xrandr --output $sec_mon --right-of $pri_mon --screen 0 --mode 1920x1080
+
+# Allow automatic switching back and forth
+workspace_auto_back_and_forth yes
 
 # Setup workspaces
 set $wksp1 1
@@ -70,10 +78,10 @@ set $wksp8 8
 set $wksp9 9
 set $wksp10 10
 
-set $wksp_web $wksp3
-set $wksp_comm $wksp2
-set $wksp_work $wksp4
-set $wksp_work_app $wksp5
+set $wksp_web "3: web"
+set $wksp_comm "2: comm"
+set $wksp_work "4: work"
+set $wksp_work_app "5: workapp"
 
 # Setup workspaces
 workspace $wksp1 output $pri_mon
@@ -102,19 +110,23 @@ bindsym $mod+0 workspace $wksp10
 # switch between current and prev workspace
 bindsym $mod+Tab workspace back_and_forth
 
-assign [class="^Firefox$"] $wksp_web
-assign [class="^Telegram$"] $wksp_comm
+#assign [class="^Firefox$"] $wksp_web
+#assign [class="^Telegram$"] $wksp_comm
+assign [class="^Ulstein IAS$"] $wksp_work_app
 
-for_window [class="line-graph"] floating enable
-for_window [class="^Ulstein IAS$"] \
-    floating enable, \
-    fullscreen toggle, \
-    move container to workspace "5: workapp"
-# not sure why a variable doesn't work ^^^ here but ok
-for_window [class="^X-Connect Development Aid$"] \
-    floating enable, \
-    move container to workspace "5: workapp"
-# not sure why a variable doesn't work ^^^ here but ok
+#for_window [class="line-graph"] floating enable
+
+#for_window [class="^Ulstein IAS$"] \
+#    floating enable
+
+#    move container to workspace $wksp_work_app
+
+#fullscreen toggle, \
+
+#for_window [class="^X-Connect Development Aid$"] \
+#    floating enable, \
+#    move container to workspace $wksp_work_app
+#for_window [class="^Virt-manager$" title="Virtual Machine Manager"] floating enable
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $wksp1
@@ -128,8 +140,10 @@ bindsym $mod+Shift+8 move container to workspace $wksp8
 bindsym $mod+Shift+9 move container to workspace $wksp9
 bindsym $mod+Shift+0 move container to workspace $wksp10
 
+# sticky the window
+bindsym $mod+Shift+p sticky toggle
 # lock the screen
-bindsym $mod+Shift+l exec i3lock -c 222222
+bindsym $mod+Shift+l exec i3lock -c 222222 -f
 # print the screen
 bindsym --release Print exec /bin/zsh /home/burchr/bin/printscreen-clipboard
 # reload the configuration file
@@ -162,3 +176,11 @@ bar {
     tray_padding 0
 }
 
+# Theming
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff

@@ -6,6 +6,5 @@ else
     file="$1"
 fi
 
-echo "using $file"
 import "$file"
 echo "$file"
