@@ -180,7 +180,9 @@ a filesystem path."
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201121_cmhi_196_1/201121_cmhi_196_1_sunstone1.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/X-Connect/control-system/products/ias/configuration/components/power/pms-complete-example/1_1_PMSTest_Main.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201136_SlettaBN176_Coastcat20W/201136_SlettaBN176_Coastcat20W.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201140_SlettaBN180_Macho20/Config.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/Lab Config/00000_1_LAB.uls"))
+
 
 (defun mb/ias-project (root)
   "Get project data for IasGui."
@@ -259,6 +261,8 @@ a filesystem path."
       (if mb/xconnect-root-path
           ;; TODO: control system, eventually...
           (progn
+            (if (string= mb/dirpart "shared")
+                (throw 'mb-done (mb/ias-project mb/xconnect-root-path)))
             (if (string= mb/dirpart "ias-gui")
                 (throw 'mb-done (mb/ias-project mb/xconnect-root-path)))
             (if (string= mb/dirpart "eas-gui")
