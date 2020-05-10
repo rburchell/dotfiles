@@ -1,0 +1,2 @@
+#!/bin/sh
+objdump -drwC "$1" | less
