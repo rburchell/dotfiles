@@ -3,7 +3,7 @@
 	email = robin+git@viroteck.net
 [core]
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
-	editor = vim
+	editor = emacsclient
 [diff]
 	renames = copy
 [color]
@@ -16,7 +16,9 @@
 [alias]
     ci = commit -a -v
     fixup = commit -v -m "fixup"
-	ap = !sh -c 'git rev-list --reverse  | xargs -n1 git cherry-pick' -
+    ap = !sh -c 'git rev-list --reverse  | xargs -n1 git cherry-pick' -
+    whatsup = 'git branch -a --sort=-committerdate'
+    whatsmerged = 'git branch -a --merged'
     unadd = reset HEAD --
     unstage = reset HEAD --
     stage = add -v

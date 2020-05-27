@@ -60,6 +60,13 @@ set $sec_mon eDP-1
 #set $sec_mon DP-1-1
 #set $pri_mon eDP-1
 
+# both screens:
+#xrandr --output $pri_mon --primary --screen 0 --mode 1920x1080
+#xrandr --output $sec_mon --right-of $pri_mon --screen 0 --mode 1920x1080
+#
+# disable a screen:
+# xrandr --output <X> off
+
 exec_always --no-startup-id xrandr --output $pri_mon --primary --screen 0 --mode 1920x1080
 exec_always --no-startup-id xrandr --output $sec_mon --right-of $pri_mon --screen 0 --mode 1920x1080
 
@@ -113,6 +120,7 @@ bindsym $mod+Tab workspace back_and_forth
 #assign [class="^Firefox$"] $wksp_web
 #assign [class="^Telegram$"] $wksp_comm
 assign [class="^Ulstein IAS$"] $wksp_work_app
+assign [class="^X-Connect GUI"] $wksp_work_app
 
 #for_window [class="line-graph"] floating enable
 
