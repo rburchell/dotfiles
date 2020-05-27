@@ -178,10 +178,14 @@ a filesystem path."
 (defvar mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201127-UVE_315/201127_UVE315_Windea3.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201121_cmhi_196_1/201121_cmhi_196_1_sunstone1.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201130_cmhi_196_2/201130_cmhi_196_2_sunstone2.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/X-Connect/control-system/products/ias/configuration/components/power/pms-complete-example/1_1_PMSTest_Main.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201116-jdn2/201116_2_JDN.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201136_SlettaBN176_Coastcat20W/201136_SlettaBN176_Coastcat20W.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201140_SlettaBN180_Macho20/Config.uls"))
+(setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/201145_Vermland_Austevoll/201145_Vermland_Austevoll.uls"))
 (setq mb/xconnect-uls (expand-file-name "~/code/bluectrl/IasConfig/Lab Config/00000_1_LAB.uls"))
+
 
 
 (defun mb/ias-project (root)
@@ -191,6 +195,7 @@ a filesystem path."
         ;;(mb/startup-page "DeploymentView.qml")
         (mb/startup-page "LogsView.qml")
         (mb/startup-page "SignalLabView.qml")
+        (mb/startup-page "EasApp.qml")
         ;;(mb/startup-page (expand-file-name "~/battery.qml"))
         )
     (setq mb/projdata (cl-acons 'project "X-Connect" mb/projdata))
@@ -204,9 +209,10 @@ a filesystem path."
                                "--editMimics"
                                "--configFile"
                                (concat "\"" mb/xconnect-uls "\"")
+                               "--runTests"
                                "--startupPage"
                                mb/startup-page
-                               "--fullScreen"
+                               ;; "--fullScreen"
                                ;; "--resolution"
                                ;; "sxga"
                               ))
@@ -226,6 +232,7 @@ a filesystem path."
                               "products/eas-gui/eas-gui-app/EasGui"
                               "products/eas-gui/eas-gui-app/"
                               (list 
+                               "--runTests"
                                "--configFile"
                                (concat "\"" mb/xconnect-uls "\"")))
                              mb/projdata))

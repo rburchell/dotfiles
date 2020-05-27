@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+T=$(mktemp tmp.gorun.XXXXXXXXXX.go)
+trap cleanup EXIT
+
+cleanup() {
+    #rm "$T"
+    exit 0
+}
+
+tail -n +2 ${1} > ${T}
+go run ${T}
+cleanup
