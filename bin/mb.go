@@ -74,6 +74,56 @@ func (this genericMakefileDetector) detect(filePath string) []project {
 	return nil
 }
 
+// Greenfield project
+type greenfieldDetector struct{}
+
+func (this greenfieldDetector) detect(filePath string) []project {
+	var cb cbType = func(dirPart, builtPath string) (*string, error) {
+		if dirPart == "greenfield" {
+			makeCmd := fmt.Sprintf("source ~/.ssh/hosts/adele.home.viroteck.net.sh && cd %s/greenfield && cmake . -DCMAKE_BUILD_TYPE=Debug && make -j10 && ./AppGreenfield", builtPath)
+			return &makeCmd, nil
+		}
+		return nil, nil
+	}
+	cmdString, err := forEachDirectoryPart(filePath, cb)
+	if err != nil {
+		panic(err)
+	}
+	if cmdString != nil {
+		log.Printf("Greenfield found in %s", *cmdString)
+		p := execBashProject{cmd: *cmdString}
+		return []project{p}
+	}
+	return nil
+}
+
+// Project that is built by some generic shell-based command
+// makeProject could be replaced by this...
+type execBashProject struct {
+	cmd string
+}
+
+func (this execBashProject) run() {
+	cmd := exec.Command("/usr/bin/bash", "-c", this.cmd)
+	//cmd.Dir = this.dir
+	cmd.Stderr = os.Stderr
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+
+	log.Printf("Starting bash-based command: %s", this.cmd)
+	err := cmd.Start()
+	if err != nil {
+		log.Fatalf("Start error: %s", err)
+	}
+	log.Printf("Waiting for compile to finish...")
+	err = cmd.Wait()
+	if err == nil {
+		os.Exit(0)
+	} else {
+		log.Fatalf("compile error: %v", err)
+	}
+}
+
 // A simple detector for Go-based projects.
 type genericGoDetector struct{}
 
@@ -160,6 +210,9 @@ func (this makeProject) run() {
 
 func main() {
 	detectors := []projectDetector{
+		greenfieldDetector{},
+
+		// Generic detectors should be last.
 		genericMakefileDetector{},
 		genericGoDetector{},
 	}

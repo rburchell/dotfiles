@@ -85,19 +85,6 @@ a filesystem path."
 ;; finding project settings                                                                   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun mb/identify-greenfield-project (file-name)
-  "Identify compile command for greenfield (if in greenfield), or nil."
-  (let ((mb/projdata ()))
-    (setq mb/projdata (cl-acons 'project "Greenfield" mb/projdata))
-    (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
-    (mb/for-each-directory-part file-name
-                                (lambda (mb/dirpart mb/built-path)
-                                  (if (string= mb/dirpart "greenfield")
-                                      (setq mb/projdata (cl-acons 'compile-command
-                                                               (format "source ~/.ssh/hosts/adele.home.viroteck.net.sh; cd %s && cmake . -DCMAKE_BUILD_TYPE=Debug && make -j10 && ./AppGreenfield" mb/built-path) mb/projdata)))))
-    (if (mb/project-compile-command mb/projdata)
-        (throw 'mb-done mb/projdata))))
-
 (defun mb/identify-serenity-project (file-name)
   "Identify compile command for Serenity (if in serenity), or nil."
   (let ((mb/projdata ()))
@@ -262,7 +249,6 @@ a filesystem path."
     (catch 'mb-done
       (mb/identify-xconnect-project mb/file-name)
       (mb/identify-serenity-project mb/file-name)
-      ;;(mb/identify-greenfield-project mb/file-name)
       (mb/identify-fallback-project mb/file-name)
       )))
 
