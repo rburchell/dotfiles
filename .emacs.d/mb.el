@@ -122,21 +122,6 @@ a filesystem path."
         (setq mb/projdata (cl-acons 'compile-command "go build && go test -v ./..." mb/projdata))
         (throw 'mb-done mb/projdata))))
 
-(defun mb/identify-tinyscheme-project (file-name)
-  "Identify compile command for tinyscheme source, or nil."
-  (let ((mb/projdata ()))
-    (setq mb/projdata (cl-acons 'project "tinyscheme" mb/projdata))
-    (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
-    ;; Needs to be interactive. It's a command line binary, after all.
-    (setq mb/projdata (cl-acons 'interactive-compile-buffer-required t mb/projdata))
-    (mb/for-each-directory-part file-name
-                                (lambda (mb/dirpart mb/built-path)
-                                  (if (string= mb/dirpart "tinyscheme")
-                                      (setq mb/projdata (cl-acons 'compile-command
-                                                               "make && ./scheme" mb/projdata)))))
-    (if (mb/project-compile-command mb/projdata)
-        (throw 'mb-done mb/projdata))))
-
 (defun mb/get-xconnect-compile-command (project-path binary-path run-path arguments)
   "Get compile command for an X-Connect binary.  This is just a simple helper."
   (message (format "get-xconnect-compile-command %s" project-path))
@@ -288,7 +273,6 @@ a filesystem path."
       (mb/identify-serenity-project mb/file-name)
       ;;(mb/identify-greenfield-project mb/file-name)
       (mb/identify-go-project mb/file-name)
-      (mb/identify-tinyscheme-project mb/file-name)
       (mb/identify-fallback-project mb/file-name)
       )))
 
