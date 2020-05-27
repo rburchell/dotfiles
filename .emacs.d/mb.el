@@ -113,15 +113,6 @@ a filesystem path."
     (if (mb/project-compile-command mb/projdata)
         (throw 'mb-done mb/projdata))))
 
-(defun mb/identify-go-project (file-name)
-  "Identify compile command for Go source, or nil."
-  (if (string-suffix-p ".go" file-name)
-      (let ((mb/projdata ()))
-        (setq mb/projdata (cl-acons 'project "Generic Go" mb/projdata))
-        (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
-        (setq mb/projdata (cl-acons 'compile-command "go build && go test -v ./..." mb/projdata))
-        (throw 'mb-done mb/projdata))))
-
 (defun mb/get-xconnect-compile-command (project-path binary-path run-path arguments)
   "Get compile command for an X-Connect binary.  This is just a simple helper."
   (message (format "get-xconnect-compile-command %s" project-path))
@@ -249,13 +240,13 @@ a filesystem path."
             (if (string= mb/dirpart "gui-simulator")
                 (throw 'mb-done (mb/simulator-project mb/xconnect-root-path)))))))))
 
-;; Generic fallback to the Go builder.
+;; Generic fallback to mb.go
 (defun mb/identify-fallback-project (file-name)
   (let ((mb/projdata ()))
     (setq mb/file-name file-name)
     (setq mb/projdata (cl-acons 'project "Generic" mb/projdata))
     (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
-    (setq mb/projdata (cl-acons 'compile-command (format "go run ~/bin/mb.go %s" file-name) mb/projdata))
+    (setq mb/projdata (cl-acons 'compile-command (format "go run ~/bin/mb.go -- %s" file-name) mb/projdata))
     (setq mb/projbuffer-name (mb/compilation-buffer-name-for-project mb/projdata))
     (throw 'mb-done mb/projdata)))
 
@@ -272,7 +263,6 @@ a filesystem path."
       (mb/identify-xconnect-project mb/file-name)
       (mb/identify-serenity-project mb/file-name)
       ;;(mb/identify-greenfield-project mb/file-name)
-      (mb/identify-go-project mb/file-name)
       (mb/identify-fallback-project mb/file-name)
       )))
 
