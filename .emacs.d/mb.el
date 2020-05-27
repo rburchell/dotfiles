@@ -137,19 +137,6 @@ a filesystem path."
     (if (mb/project-compile-command mb/projdata)
         (throw 'mb-done mb/projdata))))
 
-(defun mb/identify-generic-makefile-project (file-name)
-  "Identify project for a Makefile, or nil."
-  (let ((mb/projdata ()))
-    (setq mb/projdata (cl-acons 'project "Makefile" mb/projdata)) ;; TODO: use file-name directory?
-    (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
-    (mb/for-each-directory-part file-name
-                                (lambda (mb/dirpart mb/built-path)
-                                  (if (file-exists-p (format "%s/Makefile" mb/built-path))
-                                      (setq mb/projdata (cl-acons 'compile-command
-                                                               "make" mb/projdata)))))
-    (if (mb/project-compile-command mb/projdata)
-        (throw 'mb-done mb/projdata))))
-
 (defun mb/get-xconnect-compile-command (project-path binary-path run-path arguments)
   "Get compile command for an X-Connect binary.  This is just a simple helper."
   (message (format "get-xconnect-compile-command %s" project-path))
@@ -277,61 +264,33 @@ a filesystem path."
             (if (string= mb/dirpart "gui-simulator")
                 (throw 'mb-done (mb/simulator-project mb/xconnect-root-path)))))))))
 
+;; Generic fallback to the Go builder.
+(defun mb/identify-fallback-project (file-name)
+  (let ((mb/projdata ()))
+    (setq mb/file-name file-name)
+    (setq mb/projdata (cl-acons 'project "Generic" mb/projdata))
+    (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
+    (setq mb/projdata (cl-acons 'compile-command (format "go run ~/bin/mb.go %s" file-name) mb/projdata))
+    (setq mb/projbuffer-name (mb/compilation-buffer-name-for-project mb/projdata))
+    (throw 'mb-done mb/projdata)))
+
+
 ;; TODO: return list rather than throw
 (defun mb/identify-project ()
   "Identify project information associated with the current file."
   (interactive)
   (let ((mb/file-name buffer-file-name))
-    (message (format "Initial before anything %s" mb/file-name))
     (if (not mb/file-name)
         ;; this might be the case for e.g. dired buffers
         (setq mb/file-name (expand-file-name ".")))
     (catch 'mb-done
       (mb/identify-xconnect-project mb/file-name)
       (mb/identify-serenity-project mb/file-name)
-      (mb/identify-greenfield-project mb/file-name)
+      ;;(mb/identify-greenfield-project mb/file-name)
       (mb/identify-go-project mb/file-name)
       (mb/identify-tinyscheme-project mb/file-name)
-      (mb/identify-generic-makefile-project mb/file-name)
+      (mb/identify-fallback-project mb/file-name)
       )))
-
-(defun mb/identify-projectV2 ()
-  "Identify project information associated with the current file."
-  (interactive)
-  (throw 'incomplete t)
-  (let ((mb/file-name buffer-file-name)
-        (mb/project-list))
-    (message (format "Initial before anything %s" mb/file-name))
-    (if (not mb/file-name)
-        ;; this might be the case for e.g. dired buffers
-        (setq mb/file-name (expand-file-name ".")))
-    
-    (mb/for-each-directory-part mb/file-name
-                                (lambda (last-part full-path)
-                                  (let ((mb/project-file-name (format "%s/projects.mb" full-path))
-                                        (mb/project-builder-function nil)
-                                        (mb/subproject-list nil))
-                                    (when (file-exists-p mb/project-file-name)
-                                      (load mb/project-file-name)
-                                      (when (fboundp 'mb/project-builder-function)
-                                        (setq mb/subproject-list (mb/project-builder-function mb/file-name))
-                                        (dolist (mb/tmpproj mb/subproject-list)
-                                          (setq mb/project-list (cons mb/tmpproj mb/project-list)))
-                                        )))
-                                  nil))
-
-    (message (format "%s" mb/project-list))
-    (if (> (length mb/project-list) 1)
-        (progn
-          ;; (dolist (mb/tmpproj mb/project-list)
-          ;;   (message (format "Got a project: %s %s" (mb/project-name mb/tmpproj) (mb/project-sub-project-name mb/tmpproj)))
-          ;;   )
-          ;; (completing-read
-          ;;  "Select a project: "
-          ;;  '(("foobar1" 1) ("barfoo" 2) ("foobaz" 3) ("foobar2" 4))
-          ;;  nil t "")
-          )
-      (message "Just the right number of projects"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; actual compilation/notification stuff                                                      ;;
@@ -380,15 +339,19 @@ a filesystem path."
   "Get a buffer name for compilation of a project.  This will not be shared by anything else, so multiple projects can run at once."
   (format "*compilation*<%s:%s>" (mb/project-name projdata) (mb/project-sub-project-name projdata)))
 
+
+
+
 (defun mb/mb ()
   "Mega Builder.  Builds (and run) the current buffer as appropriate."
   (interactive)
   (let* ((mb/projdata (mb/identify-project))
-        (mb/projbuffer-name (mb/compilation-buffer-name-for-project mb/projdata)))
+         (mb/projbuffer-name (mb/compilation-buffer-name-for-project mb/projdata)))
     (if (not mb/projdata)
         (message "No project to build")
       (progn
         (message (format "Preparing to build project into buffer %s" mb/projbuffer-name))
+
         ;; Kill the old compilation process for the project.
         ;; Ignore errors, because the buffers/processes may not exist.
         ;; TODO: only do this if the project is not set to run in the background.

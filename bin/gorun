@@ -9,5 +9,8 @@ cleanup() {
 }
 
 tail -n +2 ${1} > ${T}
-go run ${T}
+# bleh... we need to strip off the shebang if there is one, but leave if not.
+#cat ${1} > ${T}
+shift
+go run ${T} $@
 cleanup
