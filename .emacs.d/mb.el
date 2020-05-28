@@ -233,7 +233,7 @@ a filesystem path."
     (setq mb/file-name file-name)
     (setq mb/projdata (cl-acons 'project "Generic" mb/projdata))
     (setq mb/projdata (cl-acons 'sub-project "" mb/projdata))
-    (setq mb/projdata (cl-acons 'compile-command (format "go run ~/bin/mb.go -- %s" file-name) mb/projdata))
+    (setq mb/projdata (cl-acons 'compile-command (format "~/code/workspace/mb/mb -- %s" file-name) mb/projdata))
     (setq mb/projbuffer-name (mb/compilation-buffer-name-for-project mb/projdata))
     (throw 'mb-done mb/projdata)))
 
