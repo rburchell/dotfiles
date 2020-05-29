@@ -135,7 +135,6 @@ HISTFILE=~/.zsh/history
 HISTSIZE=5000
 SAVEHIST=5000
 
-bindkey -e
 
 # set up keys for basic navigation. sigh...
 # NB, to use this on Mac, you need to go to Keyboard settings, shortcuts tab &
@@ -144,6 +143,9 @@ bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 bindkey '^[OH' beginning-of-line # home
 bindkey '^[OF' end-of-line # home
+
+bindkey -e
+
 bindkey '^[[H' beginning-of-line
 bindkey '^A' beginning-of-line
 bindkey '^[[F' end-of-line
