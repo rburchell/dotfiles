@@ -99,7 +99,7 @@ preexec() {
 export WORDCHARS=''
 export PATH=~/bin:~/bin/$RB_PLATFORM:~/bin/linux/wkhtmltox/bin:~/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
 export GOPATH=~/code/go
-export EDITOR="emacsclient --alternate-editor='' -c"
+export EDITOR="emacsclient --alternate-editor='' -c -t"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_MESSAGES="en_US.UTF-8"
@@ -113,7 +113,7 @@ export QT_MESSAGE_PATTERN="[%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}
 if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
-    alias e="emacsclient --alternate-editor='' -c"
+    alias e="emacsclient --alternate-editor='' -c -t"
 fi
 
 alias gp='git push'
