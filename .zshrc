@@ -110,6 +110,9 @@ export EMAIL="robin@viroteck.net"
 export MAKEOPTS='-j8'
 export QT_MESSAGE_PATTERN="[%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}] %{category}: %{function}:%{line} - %{message}"
 
+READNULLCMD=${PAGER:-/usr/bin/less}
+which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
+
 if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
@@ -132,8 +135,8 @@ unset MAIL
 
 REPORTTIME=10
 HISTFILE=~/.zsh/history
-HISTSIZE=5000
-SAVEHIST=5000
+HISTSIZE=50000
+SAVEHIST=50000
 
 
 # set up keys for basic navigation. sigh...
