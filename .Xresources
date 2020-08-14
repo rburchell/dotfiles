@@ -19,6 +19,8 @@ URxvt.cursorUnderline: false
 URxvt.saveline: 2048
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
+URxvt*scrollTtyOutput: false
+URxvt*scrollWithBuffer: true
 URxvt.scrollTtyKeypress: true
 URxvt.urgentOnBell: true
 URxvt.visualBell: true
