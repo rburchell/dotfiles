@@ -28,6 +28,12 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+bindsym $mod+Shift+Ctrl+Left move workspace to output left
+bindsym $mod+Shift+Ctrl+Down move workspace to output down
+bindsym $mod+Shift+Ctrl+Up move workspace to output up
+bindsym $mod+Shift+Ctrl+Right move workspace to output right
+
+
 # split in horizontal orientation
 bindsym $mod+h split h
 
@@ -57,18 +63,10 @@ bindsym $mod+c focus child
 set $pri_mon DP-1-1
 set $sec_mon eDP-1
 
-#set $sec_mon DP-1-1
-#set $pri_mon eDP-1
+exec_always --no-startup-id ~/code/workspace/myde/myde
 
-# both screens:
-#xrandr --output $pri_mon --primary --screen 0 --mode 1920x1080
-#xrandr --output $sec_mon --right-of $pri_mon --screen 0 --mode 1920x1080
-#
-# disable a screen:
-# xrandr --output <X> off
-
-exec_always --no-startup-id xrandr --output $pri_mon --primary --screen 0 --mode 1920x1080
-exec_always --no-startup-id xrandr --output $sec_mon --right-of $pri_mon --screen 0 --mode 1920x1080
+# enable AltGr (right alt) as compose key
+exec always --no-startup-id setxkbmap -option compose:ralt
 
 # Allow automatic switching back and forth
 workspace_auto_back_and_forth yes
