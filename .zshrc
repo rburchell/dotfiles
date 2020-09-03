@@ -120,6 +120,10 @@ if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias e="emacsclient --alternate-editor='' -c -t"
 fi
 
+# retrain my mental habits
+alias vi="echo 'Use the right command: e' && sleep 1 && e"
+alias vim="echo 'Use the right command: e' && sleep 1 && e"
+
 alias gp='git push'
 alias gpr='git pull --rebase'
 alias gci='git commit'
@@ -186,7 +190,7 @@ __git_files () {
 # make tab completion case insensitive
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
-function vizsh() {
+function ezsh() {
     e ~/.zshrc
     zsh -n ~/.zshrc
 
