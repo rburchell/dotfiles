@@ -300,3 +300,14 @@
 (after! lsp-rust
   (setq lsp-rust-server 'rust-analyzer))
 
+;; fix theme when frame eated by emacsclient
+;; see https://github.com/hlissner/doom-emacs/issues/1728
+;; (add-hook! 'after-make-frame-functions
+;;   (defun my-load-theme-fix (frame)
+;;       (select-frame frame)
+;;       (doom/reload-theme)))
+
+(after! org
+  ;; org settings: point things to the right place...
+  (setq org-directory "~/code/workspace/.org")
+  (setq org-default-notes-file "~/code/workspace/.org/refile.org"))
