@@ -1,10 +1,15 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+;; Disable solaire mode
+;; This breaks colorschemes when connecting to a daemon-mode emacs set up by
+;; a graphical emacs session.
+;; See: https://github.com/hlissner/doom-emacs/issues/3761
+(package! solaire-mode :disable t)
+
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
-
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
