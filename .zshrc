@@ -100,7 +100,7 @@ preexec() {
 export WORDCHARS=''
 export PATH=~/bin:~/bin/$RB_PLATFORM:~/bin/linux/wkhtmltox/bin:~/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
 export GOPATH=~/code/go
-export EDITOR="emacsclient --alternate-editor='' -c -t"
+export EDITOR="emacsclient -t --alternate-editor='' -c"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_MESSAGES="en_US.UTF-8"
@@ -117,12 +117,12 @@ which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"
 if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
-    alias e="emacsclient --alternate-editor='' -c -t"
+    alias e="$EDITOR"
 fi
 
 # retrain my mental habits
-alias vi="echo 'Use the right command: e' && sleep 1 && e"
-alias vim="echo 'Use the right command: e' && sleep 1 && e"
+alias vi="echo 'Use the right command: e' && sleep 5 && e"
+alias vim="echo 'Use the right command: e' && sleep 5 && e"
 
 alias gp='git push'
 alias gpr='git pull --rebase'
