@@ -84,7 +84,7 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       ;;(format +onsave)  ; automated prettiness
+       (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
@@ -182,7 +182,7 @@
        ;;rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
        ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;scheme            ; a fully conniving family of lisps
        sh                ; she sells {ba,z,fi}sh shells on the C xor
@@ -297,17 +297,15 @@
   ;; ;; Disable caching: this gets huge really easily.
   (setq projectile-enable-caching nil))
 
-(after! lsp-rust
-  (setq lsp-rust-server 'rust-analyzer))
-
-;; fix theme when frame eated by emacsclient
-;; see https://github.com/hlissner/doom-emacs/issues/1728
-;; (add-hook! 'after-make-frame-functions
-;;   (defun my-load-theme-fix (frame)
-;;       (select-frame frame)
-;;       (doom/reload-theme)))
+;; Choose rust-analyzer as LSP server.
+(setq lsp-rust-server 'rust-analyzer)
+(setq rustic-rust-server 'rust-analyzer)
 
 (after! org
   ;; org settings: point things to the right place...
   (setq org-directory "~/code/workspace/.org")
   (setq org-default-notes-file "~/code/workspace/.org/refile.org"))
+
+;; Don't autoformat everything...
+(setq +format-on-save-enabled-modes
+      '(go-mode rustic-mode))
