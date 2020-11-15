@@ -34,6 +34,12 @@ function set_title_if_needed {
 # This magical function is run before every prompt. Used for the little
 # niceties in life like setting a pretty PS1.
 function precmd {
+    # when running an application that uses alternate screen mode,
+    # if it does not clean up properly after itself, then things will
+    # break in an annoying fashion. try reset to work around this.
+    # testcase: start (e.g.) emacs, and kill -9 it from another terminal.
+    tput init
+   
     # must be done early to save status
     local exit_status=$?
 
