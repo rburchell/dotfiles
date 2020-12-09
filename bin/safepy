@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MYPY_OPTS=""
+# MYPY_OPTS="$MYPY_OPTS --disallow-any-unimported "
+# MYPY_OPTS="$MYPY_OPTS --disallow-any-expr "
+# MYPY_OPTS="$MYPY_OPTS --disallow-any-decorated "
+# MYPY_OPTS="$MYPY_OPTS --disallow-any-explicit "
+# MYPY_OPTS="$MYPY_OPTS --disallow-any-generics "
+# MYPY_OPTS="$MYPY_OPTS --disallow-subclassing-any "
+
+MYPY_OPTS="$MYPY_OPTS --disallow-untyped-calls "
+MYPY_OPTS="$MYPY_OPTS --disallow-untyped-defs "
+MYPY_OPTS="$MYPY_OPTS --disallow-incomplete-defs "
+MYPY_OPTS="$MYPY_OPTS --disallow-untyped-decorators "
+
+# MYPY_OPTS="$MYPY_OPTS --no-strict-optional "
+
+
+dmypy run -- --follow-imports=skip $MYPY_OPTS -- "$1"
+python "$@"
