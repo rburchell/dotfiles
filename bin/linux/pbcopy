@@ -6,7 +6,6 @@ else
     if [[ "$ext" = "png" ]]; then
         xclip -selection clipboard -target image/png "$1"
     else
-        echo "Unexpected extension: $ext"
-        exit 1
+        xclip -selection clipboard "$1"
     fi
 fi
