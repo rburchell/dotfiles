@@ -300,9 +300,20 @@
   ;; ;; Disable caching: this gets huge really easily.
   (setq projectile-enable-caching nil))
 
-;; Choose rust-analyzer as LSP server.
-(setq lsp-rust-server 'rust-analyzer)
-(setq rustic-rust-server 'rust-analyzer)
+;;;; rust
+(after! rustic
+  (set-formatter! 'rustic-mode #'rustic-cargo-fmt))
+(setq rustic-lsp-server 'rust-analyzer
+      rustic-format-on-save t
+      lsp-rust-server 'rust-analyzer)
+(after! lsp
+  (setq lsp-rust-analyzer-lru-capacity 10
+        lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-display-chaining-hints t
+        lsp-rust-analyzer-display-parameter-hints t
+        lsp-rust-analyzer-cargo-watch-enable t
+        lsp-rust-analyzer-cargo-watch-command "clippy"))
+      
 
 (after! org
   ;; org settings: point things to the right place...
