@@ -58,7 +58,7 @@ application/rti-package=rtilauncher.desktop
 
 [Added Associations]
 image/png=gimp.desktop;shotwell-viewer.desktop;
-application/pdf=libreoffice-draw.desktop;
+application/pdf=xournal.desktop;libreoffice-draw.desktop;
 image/svg+xml=inkscape.desktop;
 image/jpeg=gimp.desktop;shotwell-viewer.desktop;
 x-scheme-handler/sms=org.gnome.Shell.Extensions.GSConnect.desktop;
@@ -137,3 +137,4 @@ application/x-shellscript=emacs.desktop;
 application/x-trash=org.gnome.gedit.desktop;
 application/x-7z-compressed=org.gnome.FileRoller.desktop;
 text/plain=emacs.desktop;
+application/x-cpio=org.gnome.FileRoller.desktop;
