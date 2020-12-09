@@ -321,5 +321,11 @@
   (setq org-default-notes-file "~/code/workspace/.org/refile.org"))
 
 ;; Don't autoformat everything...
-(setq +format-on-save-enabled-modes
-      '(go-mode rustic-mode))
+;; (setq +format-on-save-enabled-modes
+;;       '(go-mode rustic-mode))
+;; (setq +format-on-save-enabled-modes
+;;       '(not emacs-lisp-mode  ; elisp's mechanisms are good enough
+;;             sql-mode         ; sqlformat is currently broken
+;;             tex-mode         ; latexindent is broken
+;;             latex-mode))
+
