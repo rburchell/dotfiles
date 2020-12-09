@@ -106,7 +106,7 @@ preexec() {
 export WORDCHARS=''
 export PATH=~/bin:~/bin/$RB_PLATFORM:~/bin/linux/wkhtmltox/bin:~/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
 export GOPATH=~/code/go
-export EDITOR="emacsclient -t --alternate-editor='' -c"
+export EDITOR="e"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
 export LC_MESSAGES="en_US.UTF-8"
