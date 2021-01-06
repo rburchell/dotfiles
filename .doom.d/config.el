@@ -304,7 +304,9 @@
 (after! rustic
   (set-formatter! 'rustic-mode #'rustic-cargo-fmt))
 (setq rustic-lsp-server 'rust-analyzer
-      rustic-format-on-save t
+      ;; Disable for now. See https://github.com/rust-lang/rustfmt/issues/4454
+      ;; Having to add a special toml just to format seems suboptimal.
+      ;; rustic-format-on-save t
       lsp-rust-server 'rust-analyzer)
 (after! lsp
   (setq lsp-rust-analyzer-lru-capacity 10
