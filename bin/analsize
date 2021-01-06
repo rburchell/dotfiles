@@ -1,0 +1,9 @@
+#!/bin/sh
+echo "Largest files (by assembly size)"
+find . -name "*.s" | xargs wc -l | sort -nr #| head -n11 | tail -n10
+
+echo "Largest files (by intermediate size)"
+find . -name "*.i" -or -name "*.ii" | xargs wc -l | sort -nr #| head -n11 | tail -n10
+
+echo "Largest (by header dependencies)"
+find . -name "*.d" | xargs wc -l | sort -nr #| head -n11 | tail -n10
