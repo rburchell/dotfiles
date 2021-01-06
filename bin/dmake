@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Find the nearest CMakeLists.txt
+cmake_path="$(pwd)"
+while [[ $cmake_path != "/" ]];
+do
+    if [[ -f "$cmake_path/CMakeLists.txt" ]]; then
+        break
+    fi
+    cmake_path="$(readlink -f "$cmake_path"/..)"
+done
+
+if [[ ! -d "$cmake_path" ]]; then
+    echo "Could not find a valid CMakeLists.txt";
+    exit 1
+fi
+
+# Find the "features" location
+features_path="$(pwd)"
+while [[ $features_path != / ]];
+do
+    # TODO: perhaps use some other file so that a non-checkout will work too
+    if [[ -d "$features_path/.git" ]]; then
+        break
+    fi
+    features_path="$(readlink -f "$features_path"/..)"
+done
+
+if [[ "$features_path" == "/" ]]; then
+    echo "Was not able to locate repository root.";
+    exit 1
+fi
+
+features_path="$features_path/features/"
+if [[ ! -d "$features_path" ]]; then
+    echo "Features path ($features_path) not valid";
+    exit 1
+fi
+
+echo "CMake project is at $cmake_path"
+echo "Features path is $features_path"
+
+CMAKE_ARGS=""
+CMAKE_ARGS="$CMAKE_ARGS -DCMAKE_MODULE_PATH=$features_path"
+CMAKE_ARGS="$CMAKE_ARGS -Wno-dev" # suppress stupid warnings about project() and cmake_minimum_version()
+CMAKE_ARGS="$CMAKE_ARGS ." # in-tree builds only, for now at least
+(cd $cmake_path && cmake $CMAKE_ARGS)
