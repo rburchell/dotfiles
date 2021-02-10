@@ -1,22 +1,48 @@
 #!/bin/sh
-if ! [ -z "$1" ]; then
-    if ! [ -f "$1" ]; then
+set -euo pipefail
+
+pasteid=$(hexdump -n 16 -v -e '/1 "%02X"' /dev/urandom)
+
+# source filename to upload
+from=""
+
+if [ -z ${1+x} ]; then
+    # clipboard copy...
+    data="$(pbpaste)"
+    echo "$data" > "/tmp/$pasteid.txt"
+    from="/tmp/$pasteid.txt"
+else
+    # file copy...
+    filename="$1"
+
+    if ! [ -f "$filename" ]; then
         echo "$0: file does not exist"
         exit 1
     fi
-    ext=`echo $1 | awk -F . '{ print $NF } '`
-    rand=$(randstr)
-    cp "$1" /tmp/$rand.$ext
-    url=$(upload /tmp/$rand.$ext)
-    echo "pasted $url"
-    rm /tmp/$rand.$ext
-else
-    data="$(pbpaste)"
-    rand=$(randstr)
-    echo "$data" > "/tmp/$rand.txt"
-    url=$(upload /tmp/$rand.txt)
-    rm /tmp/$rand.txt
-    echo "pasted $url"
-    echo $url | pbcopy
+
+    case $filename in
+        (*.*) extension=${filename##*.};;
+        (*)   extension="";;
+    esac
+
+    # surfer serves up some stuff as application/octet-stream,
+    # which is suboptimal when it's really text.
+    # to work around this, we pretend they are txt files.
+    case "$extension" in
+        "qml" | "cpp" | "h")
+            extension="$extension.txt"
+            ;;
+        *)
+            # no change necessary
+            ;;
+    esac
+
+    from="/tmp/$pasteid.$extension"
+    cp "$filename" "$from"
 fi
 
+url=$(upload "$from")
+rm "$from"
+
+echo "pasted $url"
+echo "$url" | pbcopy
