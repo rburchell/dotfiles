@@ -1,5 +1,5 @@
 [Default Applications]
-x-scheme-handler/tg=telegramdesktop.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-FRE0W0.desktop
 x-scheme-handler/http=userapp-Firefox-1WG9QZ.desktop
 x-scheme-handler/https=userapp-Firefox-1WG9QZ.desktop
 x-scheme-handler/ftp=userapp-Firefox-1WG9QZ.desktop
@@ -138,3 +138,4 @@ application/x-trash=org.gnome.gedit.desktop;
 application/x-7z-compressed=org.gnome.FileRoller.desktop;
 text/plain=emacs.desktop;
 application/x-cpio=org.gnome.FileRoller.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-FRE0W0.desktop;
