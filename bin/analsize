@@ -1,9 +1,28 @@
 #!/bin/sh
+
+# We want to find which files have an outsized impact to compilation performance.
+# To do that, build your code with:
+# -MMD (to generate .d files with header dependencies)
+# -save-temps (to save .s and .i/.ii files)
+#
+# Then, the following output will show you interesting files.
+#
+# Few things to watch for:
+# * Files with a lot of header dependencies (large .d) will slow down compilation they
+#   pull in a lot of code, and also result in a lot of useless busy-work as they
+#   require compilation when any of those dependencies change.
+#
+# * Files with a lot of .i/.ii/.s generate a lot of code, and may benefit either from being
+#   simplified, or split into pieces - but beware: splitting too far can be a problem in a
+#   different direction, as it may result in faster compilation, but slower linking.
+#
+# The one-liners, and save-temps flag came from advice on:
+# https://interrupt.memfault.com/blog/improving-compilation-times-c-cpp-projects,
+# reproduced here with thanks.
+
 echo "Largest files (by assembly size)"
 find . -name "*.s" | xargs wc -l | sort -nr #| head -n11 | tail -n10
-
 echo "Largest files (by intermediate size)"
 find . -name "*.i" -or -name "*.ii" | xargs wc -l | sort -nr #| head -n11 | tail -n10
-
 echo "Largest (by header dependencies)"
 find . -name "*.d" | xargs wc -l | sort -nr #| head -n11 | tail -n10
