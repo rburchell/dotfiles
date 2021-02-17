@@ -1,4 +1,7 @@
 #!/bin/bash
+# Poor man's iotop.
+# Probably never useful, but it was, once, when
+# I had no capability to get a working iotop running.
 
 if [ "$(id -u)" -ne 0 ] ; then
   echo "Must be root" 2>&1
