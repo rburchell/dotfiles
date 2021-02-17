@@ -1,4 +1,16 @@
 #!/usr/bin/env bash
+# qmake has a neat feature wherein you can have .prf files (loaded from the CONFIG var)
+# from a location set using a .qmake.conf file that sets QMAKEFEATURES.
+# This is quite handy, as you can share a lot of build-level vars and code this way,
+# without having to explicitly find and load the shared code.
+#
+# CMake unfortunately seems to have no such method to automatically load shared
+# files from a project, so I present this wrapper.
+#
+# It will find the closest CMakeLists.txt (by looking in pwd, upward to /) from
+# where the script is run, and also look for the features path similarly, and then
+# set CMAKE_MODULES_PATH to that location in order to make this a little more transparent.
+
 set -euo pipefail
 
 # Find the nearest CMakeLists.txt
