@@ -207,12 +207,6 @@ function ezsh() {
     fi
 }
 
-function vicron() {
-    e ~/bin/gencron
-    ~/bin/gencron | crontab
-    echo "$0: installed cron"
-}
-
 #which tmux >/dev/null 2>&1
 #if [[ -z "$TMUX" && $? -eq 0 ]]; then
 #    tmux list-sessions >/dev/null 2>&1
