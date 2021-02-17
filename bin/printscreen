@@ -1,7 +1,8 @@
 #!/bin/sh
 file=""
 if [ -z "$1" ]; then
-    file="/tmp/printscreen-$(randstr).png"
+    randid=$(hexdump -n 16 -v -e '/1 "%02X"' /dev/urandom)
+    file="/tmp/printscreen-${randid}.png"
 else
     file="$1"
 fi
