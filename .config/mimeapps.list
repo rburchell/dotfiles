@@ -60,6 +60,7 @@ text/plain=emacs.desktop;
 text/markdown=emacs.desktop;
 text/x-qml=emacs.desktop;
 text/x-c++src=emacs.desktop;
+text/x-c++hdr=emacs.desktop;
 application/octet-stream=emacs.desktop;
 text/x-java=emacs.desktop;
 application/xml=emacs.desktop;
