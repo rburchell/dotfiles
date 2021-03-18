@@ -139,3 +139,5 @@ application/x-7z-compressed=org.gnome.FileRoller.desktop;
 text/plain=emacs.desktop;
 application/x-cpio=org.gnome.FileRoller.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-FRE0W0.desktop;
+text/markdown=emacs.desktop;
+audio/mpeg=io.github.celluloid_player.Celluloid.desktop;
