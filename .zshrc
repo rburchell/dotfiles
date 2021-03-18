@@ -34,20 +34,18 @@ function set_title_if_needed {
 # This magical function is run before every prompt. Used for the little
 # niceties in life like setting a pretty PS1.
 function precmd {
+    # must be done early to save status
+    local exit_status=$?
+
     # when running an application that uses alternate screen mode,
     # if it does not clean up properly after itself, then things will
     # break in an annoying fashion. try reset to work around this.
     # testcase: start (e.g.) emacs, and kill -9 it from another terminal.
     tput init
-   
-    # must be done early to save status
-    local exit_status=$?
 
     # a nicer replacement for PRINT_EXIT_VALUE
     if [ $exit_status -ne 0 ]; then
         echo "zsh: exit $fg[red]$exit_status$reset_color";
-    else
-        echo "zsh: exit $exit_status";
     fi
 
     # Set up git author info without me having to edit git config in each repo.
