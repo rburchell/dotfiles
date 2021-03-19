@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Desktop File Executor
+GenericName=Desktop File Executor
+Comment=Launch desktop files
+MimeType=application/x-desktop
+Exec=launch-desktop %f
+Type=Application
+Terminal=false
+X-Desktop-File-Install-Version=0.26

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cp $1 ~/.local/share/applications/rb-desktop-tmp.desktop
+gtk-launch rb-desktop-tmp.desktop
+rm ~/.local/share/applications/rb-desktop-tmp.desktop

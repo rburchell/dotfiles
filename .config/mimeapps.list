@@ -75,6 +75,7 @@ application/x-compressed-tar=org.gnome.FileRoller.desktop;
 application/zip=org.gnome.FileRoller.desktop;
 application/gzip=org.gnome.FileRoller.desktop;
 application/x-7z-compressed=org.gnome.FileRoller.desktop;
+application/x-desktop=exec-desktop.desktop;
 
 [Added Associations]
 image/png=gimp.desktop;shotwell-viewer.desktop;
