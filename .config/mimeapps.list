@@ -67,6 +67,7 @@ application/xml=emacs.desktop;
 application/json=emacs.desktop;
 text/x-csharp=emacs.desktop;
 text/vcard=emacs.desktop;
+application/pdf=emacs.desktop;
 application/x-wine-extension-ini=emacs.desktop;
 
 [Added Associations]
