@@ -6,6 +6,7 @@
 #
 # CMake unfortunately seems to have no such method to automatically load shared
 # files from a project, so I present this wrapper.
+# (TODO: It appears that cmake 3.15+ may be able to do this with a nicer, less invasive method: https://cmake.org/cmake/help/latest/variable/CMAKE_PROJECT_INCLUDE_BEFORE.html)
 #
 # It will find the closest CMakeLists.txt (by looking in pwd, upward to /) from
 # where the script is run, and also look for the features path similarly, and then
