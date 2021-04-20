@@ -10,7 +10,7 @@ for var in "$@"; do
     if [ -d "$var" ]; then
         # for whatever reason, xdg-open can't handle this.
         echo "Opening $var as directory"
-        gnome-open "$var"
+        xdg-open "$var"
     else
         # if it's text, i want to be able to view it in an editor. no exceptions.
         file "$var" | grep "text"
