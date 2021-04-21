@@ -26,5 +26,5 @@ for var in "$@"; do
 done
 
 if [ ! -z "$txtList" ]; then
-    gvim --servername "GVIM" --remote-tab-silent "+|" $txtList
+    $EDITOR -- $txtList
 fi
