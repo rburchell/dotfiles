@@ -127,6 +127,7 @@ fi
 # retrain my mental habits
 alias vi="echo 'Use the right command: e' && sleep 5 && e"
 alias vim="echo 'Use the right command: e' && sleep 5 && e"
+alias xdg-open="echo 'Use the right command: open' && sleep 5 && open"
 
 alias gp='git push'
 alias gpr='git pull --rebase'
