@@ -1,26 +1,38 @@
-#!/bin/sh
+#!/usr/bin/env bash
 if [ -z "$1" ]; then
-    echo "Need a thing to open"
+    echo "$0: need at least one thing to open"
     exit 1
 fi
 
+# Build up a list of text documents.
+# This way, we open them all in a single editor instance.
 txtList=""
 
 for var in "$@"; do
     if [ -d "$var" ]; then
         # for whatever reason, xdg-open can't handle this.
-        echo "Opening $var as directory"
         xdg-open "$var"
     else
-        # if it's text, i want to be able to view it in an editor. no exceptions.
-        file "$var" | grep "text"
-        if [ $? -ne 0 ]; then
-            # and if it's not, i want to open it "normally".
-            echo "Opening $var via XDG"
+        filetype=$(file "$var")
+        #echo "File is $filetype"
+
+        if [[ "$filetype" =~ " HTML document" ]]; then
+            # Example:
+            # : HTML document, ASCII text, with very long lines
+            # We have to special-case this because it also contains "ASCII text",
+            # otherwise we could just use the xdg-open fallthrough below.
+            # Open HTML in a browser
             xdg-open "$var"
-        else
-            echo "Opening $var as text"
+        elif [[ "$filetype" =~ " ASCII text" ]]; then
+            # Examples:
+            # : C++ source, ASCII text
+            # : ASCII text
+            # For these, we want to open them in the editor.
+            # FIXME: This will not work with paths containing spaces, sigh.
             txtList="$txtList $var"
+        else
+            # Defer anything else to XDG
+            xdg-open "$var"
         fi
     fi
 done
