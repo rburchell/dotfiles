@@ -16,26 +16,32 @@ else
    echo "warning: platform unknown"
 fi
 
-function set_title_if_needed {
-    # Set the terminal title.
-    # If this breaks something, then use TERM to settitle to 0.
-    # I'm going to just assume it works everywhere.
-    settitle=1
+# Set the terminal title, if the terminal likely supports it.
+if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
+    rb_do_set_xterm_title=1
+fi
 
-    if [[ "$settitle" == "1" ]] ; then
-        if [ "$USER" = "burchr" ]; then
-            print -Pn "\e]0;$1 (%m)\a";
-        else
-            print -Pn "\e]0;$1 (%n@%m)\a";
-        fi
+function set_xterm_title_precmd {
+    if [[ "$rb_do_set_xterm_title" -eq 1 ]]; then
+        print -Pn -- '\e]2;%n@%m %~\a'
+        [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
+    fi
+}
+
+function set_xterm_title_preexec {
+    if [[ "$rb_do_set_xterm_title" -eq 1 ]]; then
+        print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
+        [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
     fi
 }
 
 # This magical function is run before every prompt. Used for the little
 # niceties in life like setting a pretty PS1.
-function precmd {
+function precmd() {
     # must be done early to save status
     local exit_status=$?
+
+    set_xterm_title_precmd $@
 
     # when running an application that uses alternate screen mode,
     # if it does not clean up properly after itself, then things will
@@ -112,7 +118,6 @@ export LC_CTYPE="en_US.UTF-8"
 export LC_NUMERIC=C
 export LC_COLLATE=C
 export EMAIL="robin@viroteck.net"
-export MAKEOPTS='-j8'
 export QT_MESSAGE_PATTERN="[%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}] %{category}: %{function}:%{line} - %{message}"
 
 READNULLCMD=${PAGER:-/usr/bin/less}
