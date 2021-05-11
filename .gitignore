@@ -30,6 +30,7 @@
 !/.zshrc
 !/bin/analsize
 !/bin/configure-qt
+!/bin/configure-qt-static
 !/bin/dmake
 !/bin/e
 !/bin/exec.go

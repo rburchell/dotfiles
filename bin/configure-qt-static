@@ -1,0 +1,9 @@
+#!/bin/sh
+
+staticopts="-static -qt-doubleconversion -no-glib -qt-pcre -qt-zlib -no-bearermanagement -no-accessibility"
+staticopts="$staticopts -qt-freetype -qt-harfbuzz -qt-xcb -qt-libpng -qt-libjpeg -qt-sqlite"
+if [ "$#" -gt 0 ]; then
+  ./configure -opensource -confirm-license -developer-build -DQT_MESSAGELOGCONTEXT -nomake tests -nomake examples -no-pch $staticopts -v "$@"
+else
+  ./configure -opensource -confirm-license -developer-build -DQT_MESSAGELOGCONTEXT -nomake tests -nomake examples -no-pch $staticopts -v
+fi
