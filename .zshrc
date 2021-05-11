@@ -103,12 +103,12 @@ function precmd() {
 }
 
 # This function is executed when a command is read, before it is run.
-preexec() {
-    set_title_if_needed "$1"
+function preexec() {
+    set_xterm_title_preexec $@
 }
 
 export WORDCHARS=''
-export PATH=~/bin:~/bin/$RB_PLATFORM:~/bin/linux/wkhtmltox/bin:~/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games:~/code/go/bin
+export PATH=~/code/go/bin:~/.local/bin:~/.local/bin/$RB_PLATFORM:~/.local/bin/linux/wkhtmltox/bin:~/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
 export GOPATH=~/code/go
 export EDITOR="e"
 export LANG="en_US.UTF-8"
