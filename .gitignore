@@ -29,6 +29,7 @@
 !/.zsh/compinstall
 !/.zshrc
 !/bin/analsize
+!/bin/linux/ifconfig
 !/bin/configure-qt
 !/bin/configure-qt-static
 !/bin/dmake

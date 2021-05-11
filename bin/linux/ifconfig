@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# skip ourselves (assume we're in $HOME ... probably not great but ok), and pick
+# the last real ssh binary
+realifconfig=$(which -a ifconfig | grep -v "$HOME" | tail -n1)
+
+if [[ $# -eq 0 ]]; then
+    exec ip -br -c a
+else
+    exec "$realifconfig" $@
+fi
+
