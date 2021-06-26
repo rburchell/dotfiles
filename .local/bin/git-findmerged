@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# find all local branches which are fully incorporated in `origin/master`
+#
+# this is similar to `git branch --merged origin/master`, except that it is not limited to fully
+# merged branches (where the commit exists in the upstream branch). `git cherry` will find branches
+# where all commits match an upstream commit, i.e. that would apply the same diff.
+#
+# Effectively, this finds branches where all commits have been added to `origin/master` using
+# `git rebase` or `git cherry-pick`.
+#
+# It shouldn't be losing useful information, but ymmv.
+#
+# Original author: John Brooks <john@jbrooks.io>
+# Released under BSD, or WTFPL, at your convenience
+
+for b in $(git for-each-ref refs/heads --format="%(refname:short)"); do  # Go through each branch
+  # git cherry prefixes each commit with "+" if it's not included and "-" if it is, so check if there are no "+" lines:
+  if [[ ! $(git cherry HEAD $b | grep "^+") ]]; then
+    if [[ $b = rburchell/* ]]; then
+        if [ "$1" = "delete" ]; then
+            git branch -D $b
+        else
+            echo "would delete: $b"
+        fi
+    else
+        echo "ignored: $b"
+    fi
+  fi
+done
+
+if ! [ "$1" = "delete" ]; then
+    echo
+    echo "to apply: git findmerged delete"
+fi
