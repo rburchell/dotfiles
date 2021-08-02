@@ -78,3 +78,5 @@
           ("\\bug" error bold)
           ;; For warning about a problematic or misguiding code
           ("XXX" font-lock-constant-face bold))))
+
+(load! "qml-mode.el")

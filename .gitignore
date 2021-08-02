@@ -9,6 +9,7 @@
 !/.doom.d/config.el
 !/.doom.d/init.el
 !/.doom.d/packages.el
+!/.doom.d/qml-mode.el
 !/.emacs.d
 !/.fonts.conf
 !/.fonts/consola.ttf
