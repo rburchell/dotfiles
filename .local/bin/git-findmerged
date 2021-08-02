@@ -14,17 +14,24 @@
 # Original author: John Brooks <john@jbrooks.io>
 # Released under BSD, or WTFPL, at your convenience
 
-for b in $(git for-each-ref refs/heads --format="%(refname:short)"); do  # Go through each branch
+# the set of refs to scan...
+#to_scan="refs/remotes/origin"
+to_scan="refs/heads"
+
+# limit deletion to branches with this prefix
+my_branch_prefix="rburchell/"
+
+for b in $(git for-each-ref $to_scan --format="%(refname:short)"); do  # Go through each branch
   # git cherry prefixes each commit with "+" if it's not included and "-" if it is, so check if there are no "+" lines:
   if [[ ! $(git cherry HEAD $b | grep "^+") ]]; then
-    if [[ $b = rburchell/* ]]; then
+    if [[ $b = $my_branch_prefix* ]]; then
         if [ "$1" = "delete" ]; then
             git branch -D $b
         else
-            echo "would delete: $b"
+            echo "branch is merged: $b (would delete, but wasn't prompted to)"
         fi
     else
-        echo "ignored: $b"
+        echo "branch is merged: $b (not my branch, won't delete)"
     fi
   fi
 done
