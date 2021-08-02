@@ -79,7 +79,7 @@ application/x-desktop=exec-desktop.desktop;
 
 [Added Associations]
 image/png=gimp.desktop;shotwell-viewer.desktop;
-application/pdf=xournal.desktop;libreoffice-draw.desktop;
+application/pdf=org.gnome.Evince.desktop;xournal.desktop;libreoffice-draw.desktop;
 image/svg+xml=inkscape.desktop;
 image/jpeg=gimp.desktop;shotwell-viewer.desktop;
 x-scheme-handler/sms=org.gnome.Shell.Extensions.GSConnect.desktop;
@@ -146,3 +146,5 @@ application/x-trash=org.gnome.gedit.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-FRE0W0.desktop;
 audio/mpeg=rhythmbox.desktop;
 audio/ogg=rhythmbox.desktop;
+application/epub+zip=calibre-ebook-viewer.desktop;calibre-gui.desktop;calibre-ebook-edit.desktop;
+audio/flac=mpv.desktop;
