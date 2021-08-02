@@ -6,6 +6,7 @@
 !/.config/mimeapps.list
 !/.config/systemd/user/default.target.wants/emacs.service
 !/.config/systemd/user/emacs.service
+!/.config/systemd/user/rb-store-mount.service
 !/.doom.d/config.el
 !/.doom.d/init.el
 !/.doom.d/packages.el
