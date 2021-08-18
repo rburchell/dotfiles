@@ -146,5 +146,6 @@ application/x-trash=org.gnome.gedit.desktop;
 x-scheme-handler/tg=userapp-Telegram Desktop-FRE0W0.desktop;
 audio/mpeg=rhythmbox.desktop;
 audio/ogg=rhythmbox.desktop;
-application/epub+zip=calibre-ebook-viewer.desktop;calibre-gui.desktop;calibre-ebook-edit.desktop;
+application/epub+zip=calibre-gui.desktop;calibre-ebook-viewer.desktop;calibre-ebook-edit.desktop;
 audio/flac=mpv.desktop;
+font/ttf=org.gnome.font-viewer.desktop;org.fontforge.FontForge.desktop;
