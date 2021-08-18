@@ -2,7 +2,41 @@
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
+(setq lsp-clients-clangd-args '("-j=3"
+                                "--background-index"
+                                "--clang-tidy"
+                                "--completion-style=detailed"
+                                "--header-insertion=never"))
+(after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
+;; LSP and format-on-save seem to not be working well together.
+;; See https://github.com/hlissner/doom-emacs/issues/5128
+;; (add-hook 'c-mode-hook #'format-all-mode)               ;; enable code formatting on save
+;; (setq-hook! 'c-mode-hook +format-with-lsp nil)
+
+(setq evil-vsplit-window-right t)
+(setq evil-split-window-below t)
+
+(setq window-divider-default-right-width 10)
+(setq window-divider-default-bottom-width 1)
+
+;; Keep window title up-to-date; should fail gracefully in non-xterm terminals.
+;; Only works in Emacs 27+.
+;; xterm-set-window-title doesn't seem to correctly handle non-terminal frames.
+;; See https://github.com/hlissner/doom-emacs/issues/4977.
+(setq xterm-set-window-title t)
+(defadvice! fix-xterm-set-window-title (&optional terminal)
+  :before-while #'xterm-set-window-title
+  (not (display-graphic-p terminal)))
+
+;; ;; Some terminals offer two different cursors: a "visible" static cursor and a
+;; ;; "very visible" blinking one. By default, Emacs uses the very visible cursor
+;; ;; and will switch back to it when Emacs is started or resumed. A nil
+;; ;; `visible-cursor' prevents this.
+;; (setq visible-cursor nil)
+
+;; ;; Enable the mouse in terminal Emacs
+;; (add-hook 'tty-setup-hook #'xterm-mouse-mode)
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
