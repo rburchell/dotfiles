@@ -7,7 +7,10 @@
 	renames = copy
 	noprefix = true
 [color]
+	ui = auto
 	diff = auto
+[blame]
+	coloring = highlightRecent
 [gc]
 	# If there are many loose objects, pack them
 	auto = 50
