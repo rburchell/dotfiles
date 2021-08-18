@@ -13,7 +13,14 @@
 !/.doom.d/qml-mode.el
 !/.emacs.d
 !/.fonts.conf
-!/.fonts/consola.ttf
+!/.local/share/fonts/AardFixedSemiCondensed.ttf
+!/.local/share/fonts/alrightsans-black-v3.otf
+!/.local/share/fonts/alrightsans-bold-v3.otf
+!/.local/share/fonts/alrightsans-medium-v3.otf
+!/.local/share/fonts/alrightsans-regular-v3.otf
+!/.local/share/fonts/alrightsans-thin-v3.otf
+!/.local/share/fonts/alrightsans-ultra-v3.otf
+!/.local/share/fonts/consola.ttf
 !/.gdbinit
 !/.gitconfig
 !/.gitignore
