@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: Not important, but it'd perhaps nice to be able to pass arguments to a tool.
+# Something like this maybe? ./run build --build-mode=debug --build-optimized
+# Tools would expose two arg lists: boolean arguments, and value arguments,
+# and run_tool would check for them, and set them as environment variables, like:
+# CONFIG_BUILD_MODE=debug, CONFIG_BUILD_OPTIMIZED=1 etc.
+#
+# TODO: Walk from pwd upwards, searching for .rbtools, and add all contents to the possible tool list.
+
+function toolrootpath() {
+    local gitdir=$(git rev-parse --show-toplevel)
+    local tooldir="${gitdir}/.rbtools"
+    echo "$tooldir"
+}
+
+function listtools() {
+    local tooldir=$(toolrootpath)
+    if [[ -d "$tooldir" ]]; then
+        for tool in $(ls "${tooldir}"); do
+            echo "$tool"
+        done
+    fi
+}
+
+function toolpath() {
+    local tool="$(toolrootpath)/$1"
+    if [[ ! -f "$tool" ]]; then
+        echo ""
+    else
+        echo "$tool"
+    fi
+}
+
+function error() {
+    local bin=$(basename $0)
+    echo "$bin: $@"
+    exit 1
+}
+
+function usage() {
+    local bin=$(basename $0)
+    echo "HELP"
+    echo ""
+    echo "    ${bin} [OPTION|TOOL]..."
+    echo ""
+    echo "    Example: ${bin} -v build"
+    echo ""
+    echo "DESCRIPTION"
+    echo ""
+    echo "    Runs the requested tools,in order, as well as any dependencies they specify."
+    echo ""
+    echo "OPTIONS"
+    echo ""
+    echo "    -v"
+    echo "        Enable verbose logging"
+    echo "    -x"
+    echo "        Enable tracing of script execution"
+    echo ""
+    echo "TOOLS"
+    echo ""
+    for tool in $(listtools); do
+        echo "    - $tool"
+    done
+    exit 0
+}
+
+if [[ "$#" -eq 0 ]]; then
+    usage
+else
+    args="$@"
+fi
+
+verbose=0
+
+function log() {
+    if [[ "$verbose" -eq 1 ]]; then
+        echo "$1"
+    fi
+}
+
+tools_already_run=""
+
+function run_tool() {
+    local tool="$1"
+    if [[ "$tools_already_run" =~ "$tool" ]]; then
+        # Don't run the same stage twice
+        return
+    fi
+
+    local tpath=$(toolpath "$tool")
+    if [[ ! -f "$tpath" ]]; then
+        error "no such tool: $tool"
+    fi
+    source "$tpath"
+    local run_fn="${tool}_run"
+    local deps_fn="${tool}_dependencies"
+
+    if [[ "$(type -t "$run_fn")" != "function" ]]; then
+        error "$tool $tool does not define a run function"
+    fi
+    if [[ "$(type -t "$deps_fn")" != "function" ]]; then
+        error "tool $tool does not define a dependencies function"
+    fi
+    local deps="$($deps_fn)"
+
+    log "running $tool: deps: $deps"
+    for dep in $deps; do
+        log "running dep $dep for tool $tool"
+        run_tool "$dep"
+    done
+    
+    log "running tool: $tool ($run_fn)"
+    "$run_fn"
+    tools_already_run="$tools_already_run $tool"
+}
+
+for var in $args; do
+    if [[ "$var" == "-v" ]]; then
+        verbose=1
+        continue
+    elif [[ "$var" == "-x" ]]; then
+        echo "enabling tracing"
+        set -x
+        continue
+    elif [[ "$var" == "--help" || "$var" == "-h" ]]; then
+        var="help"
+    fi
+
+    run_tool "$var"
+done

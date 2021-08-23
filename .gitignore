@@ -37,6 +37,7 @@
 !/.tmux.conf
 !/.zsh/compinstall
 !/.zshrc
+!/.local/bin/run
 !/.local/bin/analsize
 !/.local/bin/linux/ifconfig
 !/.local/bin/configure-qt
