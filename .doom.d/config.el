@@ -29,6 +29,13 @@
   :before-while #'xterm-set-window-title
   (not (display-graphic-p terminal)))
 
+;; Stop comments being completely and utterly broken... https://github.com/hlissner/doom-emacs/issues/5759
+(after! cc-mode
+  (sp-local-pair '(c-mode c++-mode) "/*!" "*/" :actions :rem))
+
+;; Also don't continue the *s when hitting enter, because stylistically, I don't like that...
+(setq +default-want-RET-continue-comments nil)
+
 ;; ;; Some terminals offer two different cursors: a "visible" static cursor and a
 ;; ;; "very visible" blinking one. By default, Emacs uses the very visible cursor
 ;; ;; and will switch back to it when Emacs is started or resumed. A nil
