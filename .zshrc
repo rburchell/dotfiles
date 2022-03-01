@@ -21,27 +21,16 @@ if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|s
     rb_do_set_xterm_title=1
 fi
 
-function set_xterm_title_precmd {
-    if [[ "$rb_do_set_xterm_title" -eq 1 ]]; then
-        print -Pn -- '\e]2;%n@%m %~\a'
-        [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
-    fi
-}
-
-function set_xterm_title_preexec {
-    if [[ "$rb_do_set_xterm_title" -eq 1 ]]; then
-        print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
-        [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
-    fi
-}
-
 # This magical function is run before every prompt. Used for the little
 # niceties in life like setting a pretty PS1.
 function precmd() {
     # must be done early to save status
     local exit_status=$?
 
-    set_xterm_title_precmd $@
+    if [[ "$rb_do_set_xterm_title" -eq 1 ]]; then
+        print -Pn -- '\e]2;%n@%m %~\a'
+        [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
+    fi
 
     # when running an application that uses alternate screen mode,
     # if it does not clean up properly after itself, then things will
@@ -104,7 +93,10 @@ function precmd() {
 
 # This function is executed when a command is read, before it is run.
 function preexec() {
-    set_xterm_title_preexec $@
+    if [[ "$rb_do_set_xterm_title" -eq 1 ]]; then
+        print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
+        [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
+    fi
 }
 
 export WORDCHARS=''
