@@ -137,15 +137,19 @@ alias gl='git log'
 
 setopt GLOB EXTENDED_GLOB MAGIC_EQUAL_SUBST RC_EXPAND_PARAM \
        HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_VERIFY CORRECT HASH_CMDS \
-       RC_QUOTES AUTO_CONTINUE MULTIOS VI INC_APPEND_HISTORY \
+       RC_QUOTES AUTO_CONTINUE MULTIOS VI \
        APPENDHISTORY INTERACTIVE_COMMENTS autopushd prompt_subst
+
+# Import new commands from the history file in other shell instances
+setopt share_history
+
 unsetopt beep
 unset MAIL
 
 REPORTTIME=10
 HISTFILE=~/.zsh/history
-HISTSIZE=50000
-SAVEHIST=50000
+HISTSIZE=500000
+SAVEHIST=500000
 
 
 # set up keys for basic navigation. sigh...
