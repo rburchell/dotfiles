@@ -5,7 +5,7 @@ Description=Mount store
 Type=simple
 Restart=always
 ExecStartPre=mkdir -p /run/user/1000/rbmounts/store
-ExecStart=sshfs -f root@192.168.122.1:/store /run/user/1000/rbmounts/store
+ExecStart=sshfs -f -o reconnect -o no_readahead -o max_conns=10 root@192.168.122.1:/store /run/user/1000/rbmounts/store
 ExecStop=umount -l /run/user/1000/rbmounts/store
 
 [Install]
