@@ -50,6 +50,7 @@
 !/.local/bin/git-applypatch
 !/.local/bin/git-findmerged
 !/.local/bin/git-maintainer
+!/.local/bin/git-recent
 !/.local/bin/git-uploadpatch
 !/.local/bin/gorun
 !/.local/bin/launch-desktop

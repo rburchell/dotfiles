@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Find what I was working on recently ...
+
+#git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset)- %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+
+git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10     | awk -F' ~ HEAD@{' '{printf("  %s: %s\n", substr($2, 1, length($2)-1), $1)}'
