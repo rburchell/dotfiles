@@ -110,7 +110,7 @@ export LC_CTYPE="en_US.UTF-8"
 export LC_NUMERIC=C
 export LC_COLLATE=C
 export EMAIL="robin@viroteck.net"
-export QT_MESSAGE_PATTERN="[%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}] %{category}: %{function}:%{line} - %{message}"
+export QT_MESSAGE_PATTERN="%{time process} [%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}] %{category}: %{function}:%{line} - %{message}"
 export CMAKE_GENERATOR=Ninja
 export CMAKE_EXPORT_COMPILE_COMMANDS=1
 
