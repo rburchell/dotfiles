@@ -1,0 +1,32 @@
+#!/bin/bash
+# this is a replacement for gnome-screenshot --area --clipboard
+# it's needed because gnome-screenshot fails to set the clipboard pretty much all the time:
+# https://gitlab.gnome.org/GNOME/gnome-screenshot/-/issues/159
+# my guess is that this is probably down to a missing call to gtk_clipboard_set_can_store,
+# since it exits so quickly, it subsequently gets lost.. but rather than dig into
+# something that is essentially deprecated, i'm just going to replace it here.
+
+# request an area to screenshot, via gnome-shell.
+# gnome-screenshot has fallback code to handle this interface being missing, but I don't think I care.
+# reply is like:
+#   int32 $x
+#   int32 $y
+#   int32 $width
+#   int32 $height
+reply=$(dbus-send --print-reply=literal --sender=org.gnome.Screenshot --dest=org.gnome.Shell.Screenshot /org/gnome/Shell/Screenshot org.gnome.Shell.Screenshot.SelectArea)
+
+# cut by lines (giving us an array of "   int32 439")
+IFS=$'\n' read -r -d '' -a lines <<< "$reply"
+
+# xargs skips the leading spaces, cut gives us the right piece.
+x=$(echo "${lines[0]}" | xargs | cut -d' ' -f2)
+y=$(echo "${lines[1]}" | xargs | cut -d' ' -f2)
+width=$(echo "${lines[2]}" | xargs | cut -d' ' -f2)
+height=$(echo "${lines[3]}" | xargs | cut -d' ' -f2)
+
+# screenshot the area we were given
+filename="$(mktemp /tmp/screenshot-XXXXXXX.png)"
+rm "$filename" # just in case
+dbus-send --print-reply --sender=org.gnome.Screenshot --dest=org.gnome.Shell.Screenshot /org/gnome/Shell/Screenshot org.gnome.Shell.Screenshot.ScreenshotArea int32:"$x" int32:"$y" int32:"$width" int32:"$height" boolean:true string:"$filename"
+pbcopy "$filename" # send to clipboard
+rm "$filename" # clean up after ourselves

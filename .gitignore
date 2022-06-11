@@ -61,6 +61,7 @@
 !/.local/bin/linux/pbcopy
 !/.local/bin/linux/pbpaste
 !/.local/bin/linux/schedtop
+!/.local/bin/linux/screenshot
 !/.local/bin/linux/swaptop
 !/.local/bin/linux/tdump
 !/.local/bin/oconvert
