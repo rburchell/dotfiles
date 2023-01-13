@@ -7,6 +7,8 @@
 !/.config/systemd/user/default.target.wants/emacs.service
 !/.config/systemd/user/emacs.service
 !/.config/systemd/user/rb-store-mount.service
+!/.config/kitty/kitty.conf
+!/.config/kitty/open-actions.conf
 !/.doom.d/config.el
 !/.doom.d/init.el
 !/.doom.d/packages.el
@@ -38,6 +40,7 @@
 !/.zsh/compinstall
 !/.zshrc
 !/.local/bin/run
+!/.local/bin/kg
 !/.local/bin/analsize
 !/.local/bin/linux/ifconfig
 !/.local/bin/configure-qt

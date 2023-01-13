@@ -1,0 +1,3 @@
+#!/bin/sh
+# TODO: Handle kitty not being installed...
+exec kitty +kitten hyperlinked_grep "$@"

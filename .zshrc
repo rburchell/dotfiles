@@ -135,6 +135,15 @@ alias gcia='git commit -a'
 alias gco='git checkout'
 alias gl='git log'
 
+if [[ "$TERM" == "xterm-kitty" ]]; then
+    alias icat="kitty +kitten icat --align=left"
+    autoload -Uz compinit
+    compinit
+    compdef _rg kg
+else
+    alias icat="echo 'icat not available without kitty :('"
+fi
+
 setopt GLOB EXTENDED_GLOB MAGIC_EQUAL_SUBST RC_EXPAND_PARAM \
        HIST_EXPIRE_DUPS_FIRST HIST_IGNORE_DUPS HIST_VERIFY CORRECT HASH_CMDS \
        RC_QUOTES AUTO_CONTINUE MULTIOS VI \
