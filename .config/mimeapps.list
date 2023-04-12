@@ -1,5 +1,5 @@
 [Default Applications]
-x-scheme-handler/tg=userapp-Telegram Desktop-FRE0W0.desktop
+x-scheme-handler/tg=org.telegram.desktop.desktop
 x-scheme-handler/http=userapp-Firefox-5ZB800.desktop
 x-scheme-handler/https=userapp-Firefox-5ZB800.desktop
 x-scheme-handler/ftp=userapp-Firefox-5ZB800.desktop
@@ -12,7 +12,7 @@ application/xhtml+xml=userapp-Firefox-5ZB800.desktop
 application/x-extension-xhtml=userapp-Firefox-5ZB800.desktop
 application/x-extension-xht=userapp-Firefox-5ZB800.desktop
 video/mp2t=io.github.GnomeMpv.desktop
-video/mp4=io.github.GnomeMpv.desktop
+video/mp4=io.github.celluloid_player.Celluloid.desktop
 video/x-ogm+ogg=io.github.GnomeMpv.desktop
 video/3gp=io.github.GnomeMpv.desktop
 video/3gpp=io.github.GnomeMpv.desktop
@@ -76,6 +76,7 @@ application/zip=org.gnome.FileRoller.desktop;
 application/gzip=org.gnome.FileRoller.desktop;
 application/x-7z-compressed=org.gnome.FileRoller.desktop;
 application/x-desktop=exec-desktop.desktop;
+image/webp=org.gnome.eog.desktop
 
 [Added Associations]
 image/png=gimp.desktop;shotwell-viewer.desktop;
@@ -122,7 +123,7 @@ audio/mp4=rhythmbox.desktop;
 application/x-ms-dos-executable=wine.desktop;
 x-scheme-handler/tel=org.gnome.Shell.Extensions.GSConnect.desktop;
 image/vnd.adobe.photoshop=gimp.desktop;
-video/mp4=vlc.desktop;mpv.desktop;
+video/mp4=vlc.desktop;mpv.desktop;io.github.celluloid_player.Celluloid.desktop;
 x-scheme-handler/rdp=org.remmina.Remmina.desktop;
 x-scheme-handler/spice=org.remmina.Remmina.desktop;
 x-scheme-handler/vnc=org.remmina.Remmina.desktop;
@@ -143,7 +144,7 @@ application/x-rpm=org.gnome.FileRoller.desktop;
 application/vnd.debian.binary-package=org.gnome.FileRoller.desktop;
 application/x-cpio=org.gnome.FileRoller.desktop;
 application/x-trash=org.gnome.gedit.desktop;
-x-scheme-handler/tg=userapp-Telegram Desktop-FRE0W0.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-FRE0W0.desktop;org.telegram.desktop.desktop;
 audio/mpeg=org.kde.kid3.desktop;rhythmbox.desktop;
 audio/ogg=rhythmbox.desktop;
 application/epub+zip=calibre-ebook-viewer.desktop;calibre-gui.desktop;calibre-ebook-edit.desktop;
@@ -152,3 +153,4 @@ font/ttf=org.gnome.font-viewer.desktop;org.fontforge.FontForge.desktop;
 image/heif=org.gnome.eog.desktop;
 application/x-bzip=org.gnome.FileRoller.desktop;
 text/x-log=org.gnome.gedit.desktop;
+image/webp=org.gnome.eog.desktop;
