@@ -124,5 +124,3 @@
           ("XXX" font-lock-constant-face bold))))
 
 (load! "qml-mode.el")
-(load! "flycheck-dmd-dub.el")
-(add-hook 'd-mode-hook 'flycheck-dmd-dub-set-variables)
