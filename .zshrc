@@ -114,6 +114,7 @@ export QT_MESSAGE_PATTERN="%{time process} [%{if-debug}D%{endif}%{if-info}I%{end
 export CMAKE_GENERATOR=Ninja
 export CMAKE_EXPORT_COMPILE_COMMANDS=1
 export RUNFILE_ROOTS=~
+export TSAN_OPTIONS="suppressions=$HOME/.tsan-suppressions.txt"
 
 READNULLCMD=${PAGER:-/usr/bin/less}
 which lesspipe >/dev/null 2>&1 && eval "$(lesspipe)"

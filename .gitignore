@@ -37,6 +37,7 @@
 !/.ssh/pubkeys/lea.local.pub
 !/.ssh/pubkeys/mia.local.pub
 !/.tmux.conf
+!/.tsan-suppressions.txt
 !/.zsh/compinstall
 !/.zshrc
 !/.local/bin/run

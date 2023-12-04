@@ -1,0 +1,16 @@
+# QtTest logging stuff is signal unsafe
+signal:QPlainTestLogger::stopLogging
+signal:QPlainTestLogger::addMessage
+signal:QTestPrivate::qSleep
+race:QMessagePattern::setPattern
+
+race:g_wakeup_signal
+
+# Qt false positives..
+race:QWaitCondition::~QWaitCondition
+race:QThreadPoolThread::run
+race:QList<QThreadPoolThread*>::~QList()
+race:std::_Function_handler<void (), convert_generic
+race:qt_qimageScaleAARGBA_down_xy_sse4
+race:queued_activate
+race:QMetaType::create
