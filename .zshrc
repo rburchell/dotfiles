@@ -101,6 +101,9 @@ function preexec() {
 
 export WORDCHARS=''
 export PATH=~/code/go/bin:~/.local/bin:~/.local/bin/$RB_PLATFORM:~/.local/bin/linux/wkhtmltox/bin:~/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
+if [[ "$RB_PLATFORM" == "osx" ]]; then
+    export PATH="$PATH:/opt/homebrew/bin"
+fi
 export GOPATH=~/code/go
 export EDITOR="e"
 export LANG="en_US.UTF-8"
