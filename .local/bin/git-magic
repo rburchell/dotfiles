@@ -15,7 +15,7 @@ git findmerged delete
 # the sort at the end is important, to make sure we can merge dependent branches in order.
 FEATURE_BRANCHES=$(git branch | grep rburchell/ | grep -v "$MAGIC_BRANCH" | sort)
 
-git branch -D "$MAGIC_BRANCH"
+git branch -D "$MAGIC_BRANCH" || true
 git checkout -b "$MAGIC_BRANCH"
 for branch in $FEATURE_BRANCHES; do
     git checkout "$branch"
