@@ -53,6 +53,7 @@
 !/.local/bin/genlibtree.rb
 !/.local/bin/git-applypatch
 !/.local/bin/git-findmerged
+!/.local/bin/git-magic
 !/.local/bin/git-maintainer
 !/.local/bin/git-recent
 !/.local/bin/git-uploadpatch

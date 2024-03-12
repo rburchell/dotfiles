@@ -1,0 +1,27 @@
+#!/bin/bash
+set -euo pipefail
+
+# branch to use as the base for the merged magic
+BASE_BRANCH="main"
+
+# branch to use as our magic merged branch
+MAGIC_BRANCH="rburchell/dev"
+
+git checkout "$BASE_BRANCH"
+git pull --rebase
+git findmerged delete
+
+# find branches as candidates to merge here...
+# the sort at the end is important, to make sure we can merge dependent branches in order.
+FEATURE_BRANCHES=$(git branch | grep rburchell/ | grep -v "$MAGIC_BRANCH" | sort)
+
+git branch -D "$MAGIC_BRANCH"
+git checkout -b "$MAGIC_BRANCH"
+for branch in $FEATURE_BRANCHES; do
+    git checkout "$branch"
+    git rebase "$BASE_BRANCH"
+    git checkout "$MAGIC_BRANCH"
+    echo -n "Merging $branch..."
+    git merge $branch --no-edit --no-verify
+    echo " OK"
+done
