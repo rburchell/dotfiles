@@ -1,31 +1,67 @@
 #!/bin/bash
+set -eou pipefail
 
-# find all local branches which are fully incorporated in `origin/master`
-#
-# this is similar to `git branch --merged origin/master`, except that it is not limited to fully
-# merged branches (where the commit exists in the upstream branch). `git cherry` will find branches
-# where all commits match an upstream commit, i.e. that would apply the same diff.
-#
-# Effectively, this finds branches where all commits have been added to `origin/master` using
-# `git rebase` or `git cherry-pick`.
-#
-# It shouldn't be losing useful information, but ymmv.
-#
 # Original author: John Brooks <john@jbrooks.io>
 # Released under BSD, or WTFPL, at your convenience
 
-# the set of refs to scan...
-#to_scan="refs/remotes/origin"
-to_scan="refs/heads"
+function print_usage() {
+  cat <<EOF
+Usage: $0 [options]
 
-# limit deletion to branches with this prefix
-my_branch_prefix="rburchell/"
+finds merged branches
+find all branches which are fully incorporated into a target branch
+
+this is similar to \`git branch --merged origin/master\`, except that it is not limited to fully
+merged branches (where the commit exists in the upstream branch). \`git cherry\` will find branches
+where all commits match an upstream commit, i.e. that would apply the same diff.
+
+Effectively, this finds branches where all commits have been added to \`origin/master\` using
+\`git rebase\` or \`git cherry-pick\`.
+
+It shouldn't be losing useful information, but ymmv.
+
+-h| --help           display this text
+-a| --scan-all       scan all branches from origin
+-d| --delete         delete all branches not 'mine' that are merged
+-p| --prefix         treat branches with this prefix as 'mine'
+EOF
+  exit 1
+}
+
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    '--help')          set -- "$@" '-h'   ;;
+    '--scan-all')      set -- "$@" '-a'   ;;
+    '--delete')        set -- "$@" '-d'   ;;
+    '--prefix')        set -- "$@" '-p'   ;;
+    *)                 set -- "$@" "$arg" ;;
+  esac
+done
+
+# Default options can go here..
+to_scan="refs/heads" # the set of refs to scan...
+my_branch_prefix="rburchell/" # limit deletion to branches with this prefix
+do_delete=0
+
+# Parse short options
+OPTIND=1
+while getopts "hadp:" opt; do
+  case "$opt" in
+    'h') print_usage; exit 0 ;;
+    'a') to_scan="refs/remotes/origin" ;;
+    'p') my_branch_prefix=$OPTARG ;;
+    'd') do_delete=1 ;;
+    '?') print_usage >&2; exit 1 ;;
+  esac
+done
+shift $(expr $OPTIND - 1) # remove options from positional parameters
 
 for b in $(git for-each-ref $to_scan --format="%(refname:short)"); do  # Go through each branch
   # git cherry prefixes each commit with "+" if it's not included and "-" if it is, so check if there are no "+" lines:
   if [[ ! $(git cherry HEAD $b | grep "^+") ]]; then
     if [[ $b = $my_branch_prefix* ]]; then
-        if [ "$1" = "delete" ]; then
+        if [ "$do_delete" -eq 1 ]; then
             git branch -D $b
         else
             echo "branch is merged: $b (would delete, but wasn't prompted to)"
@@ -36,7 +72,7 @@ for b in $(git for-each-ref $to_scan --format="%(refname:short)"); do  # Go thro
   fi
 done
 
-if ! [ "$1" = "delete" ]; then
+if ! [ "$do_delete" -eq 1 ]; then
     echo
     echo "to apply: git findmerged delete"
 fi
