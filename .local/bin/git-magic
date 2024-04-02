@@ -9,7 +9,7 @@ MAGIC_BRANCH="rburchell/dev"
 
 git checkout "$BASE_BRANCH"
 git pull --rebase
-git findmerged delete
+git findmerged --delete
 
 # find branches as candidates to merge here...
 # the sort at the end is important, to make sure we can merge dependent branches in order.
