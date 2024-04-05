@@ -1,8 +1,16 @@
 #!/bin/bash
 set -euo pipefail
 
+BASE_BRANCH=""
+function discover_base_branch() {
+    BASE_BRANCH="$1"
+    exit_code=0
+    git show-ref --verify --quiet refs/heads/$BASE_BRANCH || exit_code=$?
+    return $exit_code
+}
+
 # branch to use as the base for the merged magic
-BASE_BRANCH="main"
+discover_base_branch "main" || discover_base_branch "master"
 
 # branch to use as our magic merged branch
 MAGIC_BRANCH="rburchell/dev"
