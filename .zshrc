@@ -100,9 +100,11 @@ function preexec() {
 }
 
 export WORDCHARS=''
-export PATH=~/code/go/bin:~/.local/bin:~/.local/bin/$RB_PLATFORM:~/.local/bin/linux/wkhtmltox/bin:~/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games
 if [[ "$RB_PLATFORM" == "osx" ]]; then
-    export PATH="$PATH:/opt/homebrew/bin"
+    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin"
+fi
+export PATH="$PATH:~/code/go/bin:$HOME/.local/bin/:$HOME/.local/bin/$RB_PLATFORM:$HOME/.local/bin/linux/wkhtmltox/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games"
+if [[ "$RB_PLATFORM" == "osx" ]]; then
     export PATH="$PATH:/Users/burchr/google-cloud-sdk/bin"
 fi
 export GOPATH=~/code/go
