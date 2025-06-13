@@ -41,7 +41,7 @@ else
     cp "$filename" "$from"
 fi
 
-url=$(upload "$from")
+url=$($(dirname $0)/upload "$from")
 rm "$from"
 
 echo "pasted $url"
