@@ -123,3 +123,103 @@
           ;; For warning about a problematic or misguiding code
           ("XXX" font-lock-constant-face bold))))
 
+(defun rb/upload-file-from-disk ()
+  "Uploads the file backing the current buffer. Copies URL upon success."
+  (interactive)
+  (let ((file (buffer-file-name)))
+    (if (not file)
+        (user-error "Buffer is not visiting a file")
+      (let ((buf (generate-new-buffer "*upload-output*")))
+        (make-process
+         :name "upload"
+         :buffer buf
+         :command (list "~/.local/bin/upload" file)
+         :sentinel
+         (lambda (proc _event)
+           (when (eq (process-status proc) 'exit)
+             (with-current-buffer buf
+               (let ((url (string-trim (buffer-string))))
+                 (kill-buffer)
+                 (when (string-match-p "^http" url)
+                   (kill-new url)
+                   (message "Upload URL: %s (copied to kill-ring)" url)))))))))))
+
+(defun rb/upload-region-or-buffer ()
+  "Upload region if active, or entire buffer."
+  (interactive)
+  (let* ((ext (cond
+               ((equal (buffer-name) "*Org HTML Export*") ".html")
+               ((buffer-file-name) (file-name-extension (buffer-file-name) t))
+               (t ".txt")))
+         (tmpfile (make-temp-file "rb-upload-" nil ext))
+         (contents (if (use-region-p)
+                       (buffer-substring-no-properties (region-beginning) (region-end))
+                     (buffer-substring-no-properties (point-min) (point-max)))))
+    (with-temp-file tmpfile
+      (insert contents))
+    (let ((buf (generate-new-buffer "*upload-output*")))
+      (make-process
+       :name "upload"
+       :buffer buf
+       :command (list "~/.local/bin/upload" tmpfile)
+       :sentinel
+       (lambda (proc _event)
+         (when (eq (process-status proc) 'exit)
+           (with-current-buffer buf
+             (let ((url (string-trim (buffer-string))))
+               (kill-buffer)
+               (when (string-match-p "^http" url)
+                 (kill-new url)
+                 (message "Upload URL: %s (copied to kill-ring)" url))))
+           (when (file-exists-p tmpfile)
+             (delete-file tmpfile))))))))
+
+(defun rb/pastebin-clipboard ()
+  "Upload system clipboard using `pastebin`, show the URL, and debug output."
+  (interactive)
+  (let ((buf (get-buffer-create "*pastebin-output*")))
+    (message "Spawning pastebin process...")
+    (make-process
+     :name "pastebin"
+     :buffer buf
+     :command '("~/.local/bin/pastebin")
+     :sentinel
+     (lambda (proc event)
+       (message "Pastebin process event: %S" event)
+       (when (eq (process-status proc) 'exit)
+         (with-current-buffer (process-buffer proc)
+           (let ((output (buffer-string)))
+             (message "Raw output: %S" output)
+             (if (string-match "^pasted \\(http.+\\)" output)
+                 (let ((url (match-string 1 output)))
+                   (kill-new url)
+                   (message "Pastebin URL: %s (also in kill-ring)" url))
+               (message "Pastebin did not produce a URL! See *pastebin-output* buffer."))))
+         (kill-buffer buf))))))
+
+(defun rb/pastebin-region-or-buffer ()
+  "Copy region (if active) or entire buffer to the system clipboard, then upload using `pastebin`."
+  (interactive)
+  (let ((text (if (use-region-p)
+                  (buffer-substring-no-properties (region-beginning) (region-end))
+                (buffer-substring-no-properties (point-min) (point-max))))
+        (buf (get-buffer-create "*pastebin-output*")))
+    (kill-new text)
+    (message "Spawning pastebin process...")
+    (make-process
+     :name "pastebin"
+     :buffer buf
+     :command '("~/.local/bin/pastebin")
+     :sentinel
+     (lambda (proc event)
+       (message "Pastebin process event: %S" event)
+       (when (eq (process-status proc) 'exit)
+         (with-current-buffer (process-buffer proc)
+           (let ((output (buffer-string)))
+             (message "Raw output: %S" output)
+             (if (string-match "^pasted \\(http.+\\)" output)
+                 (let ((url (match-string 1 output)))
+                   (kill-new url)
+                   (message "Pastebin URL: %s (also in kill-ring)" url))
+               (message "Pastebin did not produce a URL! See *pastebin-output* buffer."))))
+         (kill-buffer buf))))))
