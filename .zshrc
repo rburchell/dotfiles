@@ -169,15 +169,25 @@ HISTSIZE=500000
 SAVEHIST=500000
 
 
+bindkey -e
+
 # set up keys for basic navigation. sigh...
 # NB, to use this on Mac, you need to go to Keyboard settings, shortcuts tab &
 # reconfigure "move left/right a space" to something else.
-bindkey '^[[1;5D' backward-word
-bindkey '^[[1;5C' forward-word
-bindkey '^[OH' beginning-of-line # home
-bindkey '^[OF' end-of-line # home
+if [[ "$RB_PLATFORM" == "osx" ]]; then
+    bindkey '^[[1;3D' backward-word
+    bindkey '^[[1;3C' forward-word
 
-bindkey -e
+    bindkey '^[[H' beginning-of-line # home
+    bindkey '^[[F' end-of-line # home
+else
+    bindkey '^[[1;5D' backward-word
+    bindkey '^[[1;5C' forward-word
+    bindkey '^[OH' beginning-of-line # home
+    bindkey '^[OF' end-of-line # home
+fi
+
+
 
 bindkey '^[[H' beginning-of-line
 bindkey '^A' beginning-of-line
