@@ -123,6 +123,9 @@
           ;; For warning about a problematic or misguiding code
           ("XXX" font-lock-constant-face bold))))
 
+(load! "rb-gptel.el")
+(load! "rb-org.el")
+
 (defun rb/upload-file-from-disk ()
   "Uploads the file backing the current buffer. Copies URL upon success."
   (interactive)

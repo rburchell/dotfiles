@@ -12,7 +12,8 @@
 !/.doom.d/config.el
 !/.doom.d/init.el
 !/.doom.d/packages.el
-!/.doom.d/qml-mode.el
+!/.doom.d/rb-gptel.el
+!/.doom.d/rb-org.el
 !/.emacs.d
 !/.fonts.conf
 !/.local/share/fonts/AardFixedSemiCondensed.ttf
