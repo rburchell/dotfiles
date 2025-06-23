@@ -141,12 +141,12 @@
 
   (setq org-capture-templates
         (quote (
-                ("t" "todo" entry (file "~/org/index.org") "* TODO ")
-                ("m" "Meeting" entry (file "~/org/index.org")
+                ("t" "todo" entry (file "~/src/workspace/.org/index.org") "* TODO ")
+                ("m" "Meeting" entry (file "~/src/workspace/.org/index.org")
                  "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
-                ("p" "Phone call" entry (file "~/org/index.org")
+                ("p" "Phone call" entry (file "~/src/workspace/.org/index.org")
                  "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
-                ("v" "clip to inbox" entry (file "~/org/index.org") "* %(gui-get-selection 'CLIPBOARD)%?")
+                ("v" "clip to inbox" entry (file "~/src/workspace/.org/index.org") "* %(gui-get-selection 'CLIPBOARD)%?")
 
                 )))
 
