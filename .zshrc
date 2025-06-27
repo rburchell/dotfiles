@@ -65,13 +65,13 @@ function precmd() {
         bluebox)
             iterm_r=0; iterm_g=171; iterm_b=255;
             COLORHOST="%F{045}$shorthost%f" ;;
-        adele)
-            iterm_r=0; iterm_g=171; iterm_b=32;
-            COLORHOST="%F{046}$shorthost%f" ;;
         eli)
             iterm_r=226; iterm_g=105; iterm_b=255;
             COLORHOST="%F{075}$shorthost%f" ;;
-        rey)
+        mia)
+            iterm_r=0; iterm_g=171; iterm_b=32;
+            COLORHOST="%F{046}$shorthost%f" ;;
+        tia)
             iterm_r=30; iterm_g=159; iterm_b=30;
             COLORHOST="%F{028}$shorthost%f" ;;
         *)
