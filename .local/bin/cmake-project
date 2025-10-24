@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+def scan_sources(root='.'):
+    cpp_files, header_files = [], []
+    has_qobject = False
+    for dirpath, dirnames, filenames in os.walk(root):
+        # Exclude CMake build directories
+        # TODO: consider a -x to add exclusions.
+        dirnames[:] = [
+            d for d in dirnames
+            if d != 'CMakeFiles' and not d.endswith('_autogen')
+        ]
+
+        for fname in filenames:
+            path = os.path.join(dirpath, fname)
+            relpath = os.path.relpath(path, root)
+
+            if fname.endswith(('.cpp', '.cc', '.cxx', '.c')):
+                cpp_files.append(relpath)
+            elif fname.endswith(('.h', '.hpp')):
+                header_files.append(relpath)
+
+            # detect Q_OBJECT
+            # TODO: could consider other smartness here but this is a good base..
+            if fname.endswith(('.cpp', '.h', '.hpp')):
+                try:
+                    with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                        if 'Q_OBJECT' in f.read():
+                            has_qobject = True
+                except Exception:
+                    pass
+
+    return cpp_files, header_files, has_qobject
+
+
+def generate_cmake(project_name, cpp_files, header_files, has_qobject):
+    sources_list = "\n    ".join(cpp_files)
+    headers_list = "\n    ".join(header_files)
+
+    qt_pre = ""
+    qt_post = ""
+
+    if has_qobject:
+        qt_pre = """
+find_package(Qt6 COMPONENTS Core REQUIRED)
+set(CMAKE_AUTOMOC ON)
+"""
+
+        qt_post = """
+target_link_libraries(${PROJECT_NAME} Qt6::Core)
+"""
+
+    cmake = f"""cmake_minimum_required(VERSION 3.16)
+project({project_name} LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+{qt_pre}
+
+# Source files
+set(SOURCES
+    {sources_list}
+
+    {headers_list}
+)
+
+add_executable(${{PROJECT_NAME}} ${{SOURCES}})
+{qt_post}
+"""
+
+    return cmake
+
+
+def main():
+    project_name = os.path.basename(os.getcwd())
+    cpp_files, header_files, has_qobject = scan_sources('.')
+
+    if not cpp_files:
+        print("No source files found (*.cpp, *.c, etc).", file=sys.stderr)
+        sys.exit(1)
+
+    cmake_text = generate_cmake(project_name, cpp_files, header_files, has_qobject)
+    with open('CMakeLists.txt', 'w', encoding='utf-8') as f:
+        f.write(cmake_text)
+
+    if has_qobject:
+        print(f"Generated CMakeLists.txt for project '{project_name}', with Qt")
+    else:
+        print(f"Generated CMakeLists.txt for project '{project_name}'")
+
+
+if __name__ == "__main__":
+    main()

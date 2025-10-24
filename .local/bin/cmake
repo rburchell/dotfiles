@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Find the real cmake by searching PATH, ignoring this wrapper
+REAL_CMAKE="$(command -v cmake)"
+
+# Check if the wrapper itself is being found first
+if [[ "$REAL_CMAKE" == "$0" ]]; then
+    # Remove the directory of this script from PATH and search again
+    PATH_WITHOUT_WRAPPER="$(dirname "$0"):${PATH//$(dirname "$0"):/}"
+    REAL_CMAKE="$(command -v cmake)"
+fi
+
+if [[ -z "$REAL_CMAKE" ]]; then
+    echo "Error: real cmake not found in PATH" >&2
+    exit 1
+fi
+
+for arg in "$@"; do
+    if [[ "$arg" == "-project" ]]; then
+        # hijacked
+        exec cmake-project
+        exit 0
+    fi
+done
+
+# Otherwise, forward all arguments to the real cmake
+exec "$REAL_CMAKE" "$@"

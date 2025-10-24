@@ -45,6 +45,8 @@
 !/.local/bin/kg
 !/.local/bin/analsize
 !/.local/bin/linux/ifconfig
+!/.local/bin/cmake
+!/.local/bin/cmake-project
 !/.local/bin/configure-qt
 !/.local/bin/configure-qt-static
 !/.local/bin/dmake
