@@ -105,12 +105,12 @@ export WORDCHARS=''
 if [[ "$RB_PLATFORM" == "osx" ]]; then
     export PATH=""
 fi
-export PATH="$PATH:~/code/go/bin:$HOME/.local/bin/:$HOME/.local/bin/$RB_PLATFORM:$HOME/.local/bin/linux/wkhtmltox/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games"
+export PATH="$PATH:~/src/go/bin:$HOME/.local/bin/:$HOME/.local/bin/$RB_PLATFORM:$HOME/.local/bin/linux/wkhtmltox/bin:$HOME/.cargo/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/games"
 if [[ "$RB_PLATFORM" == "osx" ]]; then
     export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin"
     export PATH="$PATH:/Users/burchr/google-cloud-sdk/bin"
 fi
-export GOPATH=~/code/go
+export GOPATH=~/src/go
 export EDITOR="e"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
