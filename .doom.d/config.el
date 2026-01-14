@@ -126,6 +126,9 @@
 (load! "rb-gptel.el")
 (load! "rb-org.el")
 
+(use-package! eplot
+  :commands (eplot))
+
 (defun rb/upload-file-from-disk ()
   "Uploads the file backing the current buffer. Copies URL upon success."
   (interactive)
