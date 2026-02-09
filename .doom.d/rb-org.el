@@ -8,8 +8,8 @@
 
 (after! org
   (defvar rb/yt-iframe-format
-    (concat "<iframe width=\"440\""
-            " height=\"335\""
+    (concat "<iframe width=\"427\""
+            " height=\"240\""
             " src=\"https://www.youtube.com/embed/%s\""
             " frameborder=\"0\""
             " allowfullscreen>%s</iframe>"))
@@ -17,7 +17,7 @@
   (org-add-link-type
    "yt"
    (lambda (handle)
-     (browse-url (concat "https://www.youtube.com/embed/" handle)))
+     (browse-url (concat "https://www.youtube.com/watch?v=" handle)))
    (lambda (path desc backend)
      (cl-case backend
        (html (format rb/yt-iframe-format path (or desc "")))
@@ -26,7 +26,7 @@
   (org-add-link-type
    "qt"
    (lambda (handle)
-     (browse-url (concat "https://bugreports.qt.io/browse/" handle)))
+     (browse-url (concat "https://qt-project.atlassian.net/browse/" handle)))
    (lambda (path desc backend)
      (cl-case backend
        (html (format "<a href=\"%s\">%s</a>" path (or desc "")))
@@ -41,24 +41,37 @@
        (html (format "<a href=\"%s\">%s</a>" path (or desc "")))
        (latex (format "\href{%s}{%s}" path (or desc "bugreport"))))))
 
-  ;; START BLOG
+  (defun rb/org-youtube-transform-on-yank (orig-fun &rest args)
+    "Replace YouTube URLs with Org yt links after yank in org-mode."
+    (let ((start (point)))
+      (apply orig-fun args)
+      (when (derived-mode-p 'org-mode)
+        (let ((end (point)))
+          (save-excursion
+            (goto-char start)
+            (while (re-search-forward
+                    "\\(?:https?://\\)?\\(?:www\\.\\)?\\(?:youtube\\.com/watch\\?v=\\|youtube\\.com/\\?v=\\|youtu\\.be/\\)\\([a-zA-Z0-9_-]+\\)"
+                    end t)
+              (replace-match "[[yt:\\1]]" nil nil)))))))
 
-  ;; (org-export-define-derived-backend 'rb/blog-html 'html
-  ;;                                    :translate-alist
-  ;;                                    '((headline . rb/org-blog-html-headline)))
+  (advice-add 'yank :around #'rb/org-youtube-transform-on-yank)
+
+  ;; START BLOG
 
   (defun rb/org-blog-html-headline (headline contents info)
     (let* ((raw-value (org-element-property :raw-value headline))
            (anchor (secure-hash 'md5 raw-value))
            (ts (or (org-element-property :POST_TIME headline) ""))
            (pretty-ts (replace-regexp-in-string "[<>]" "" ts)))
-      (format "<h2 id=\"%s\"><a href=\"#%s\">%s</a></h2><h3>%s</h3>\n%s"
-              anchor anchor raw-value pretty-ts contents)))
+      (format "<h2 id=\"%s\" title=\"%s\"><a href=\"#%s\">%s</a></h2>\n%s"
+              anchor pretty-ts anchor raw-value contents)))
 
   (defvar rb/org-blog-publish-dir "~/")
 
   (defun rb/org-blog-new-post ()
     (interactive)
+    (find-file "~/src/workspace/.org/blog.org")
+    (goto-char (point-max))
     (let* ((ts (format-time-string "%Y-%m-%d %a %H:%M"))
            ;; read-string will show an empty string but pick a default. read-from-minibuffer will show the default.
            ;; not sure which behavior I like better..
@@ -69,10 +82,14 @@
       (org-set-tags '("draft"))
       (org-set-property "POST_TIME" (format "<%s>" ts))
       (forward-line -1)
-      (org-fold-show-entry)))
+      ;; (org-fold-show-entry)
+      (goto-char (point-max))
+      ))
 
   (defun rb/org-blog-publish ()
     (interactive)
+    ;; Kind of a dirty hack, but otherwise, org-export-with-* aren't defined for us to redefine below.
+    (require 'ox-html)
     (let ((accum (make-hash-table :test 'equal)))
       (dolist (file (org-agenda-files))
         (message "Publishing %S" file)
@@ -88,19 +105,23 @@
                       (save-excursion
                         (goto-char begin)
                         (org-narrow-to-subtree)
-                        (let ((org-export-with-toc nil)
-                              (org-export-with-section-numbers nil))
-                          (let* ((year (format-time-string "%Y" (org-time-string-to-time timestamp)))
-                                 (html (org-export-string-as (buffer-string) 'rb/blog-html t))
-                                 (existing (gethash year accum '())))
-                            (puthash year
-                                     (cons (list timestamp html) existing)
-                                     accum))
-                          (widen)))))))))))
+                        (unwind-protect
+                            (let ((org-export-with-toc nil)
+                                  (org-export-with-section-numbers nil))
+                              (let* ((year (format-time-string "%Y" (org-time-string-to-time timestamp)))
+                                     (html (org-export-string-as (buffer-string) 'rb/blog-html t))
+                                     (existing (gethash year accum '())))
+                                (puthash year
+                                         (cons (list timestamp html) existing)
+                                         accum))
+                              )
+                          (widen)
+                          ))))))))))
 
       (let ((years (sort (hash-table-keys accum) #'string<)))
         (dolist (year years)
           (with-temp-file (expand-file-name (concat year ".html") rb/org-blog-publish-dir)
+            (message "Writing %S" year)
             (insert "<html>\n")
             (insert org-html-head-extra)
             (insert "<body>\n")
@@ -177,23 +198,19 @@
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
 (after! ox-html
-  ;; Applies special formatting to @tag and #tag from doom.
-  (defun rb/org-html-keyword-highlight (text backend _info)
-    (when (org-export-derived-backend-p backend 'htmlz)
-      (replace-regexp-in-string
-       "\\(@\\w+\\)" "<span class=\"doom-org-at-tag\">\\1</span>"
-       (replace-regexp-in-string
-        "\\(#\\w+\\)" "<span class=\"doom-org-hash-tag\">\\1</span>"
-        text))))
+  (org-export-define-derived-backend 'rb/blog-html 'html
+    :translate-alist
+    '((headline . rb/org-blog-html-headline)))
 
+  ;; Applies special formatting to @tag and #tag from doom.
   (defun rb/org-html-keyword-highlight (text backend _info)
     (when (org-export-derived-backend-p backend 'html)
       (replace-regexp-in-string
        "\\(^\\|\\s-\\)@\\(\\w+\\)"
-       "\\1<span class=\"doom-org-at-tag\">@\\2</span>"
+       "\\1<span class=\"at-tag\">@\\2</span>"
        (replace-regexp-in-string
         "\\(^\\|\\s-\\)#\\(\\w+\\)"
-        "\\1<span class=\"doom-org-hash-tag\">#\\2</span>"
+        "\\1<span class=\"hash-tag\">#\\2</span>"
         text))
       ))
 
@@ -202,10 +219,23 @@
   (setq org-html-head-extra
         "<style>
 blockquote {
-        margin:1em;border:1px solid;padding:1em;
+        margin:0.5em;
+        border-left:1px solid #bbb;
+        padding-left:0.5em;
 }
-.doom-org-at-tag { color: #0055AA; font-weight: bold; }
-.doom-org-hash-tag { color: #228800; font-style: italic; }
+blockquote > p {
+        margin: 0em; padding: 0em;
+}
+p {
+margin-block-start: 1em;
+margin-block-end: 1em;
+}
+ul {
+margin-block-start: 0em;
+margin-block-end: 0em;
+}
+.at-tag { color: #0055AA; font-weight: bold; }
+.hash-tag { color: #228800; font-style: italic; }
 .TODO { color: #22ee22; font-style: bold; }
 .WAIT { color: #ffbf00; font-style: bold; }
 .DONE { color: #a9a9a9; font-style: bold; }
