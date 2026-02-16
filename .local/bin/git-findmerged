@@ -74,5 +74,5 @@ done
 
 if ! [ "$do_delete" -eq 1 ]; then
     echo
-    echo "to apply: git findmerged delete"
+    echo "to apply: git findmerged --delete"
 fi
