@@ -6,7 +6,13 @@ REAL_CMAKE="$(command -v cmake)"
 # Check if the wrapper itself is being found first
 if [[ "$REAL_CMAKE" == "$0" ]]; then
     # Remove the directory of this script from PATH and search again
-    PATH_WITHOUT_WRAPPER="$(dirname "$0"):${PATH//$(dirname "$0"):/}"
+    #PATH_WITHOUT_WRAPPER="$(dirname "$0"):${PATH//$(dirname "$0"):/}"
+    PATH_WITHOUT_WRAPPER=$(echo "$PATH" | tr ':' '\n' | grep -v -F "$(dirname "$0")" | paste -sd ':' -)
+
+    # echo "Original: $PATH"
+    # echo "  minus $(dirname $0)"
+    # echo "        : $PATH_WITHOUT_WRAPPER"
+    export PATH="${PATH_WITHOUT_WRAPPER}"
     REAL_CMAKE="$(command -v cmake)"
 fi
 
