@@ -1,0 +1,34 @@
+#!/bin/bash
+# A simple test to try tell if you're being screwed over by gatekeeper or not.
+#
+# In an idle system, with gatekeeper BROKEN, I'd expect times like this:
+#    tia:~% gatekeeper-check
+#     First: real	0m0.154s
+#    Second: real	0m0.004s
+#
+# In an idle system, with gatekeeper FIXED, I'd expect times like this:
+#    tia:~% gatekeeper-check
+#     First: real	0m0.002s
+#    Second: real	0m0.002s
+#
+# Specifically, two things we want to see:
+# - The two times should be LOW
+# - The two times should be CONSISTENT
+# If either of these are not true, Gatekeeper (syspolicyd) is probably fucking you over.
+#
+# If you're being fucked over, then you probably want to check this:
+#     https://support.apple.com/en-gb/guide/mac-help/mchlc5fb7f9c/mac
+# tl;dr:
+# - Open System Settings / Privacy & Security / Developer Tools
+# - Add any of your developer tools you care about the performance of (e.g. terminals)
+# - RESTART THOSE APPLICATIONS
+# - Measure again, and hopefully it will be fixed.
+
+set -euo pipefail
+echo 'int main(){return 0;}' > /tmp/gatekeeper-check.c
+cc /tmp/gatekeeper-check.c -o /tmp/gatekeeper-check
+echo -n " First: "
+{ time /tmp/gatekeeper-check; } 2>&1 | grep '^real'
+echo -n "Second: "
+{ time /tmp/gatekeeper-check; } 2>&1 | grep '^real'
+rm /tmp/gatekeeper-check.c /tmp/gatekeeper-check
