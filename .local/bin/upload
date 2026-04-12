@@ -14,7 +14,7 @@ fi
 file="$1"
 user=$(head -n1 ~/.surfer/auth)
 password=$(tail -n1 ~/.surfer/auth)
-server=$(cat ~/.surfer/server)
+server=$(head -n1 ~/.surfer/server)
 
-curl -T "$file" -u "$user:$password" https://$server/_webdav/
-echo "https://$server/$(basename "$file")"
+curl -T "$file" -u "$user:$password" "$server/_webdav/"
+echo "$server/$(basename "$file")"
