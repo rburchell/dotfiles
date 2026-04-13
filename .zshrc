@@ -134,6 +134,7 @@ export LC_COLLATE=C
 export EMAIL="robin@viroteck.net"
 export QT_MESSAGE_PATTERN="%{time process} [%{if-debug}D%{endif}%{if-info}I%{endif}%{if-warning}W%{endif}%{if-critical}C%{endif}%{if-fatal}F%{endif}] %{category}: %{function}:%{line} - %{message}"
 export CMAKE_GENERATOR=Ninja
+export CTEST_PROGRESS_OUTPUT=1
 export CMAKE_EXPORT_COMPILE_COMMANDS=1
 export RUNFILE_ROOTS=~
 export TSAN_OPTIONS="suppressions=$HOME/.tsan-suppressions.txt"
