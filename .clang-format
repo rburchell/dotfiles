@@ -1,0 +1,2 @@
+# Ensure that formatting isn't done on projects without an explicit format set.
+DisableFormat: true
