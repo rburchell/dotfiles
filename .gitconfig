@@ -49,3 +49,5 @@
 	skippedCherryPicks = false
 [am]
 	threeWay = true
+[rebase]
+	stat = true
