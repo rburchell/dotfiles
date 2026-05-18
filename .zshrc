@@ -101,9 +101,10 @@ function preexec() {
 
 export WORDCHARS=''
 
-# FIXME: tidy this gunk up
 if [[ "$RB_PLATFORM" == "osx" ]]; then
-    export PATH=""
+    # FIXME: tidy this gunk up..
+    # we really want our stuff *prepended* to override system stuff..
+    # export PATH=""
 fi
 
 export PATH="$PATH:~/src/go/bin"
