@@ -59,8 +59,8 @@ function precmd() {
     # nice, free colors:
     # iterm_r=108; iterm_g=148; iterm_b=255;
     # COLORHOST="%F{075}$shorthost%f"
-    # iterm_r=255; iterm_g=187; iterm_b=108;
-    # COLORHOST="%F{202}$shorthost%f"
+    # iterm_r=0; iterm_g=171; iterm_b=32;
+    # COLORHOST="%F{046}$shorthost%f" ;;
     case ${shorthost} in
         bluebox)
             iterm_r=0; iterm_g=171; iterm_b=255;
@@ -69,11 +69,11 @@ function precmd() {
             iterm_r=226; iterm_g=105; iterm_b=255;
             COLORHOST="%F{075}$shorthost%f" ;;
         mia)
-            iterm_r=0; iterm_g=171; iterm_b=32;
-            COLORHOST="%F{046}$shorthost%f" ;;
-        tia)
             iterm_r=30; iterm_g=159; iterm_b=30;
             COLORHOST="%F{028}$shorthost%f" ;;
+        tia)
+            iterm_r=255; iterm_g=187; iterm_b=108;
+            COLORHOST="%F{202}$shorthost%f" ;;
         *)
             COLORHOST=$HOST ;;
     esac
