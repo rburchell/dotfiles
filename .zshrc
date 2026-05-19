@@ -88,7 +88,7 @@ function precmd() {
             COLORWHOAMI="%{$fg[blue]$bg[yellow]%}$USER%{$reset_color%}@" ;;
     esac
 
-    export PS1="$COLORWHOAMI$COLORHOST$CHROOT_PS1:%~%% "
+    export PS1="${COLORWHOAMI}${COLORWHEREAMI}${COLORHOST}${CHROOT_PS1:+(${CHROOT_PS1})}:%~%% "
 }
 
 # This function is executed when a command is read, before it is run.
@@ -162,7 +162,7 @@ alias gco='git checkout'
 alias gl='git log'
 
 devshell() {
-    nix develop "$HOME/nix-config#$1" -c zsh
+    CHROOT_PS1="$1" nix develop "$HOME/nix-config#$1" -c zsh
 }
 
 if [[ "$TERM" == "xterm-kitty" ]]; then
