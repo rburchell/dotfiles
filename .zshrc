@@ -161,6 +161,10 @@ alias gcia='git commit -a'
 alias gco='git checkout'
 alias gl='git log'
 
+devshell() {
+    nix develop "$HOME/nix-config#$1" -c zsh
+}
+
 if [[ "$TERM" == "xterm-kitty" ]]; then
     alias icat="kitty +kitten icat --align=left"
     autoload -Uz compinit
