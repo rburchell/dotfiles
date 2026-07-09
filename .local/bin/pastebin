@@ -9,7 +9,7 @@ from=""
 if [ -z ${1+x} ]; then
     # clipboard copy...
     data="$(pbpaste)"
-    echo "$data" > "/tmp/$pasteid.txt"
+    printf '%s\n' "$data" > "/tmp/$pasteid.txt"
     from="/tmp/$pasteid.txt"
 else
     # file copy...
