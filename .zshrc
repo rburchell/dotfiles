@@ -124,7 +124,7 @@ export PATH="$PATH:/sbin"
 export PATH="$PATH:/usr/bin"
 export PATH="$PATH:/usr/sbin"
 
-export GOPATH=~/code/go
+export GOPATH=~/.go
 export EDITOR="e"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
