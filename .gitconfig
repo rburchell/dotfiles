@@ -1,6 +1,6 @@
 [user]
 	name = Robin Burchell
-	email = robin+git@viroteck.net
+	email = robin.burchell@crimson.no
 [core]
 	whitespace = trailing-space,space-before-tab,indent-with-non-tab
 [diff]
