@@ -9,6 +9,11 @@
                                 "--header-insertion=never"))
 (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
+;; Projectile's cache falls out of date when files are e.g. updated via git or the shell.
+;; One can projectile-invalidate-cache, but it's annoying to have to *ALWAYS* do this.
+;; Let's just turn it off and see how that feels?
+(setq projectile-enable-caching nil)
+
 ;; LSP and format-on-save seem to not be working well together.
 ;; See https://github.com/hlissner/doom-emacs/issues/5128
 ;; (add-hook 'c-mode-hook #'format-all-mode)               ;; enable code formatting on save
