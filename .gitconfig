@@ -51,3 +51,5 @@
 	threeWay = true
 [rebase]
 	stat = true
+[receive]
+	denyCurrentBranch = warn
