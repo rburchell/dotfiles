@@ -162,7 +162,9 @@ alias gco='git checkout'
 alias gl='git log'
 
 devshell() {
-    CHROOT_PS1="$1" nix develop "$HOME/nix-config#$1" -c zsh
+    # We set SHELL because nix develop will overwrite it to its own bash, even with -c zsh.
+    # That will be annoying if we want to 'nix shell' inside a devshell, as that uses $SHELL by default.
+    CHROOT_PS1="$1" nix develop "$HOME/nix-config#$1" -c zsh -s SHELL "/bin/zsh"
 }
 
 if [[ "$TERM" == "xterm-kitty" ]]; then
