@@ -9,7 +9,7 @@ Xft.dpi:       96
 !! URxvt Appearance
 ! Inspired from https://addy-dclxvi.github.io/post/configuring-urxvt/
 ! And https://www.askapache.com/linux/rxvt-xresources/
-URxvt*font: xft:DejaVu Sans Mono:size=8
+URxvt*font: xft:DejaVu Sans Mono:size=12
 URxvt.letterSpace: -1
 URxvt.lineSpace: 0
 URxvt.geometry: 92x24
