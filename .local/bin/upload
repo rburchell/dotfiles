@@ -12,9 +12,7 @@ if ! [ -f "$1" ]; then
 fi
 
 file="$1"
-user=$(head -n1 ~/.surfer/auth)
-password=$(tail -n1 ~/.surfer/auth)
-server=$(head -n1 ~/.surfer/server)
+source ~/.config/upload.env
 
-curl -T "$file" -u "$user:$password" "$server/_webdav/"
-echo "$server/$(basename "$file")"
+curl -fT "$file" -u "$user:$password" "$upload_server"
+echo "$public_server$(basename "$file")"
