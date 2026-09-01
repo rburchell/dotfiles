@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 # Synchronize Doom Emacs when the dotfiles, pinned Doom commit, or Emacs
 # installation changes. Use --update to pull the dotfiles repository and
