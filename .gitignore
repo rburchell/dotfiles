@@ -43,6 +43,7 @@
 !/.local/bin/configure-qt
 !/.local/bin/configure-qt-static
 !/.local/bin/dmake
+!/.local/bin/dotfiles-autosync
 !/.local/bin/e
 !/.local/bin/exec.go
 !/.local/bin/ffind

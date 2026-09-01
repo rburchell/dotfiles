@@ -263,9 +263,7 @@ function ezsh() {
 #    fi
 #fi
 
-(cd $HOME && nohup git pull >/dev/null 2>&1 &)
-(cd $HOME && nohup git submodule init >/dev/null 2>&1 &)
-(cd $HOME && nohup git submodule update >/dev/null 2>&1 &)
+nohup "$HOME/.local/bin/dotfiles-autosync" --update </dev/null >/dev/null 2>&1 &!
 
 # set up ssh key. we do this if it's a symlink always, so there's no chance of
 # it becoming stale. we also try link if there is no pubkey in the case of a

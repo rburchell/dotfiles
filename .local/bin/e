@@ -1,3 +1,21 @@
 #!/bin/sh
+
+daemon_was_running=false
+if emacsclient --eval t >/dev/null 2>&1; then
+    daemon_was_running=true
+fi
+
+"$HOME/.local/bin/dotfiles-autosync"
+autosync_status=$?
+autosync_log="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles-autosync/sync.log"
+
+if [ "$autosync_status" -ne 0 ] && [ "$autosync_status" -ne 10 ]; then
+    echo "e: warning: dotfiles/Doom autosync failed; see $autosync_log" >&2
+    sleep 2
+elif [ "$autosync_status" -eq 10 ] && [ "$daemon_was_running" = true ]; then
+    echo "e: warning: Doom was synchronized; restart the running Emacs daemon to apply it" >&2
+    sleep 2
+fi
+
 emacsclient -t --alternate-editor='' -c "$@"
 #reset

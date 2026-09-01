@@ -1,0 +1,140 @@
+#!/bin/zsh
+
+# Synchronize Doom Emacs when the dotfiles, pinned Doom commit, or Emacs
+# installation changes. Use --update to pull the dotfiles repository and
+# update its Doom submodule before checking whether synchronization is needed.
+# State and diagnostic logs are stored under the user's XDG cache directory.
+
+# Exit statuses: 0 = unchanged, 10 = synchronized, 20 = failed.
+emulate -L zsh
+setopt NO_UNSET PIPE_FAIL
+
+readonly unchanged_status=0
+readonly synchronized_status=10
+readonly failed_status=20
+readonly dotfiles_dir=$HOME
+readonly doom_dir=$HOME/.emacs.d
+readonly cache_dir=${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles-autosync
+readonly state_file=$cache_dir/state
+readonly lock_file=$cache_dir/lock
+readonly log_file=$cache_dir/sync.log
+
+update_requested=0
+if (( $# == 1 )); then
+    [[ $1 == --update ]] || {
+        print -u2 "usage: ${0:t} [--update]"
+        exit $failed_status
+    }
+    update_requested=1
+elif (( $# != 0 )); then
+    print -u2 "usage: ${0:t} [--update]"
+    exit $failed_status
+fi
+readonly update_requested
+
+if ! mkdir -p -- $cache_dir; then
+    print -u2 "dotfiles-autosync: cannot create cache directory: $cache_dir"
+    exit $failed_status
+fi
+
+zmodload zsh/system || {
+    print -u2 "dotfiles-autosync: cannot load zsh/system"
+    exit $failed_status
+}
+
+# Keep the descriptor open until process exit. A foreground caller waits here
+# for a shell-start worker, then computes fresh fingerprints under the lock.
+: >>$lock_file || {
+    print -u2 "dotfiles-autosync: cannot create lock: $lock_file"
+    exit $failed_status
+}
+integer lock_fd
+if ! zsystem flock -f lock_fd $lock_file; then
+    print -u2 "dotfiles-autosync: cannot lock: $lock_file"
+    exit $failed_status
+fi
+
+log() {
+    print -r -- "[$(date '+%Y-%m-%dT%H:%M:%S%z')] $*" >>$log_file
+}
+
+fail() {
+    log "FAILED: $*"
+    print -u2 "dotfiles-autosync: failed; see $log_file"
+    exit $failed_status
+}
+
+run_logged() {
+    log "running: ${(q+)@}"
+    "$@" >>$log_file 2>&1
+    local command_status=$?
+    (( command_status == 0 )) || log "command exited with status $command_status"
+    return $command_status
+}
+
+log "start (mode=$([[ $update_requested == 1 ]] && print update || print local), pid=$$)"
+
+if (( update_requested )); then
+    run_logged git -C $dotfiles_dir pull || fail "dotfiles pull failed"
+    run_logged git -C $dotfiles_dir submodule update --init -- .emacs.d || \
+        fail "Doom submodule update failed"
+fi
+
+dotfiles_head=$(git -C $dotfiles_dir rev-parse --verify HEAD 2>>$log_file) || \
+    fail "cannot resolve dotfiles HEAD"
+pinned_doom_head=$(git -C $dotfiles_dir ls-tree HEAD -- .emacs.d 2>>$log_file) || \
+    fail "cannot resolve pinned Doom commit"
+pinned_doom_head=${${(z)pinned_doom_head}[3]}
+[[ -n $pinned_doom_head ]] || fail "dotfiles HEAD does not pin .emacs.d"
+
+doom_head=$(git -C $doom_dir rev-parse --verify HEAD 2>>$log_file) || \
+    fail "cannot resolve checked-out Doom commit"
+[[ $doom_head == $pinned_doom_head ]] || \
+    fail "Doom checkout $doom_head does not match pinned commit $pinned_doom_head"
+
+emacs_command=$(whence -p emacs 2>>$log_file) || fail "cannot find Emacs executable"
+emacs_path=${emacs_command:A}
+emacs_version=$(emacs --version 2>>$log_file) || fail "cannot determine Emacs release"
+emacs_version_lines=(${(f)emacs_version})
+emacs_release=$emacs_version_lines[1]
+[[ -n $emacs_release ]] || fail "Emacs returned an empty release line"
+
+new_state=$'dotfiles='${dotfiles_head}$'\ndoom='${doom_head}$'\nemacs_path='${emacs_path}$'\nemacs_release='${emacs_release}
+old_state=''
+[[ -r $state_file ]] && old_state=$(<$state_file)
+
+if [[ $old_state == $new_state ]]; then
+    log "unchanged"
+    exit $unchanged_status
+fi
+
+rebuild=0
+if [[ -z $old_state ]]; then
+    rebuild=1
+    log "cause: missing cache"
+else
+    old_emacs_path=${${(M)${(f)old_state}:#emacs_path=*}#emacs_path=}
+    old_emacs_release=${${(M)${(f)old_state}:#emacs_release=*}#emacs_release=}
+    if [[ $old_emacs_path != $emacs_path || $old_emacs_release != $emacs_release ]]; then
+        rebuild=1
+        log "cause: Emacs fingerprint changed"
+    fi
+    [[ ${${(M)${(f)old_state}:#dotfiles=*}#dotfiles=} == $dotfiles_head ]] || log "cause: dotfiles HEAD changed"
+    [[ ${${(M)${(f)old_state}:#doom=*}#doom=} == $doom_head ]] || log "cause: Doom commit changed"
+fi
+
+doom_command=$doom_dir/bin/doom
+[[ -x $doom_command ]] || fail "Doom executable is missing: $doom_command"
+if (( rebuild )); then
+    run_logged $doom_command -\! sync --rebuild || fail "Doom rebuild sync failed"
+else
+    run_logged $doom_command -\! sync || fail "Doom sync failed"
+fi
+
+temporary_state=$state_file.$$
+trap 'rm -f -- $temporary_state' EXIT HUP INT TERM
+print -rn -- $new_state >$temporary_state || fail "cannot write temporary state"
+mv -f -- $temporary_state $state_file || fail "cannot install synchronized state"
+trap - EXIT HUP INT TERM
+log "synchronized successfully"
+exit $synchronized_status
