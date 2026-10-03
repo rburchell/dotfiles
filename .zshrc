@@ -111,9 +111,10 @@ build_path() {
     export PATH
 }
 
+export GOPATH=~/src/go
 typeset -U path
 build_path "${rb_inherited_path[@]}" \
-    "$HOME/src/go/bin" \
+    "$GOPATH/bin" \
     "$HOME/.local/bin/" \
     "$HOME/.local/bin/$RB_PLATFORM" \
     "$HOME/.cargo/bin"
@@ -143,7 +144,6 @@ if [[ "$RB_PLATFORM" == "osx" ]]; then
     )
 fi
 
-export GOPATH=~/.go
 export EDITOR="e"
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
