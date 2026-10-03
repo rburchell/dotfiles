@@ -81,10 +81,6 @@
 !/.ssh/
 /.ssh/*
 !/.ssh/config
-!/.ssh/pubkeys/
-/.ssh/pubkeys/*
-!/.ssh/pubkeys/lea.local.pub
-!/.ssh/pubkeys/mia.local.pub
 !/.tmux.conf
 !/.tsan-suppressions.txt
 !/.zsh/
