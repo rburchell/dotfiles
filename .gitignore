@@ -51,7 +51,6 @@
 !/.local/bin/linux/
 /.local/bin/linux/*
 !/.local/bin/linux/configure-linux
-!/.local/bin/linux/diotop
 !/.local/bin/linux/disasm
 !/.local/bin/linux/ifconfig
 !/.local/bin/linux/open
@@ -73,7 +72,6 @@
 !/.local/bin/run
 !/.local/bin/safepy
 !/.local/bin/ssh-generate-key
-!/.local/bin/swaplist
 !/.local/bin/syminfo.pl
 !/.local/bin/upload
 !/.local/share/
