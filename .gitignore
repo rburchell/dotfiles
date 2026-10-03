@@ -66,8 +66,6 @@
 /.local/bin/osx/*
 !/.local/bin/osx/gatekeeper-check
 !/.local/bin/pastebin
-!/.local/bin/printscreen
-!/.local/bin/printscreen-clipboard
 !/.local/bin/rssanalyse.pl
 !/.local/bin/run
 !/.local/bin/safepy
