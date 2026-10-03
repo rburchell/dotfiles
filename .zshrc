@@ -76,6 +76,14 @@ function precmd() {
             COLORHOST=$HOST ;;
     esac
 
+    # Keep iTerm2's tab-colour escapes out of other terminals and multiplexers.
+    if [[ ${TERM_PROGRAM:-} == iTerm.app && -z ${TMUX:-} && -z ${STY:-} &&
+          $TERM != (screen*|tmux*) ]]; then
+        printf '\033]6;1;bg;red;brightness;%s\a' "$iterm_r"
+        printf '\033]6;1;bg;green;brightness;%s\a' "$iterm_g"
+        printf '\033]6;1;bg;blue;brightness;%s\a' "$iterm_b"
+    fi
+
     # Add a pretty username to the PS1 too.
     case ${USER} in
         burchr)
