@@ -42,7 +42,6 @@
 !/.local/bin/configure-qt-static
 !/.local/bin/dotfiles-autosync
 !/.local/bin/e
-!/.local/bin/ffind
 !/.local/bin/git-applypatch
 !/.local/bin/git-findmerged
 !/.local/bin/git-magic
