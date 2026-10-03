@@ -282,14 +282,6 @@ function ezsh() {
     fi
 }
 
-#which tmux >/dev/null 2>&1
-#if [[ -z "$TMUX" && $? -eq 0 ]]; then
-#    tmux list-sessions >/dev/null 2>&1
-#    if [ $? -eq 0 ]; then
-#        tmux a
-#    fi
-#fi
-
 nohup "$HOME/.local/bin/dotfiles-autosync" --update </dev/null >/dev/null 2>&1 &!
 
 if [ -f ~/.ssh/hosts/$HOST.sh ]; then
