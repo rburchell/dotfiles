@@ -42,15 +42,17 @@ zmodload zsh/system || {
     exit $failed_status
 }
 
-# Keep the descriptor open until process exit. A foreground caller waits here
-# for a shell-start worker, then computes fresh fingerprints under the lock.
+# Keep the descriptor open until process exit. Do not queue shell-start workers;
+# foreground callers wait at most ten seconds, even if an update is stalled.
 : >>$lock_file || {
     print -u2 "dotfiles-autosync: cannot create lock: $lock_file"
     exit $failed_status
 }
 integer lock_fd
-if ! zsystem flock -f lock_fd $lock_file; then
-    print -u2 "dotfiles-autosync: cannot lock: $lock_file"
+integer lock_timeout=10
+(( update_requested )) && lock_timeout=0
+if ! zsystem flock -t $lock_timeout -f lock_fd $lock_file; then
+    print -u2 "dotfiles-autosync: cannot acquire lock within ${lock_timeout}s: $lock_file"
     exit $failed_status
 fi
 
@@ -92,16 +94,29 @@ doom_head=$(git -C $doom_dir rev-parse --verify HEAD 2>>$log_file) || \
 [[ $doom_head == $pinned_doom_head ]] || \
     fail "Doom checkout $doom_head does not match pinned commit $pinned_doom_head"
 
-emacs_command=$(whence -p emacs 2>>$log_file) || fail "cannot find Emacs executable"
-emacs_path=${emacs_command:A}
-emacs_version=$(emacs --version 2>>$log_file) || fail "cannot determine Emacs release"
+# Match bin/doom, including its handling of terminal-provided EMACS values and
+# shell commands such as 'snap run emacs'. Ask that Emacs for its actual path.
+case ${EMACS:-} in
+    *term*) export EMACS=emacs ;;
+    *) export EMACS=${EMACS:-emacs} ;;
+esac
+emacs_path=$(sh -c 'eval "$EMACS -Q --batch --eval '\''(princ (file-truename (expand-file-name invocation-name invocation-directory)))'\''"' 2>>$log_file) || \
+    fail "cannot determine Emacs executable"
+[[ -n $emacs_path ]] || fail "Emacs returned an empty executable path"
+emacs_version=$(sh -c 'eval "$EMACS --version"' 2>>$log_file) || fail "cannot determine Emacs release"
 emacs_version_lines=(${(f)emacs_version})
 emacs_release=$emacs_version_lines[1]
 [[ -n $emacs_release ]] || fail "Emacs returned an empty release line"
 
-new_state=$'dotfiles='${dotfiles_head}$'\ndoom='${doom_head}$'\nemacs_path='${emacs_path}$'\nemacs_release='${emacs_release}
+new_state=$'dotfiles='${dotfiles_head}$'\ndoom='${doom_head}$'\nemacs_path='${emacs_path}$'\nemacs_release='${emacs_release}$'\nemacs_command='${EMACS}
 old_state=''
 [[ -r $state_file ]] && old_state=$(<$state_file)
+# Older caches fingerprinted the PATH Emacs without recording the command.
+# Normalize in memory so upgrading the cache format neither rebuilds packages
+# nor changes the state timestamp used for daemon restart warnings.
+if [[ -n $old_state && -z ${(M)${(f)old_state}:#emacs_command=*} ]]; then
+    old_state+=$'\nemacs_command=emacs'
+fi
 
 if [[ $old_state == $new_state ]]; then
     log "unchanged"
@@ -115,7 +130,8 @@ if [[ -z $old_state ]]; then
 else
     old_emacs_path=${${(M)${(f)old_state}:#emacs_path=*}#emacs_path=}
     old_emacs_release=${${(M)${(f)old_state}:#emacs_release=*}#emacs_release=}
-    if [[ $old_emacs_path != $emacs_path || $old_emacs_release != $emacs_release ]]; then
+    old_emacs_command=${${(M)${(f)old_state}:#emacs_command=*}#emacs_command=}
+    if [[ $old_emacs_path != $emacs_path || $old_emacs_release != $emacs_release || $old_emacs_command != $EMACS ]]; then
         rebuild=1
         log "cause: Emacs fingerprint changed"
     fi
@@ -126,8 +142,10 @@ fi
 doom_command=$doom_dir/bin/doom
 [[ -x $doom_command ]] || fail "Doom executable is missing: $doom_command"
 if (( rebuild )); then
+    print -u2 "dotfiles-autosync: rebuilding Doom packages; progress: $log_file"
     run_logged $doom_command -\! sync --rebuild || fail "Doom rebuild sync failed"
 else
+    print -u2 "dotfiles-autosync: synchronizing Doom; progress: $log_file"
     run_logged $doom_command -\! sync || fail "Doom sync failed"
 fi
 
