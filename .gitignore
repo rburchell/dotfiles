@@ -43,7 +43,6 @@
 !/.local/bin/dotfiles-autosync
 !/.local/bin/e
 !/.local/bin/ffind
-!/.local/bin/genlibtree.rb
 !/.local/bin/git-applypatch
 !/.local/bin/git-findmerged
 !/.local/bin/git-magic
