@@ -1,3 +1,6 @@
+# Preserve inherited toolchain precedence before global settings reorder PATH.
+local -a rb_inherited_path=("${path[@]}")
+
 # Load global settings (if any).
 source /etc/profile
 umask 022
@@ -108,11 +111,13 @@ build_path() {
     export PATH
 }
 
-build_path \
+typeset -U path
+build_path "${rb_inherited_path[@]}" \
     "$HOME/src/go/bin" \
     "$HOME/.local/bin/" \
     "$HOME/.local/bin/$RB_PLATFORM" \
     "$HOME/.cargo/bin"
+unset rb_inherited_path
 
 if [[ "$RB_PLATFORM" == "osx" ]]; then
     build_path "${path[@]}" \
