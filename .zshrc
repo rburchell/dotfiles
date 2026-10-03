@@ -183,9 +183,6 @@ devshell() {
 
 if [[ "$TERM" == "xterm-kitty" ]]; then
     alias icat="kitty +kitten icat --align=left"
-    autoload -Uz compinit
-    compinit
-    compdef _rg kg
 else
     alias icat="echo 'icat not available without kitty :('"
 fi
