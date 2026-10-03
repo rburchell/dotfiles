@@ -78,7 +78,7 @@ function precmd() {
     esac
 
     # Keep iTerm2's tab-colour escapes out of other terminals and multiplexers.
-    if [[ ${TERM_PROGRAM:-} == iTerm.app && -z ${TMUX:-} && -z ${STY:-} &&
+    if [[ ${LC_TERMINAL:-} == iTerm2 && -z ${TMUX:-} && -z ${STY:-} &&
           $TERM != (screen*|tmux*) ]]; then
         printf '\033]6;1;bg;red;brightness;%s\a' "$iterm_r"
         printf '\033]6;1;bg;green;brightness;%s\a' "$iterm_g"
