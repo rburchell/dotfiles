@@ -162,6 +162,8 @@ if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias lsl='ls -A --color=auto -l'
     alias e="$EDITOR"
 elif [[ "$RB_PLATFORM" == "osx" ]]; then
+    # GNU dircolors defaults translated to the native macOS file-type palette.
+    export LSCOLORS="ExGxFxdaCxDaDahbadacecah"
     alias ls='ls -G'
     alias lsl='ls -Gl'
 fi
