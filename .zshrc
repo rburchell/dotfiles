@@ -96,28 +96,47 @@ function preexec() {
 
 export WORDCHARS=''
 
+# Rebuild PATH from existing directories in the supplied order.
+build_path() {
+    local dir
+    path=()
+    for dir in "$@"; do
+        if [[ -d "$dir" ]]; then
+            path+=("$dir")
+        fi
+    done
+    export PATH
+}
+
+build_path \
+    "$HOME/src/go/bin" \
+    "$HOME/.local/bin/" \
+    "$HOME/.local/bin/$RB_PLATFORM" \
+    "$HOME/.cargo/bin"
+
 if [[ "$RB_PLATFORM" == "osx" ]]; then
-    # FIXME: tidy this gunk up..
-    # we really want our stuff *prepended* to override system stuff..
-    # export PATH=""
+    build_path "${path[@]}" \
+        /opt/homebrew/bin /opt/homebrew/sbin \
+        /Library/Apple/usr/bin
 fi
 
-export PATH="$PATH:~/src/go/bin"
-export PATH="$PATH:$HOME/.local/bin/"
-export PATH="$PATH:$HOME/.local/bin/$RB_PLATFORM"
-export PATH="$PATH:$HOME/.cargo/bin"
+build_path "${path[@]}" \
+    /usr/local/bin /usr/local/sbin \
+    /bin /sbin /usr/bin /usr/sbin \
+    "$HOME/.nix-profile/bin" \
+    /run/current-system/sw/bin \
+    /nix/var/nix/profiles/default/bin \
+    /pkg/env/global/bin
 
 if [[ "$RB_PLATFORM" == "osx" ]]; then
-    export PATH="$PATH:/opt/homebrew/bin:/opt/homebrew/sbin"
-    export PATH="$PATH:/Users/burchr/google-cloud-sdk/bin"
+    # Keep Cryptex paths even when absent, as macOS may populate them later.
+    path+=(
+        /System/Cryptexes/App/usr/bin
+        /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
+        /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
+        /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+    )
 fi
-
-export PATH="$PATH:/usr/local/bin"
-export PATH="$PATH:/usr/local/sbin"
-export PATH="$PATH:/bin"
-export PATH="$PATH:/sbin"
-export PATH="$PATH:/usr/bin"
-export PATH="$PATH:/usr/sbin"
 
 export GOPATH=~/.go
 export EDITOR="e"
