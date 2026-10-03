@@ -161,6 +161,9 @@ if [[ "$RB_PLATFORM" == "linux" ]]; then
     alias ls='ls -A --color=auto'
     alias lsl='ls -A --color=auto -l'
     alias e="$EDITOR"
+elif [[ "$RB_PLATFORM" == "osx" ]]; then
+    alias ls='ls -G'
+    alias lsl='ls -Gl'
 fi
 
 # retrain my mental habits
