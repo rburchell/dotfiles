@@ -76,6 +76,12 @@ run_logged() {
 
 log "start (mode=$([[ $update_requested == 1 ]] && print update || print local), pid=$$)"
 
+# Git hooks and editor subprocesses can inherit a different repository context.
+# Clear it for both our Git commands and any Git processes launched by Doom.
+git_local_env=$(git rev-parse --local-env-vars 2>>$log_file) || \
+    fail "cannot determine Git repository-local environment variables"
+unset ${(f)git_local_env} || fail "cannot clear inherited Git repository context"
+
 if (( update_requested )); then
     run_logged git -C $dotfiles_dir pull || fail "dotfiles pull failed"
     run_logged git -C $dotfiles_dir submodule update --init -- .emacs.d || \
