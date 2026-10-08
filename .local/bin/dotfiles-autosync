@@ -100,29 +100,22 @@ doom_head=$(git -C $doom_dir rev-parse --verify HEAD 2>>$log_file) || \
 [[ $doom_head == $pinned_doom_head ]] || \
     fail "Doom checkout $doom_head does not match pinned commit $pinned_doom_head"
 
-# Match bin/doom, including its handling of terminal-provided EMACS values and
-# shell commands such as 'snap run emacs'. Ask that Emacs for its actual path.
-case ${EMACS:-} in
-    *term*) export EMACS=emacs ;;
-    *) export EMACS=${EMACS:-emacs} ;;
-esac
-emacs_path=$(sh -c 'eval "$EMACS -Q --batch --eval '\''(princ (file-truename (expand-file-name invocation-name invocation-directory)))'\''"' 2>>$log_file) || \
-    fail "cannot determine Emacs executable"
-[[ -n $emacs_path ]] || fail "Emacs returned an empty executable path"
-emacs_version=$(sh -c 'eval "$EMACS --version"' 2>>$log_file) || fail "cannot determine Emacs release"
-emacs_version_lines=(${(f)emacs_version})
-emacs_release=$emacs_version_lines[1]
-[[ -n $emacs_release ]] || fail "Emacs returned an empty release line"
+# Use the PATH installation consistently for both fingerprinting and Doom.
+# Resolve symlinks so switching installations is detected even if PATH is stable.
+emacs_path=$(command -v emacs) || fail "cannot find Emacs executable"
+emacs_path=${emacs_path:A}
+[[ -f $emacs_path && -x $emacs_path ]] || fail "invalid Emacs executable: $emacs_path"
+export EMACS=$emacs_path
 
-new_state=$'dotfiles='${dotfiles_head}$'\ndoom='${doom_head}$'\nemacs_path='${emacs_path}$'\nemacs_release='${emacs_release}$'\nemacs_command='${EMACS}
+# Hash the binary without launching Emacs. Git is already required above;
+# hash-object without -w only computes a digest, and --no-filters hashes raw bytes.
+emacs_hash=$(git hash-object --no-filters -- "$emacs_path" 2>>$log_file) || \
+    fail "cannot hash Emacs executable"
+[[ -n $emacs_hash ]] || fail "Emacs executable hash is empty"
+
+new_state=$'dotfiles='${dotfiles_head}$'\ndoom='${doom_head}$'\nemacs_path='${emacs_path}$'\nemacs_hash='${emacs_hash}
 old_state=''
 [[ -r $state_file ]] && old_state=$(<$state_file)
-# Older caches fingerprinted the PATH Emacs without recording the command.
-# Normalize in memory so upgrading the cache format neither rebuilds packages
-# nor changes the state timestamp used for daemon restart warnings.
-if [[ -n $old_state && -z ${(M)${(f)old_state}:#emacs_command=*} ]]; then
-    old_state+=$'\nemacs_command=emacs'
-fi
 
 if [[ $old_state == $new_state ]]; then
     log "unchanged"
@@ -135,11 +128,14 @@ if [[ -z $old_state ]]; then
     log "cause: missing cache"
 else
     old_emacs_path=${${(M)${(f)old_state}:#emacs_path=*}#emacs_path=}
-    old_emacs_release=${${(M)${(f)old_state}:#emacs_release=*}#emacs_release=}
-    old_emacs_command=${${(M)${(f)old_state}:#emacs_command=*}#emacs_command=}
-    if [[ $old_emacs_path != $emacs_path || $old_emacs_release != $emacs_release || $old_emacs_command != $EMACS ]]; then
+    old_emacs_hash=${${(M)${(f)old_state}:#emacs_hash=*}#emacs_hash=}
+    if [[ $old_emacs_path != $emacs_path ]]; then
         rebuild=1
-        log "cause: Emacs fingerprint changed"
+        log "cause: Emacs path changed ($old_emacs_path -> $emacs_path)"
+    fi
+    if [[ $old_emacs_hash != $emacs_hash ]]; then
+        rebuild=1
+        log "cause: Emacs hash changed (${old_emacs_hash:-missing} -> $emacs_hash)"
     fi
     [[ ${${(M)${(f)old_state}:#dotfiles=*}#dotfiles=} == $dotfiles_head ]] || log "cause: dotfiles HEAD changed"
     [[ ${${(M)${(f)old_state}:#doom=*}#doom=} == $doom_head ]] || log "cause: Doom commit changed"
