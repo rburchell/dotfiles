@@ -130,6 +130,7 @@
 
 (load! "rb-gptel.el")
 (load! "rb-org.el")
+(load! "rb-autosync.el")
 
 (use-package! eplot
   :commands (eplot))

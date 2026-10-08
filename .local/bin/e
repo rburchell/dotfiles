@@ -2,19 +2,9 @@
 
 "$HOME/.local/bin/dotfiles-autosync"
 autosync_status=$?
-autosync_log="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles-autosync/sync.log"
-# The state file is replaced after each successful sync, including background
-# syncs. Compare its timestamp with the running Emacs's initialization time.
-# Escape the client-side path for an Emacs Lisp string.
-autosync_state=$(printf '%s' "${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles-autosync/state" | sed 's/\\/\\\\/g; s/"/\\"/g')
+# Pass the result with this frame, so Emacs can notify after attachment without
+# a separate client request or a pause. Escape the path as a Lisp string.
+autosync_cache=$(printf '%s' "${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles-autosync/" | sed 's/\\/\\\\/g; s/"/\\"/g')
 
-if [ "$autosync_status" -ne 0 ] && [ "$autosync_status" -ne 10 ]; then
-    echo "e: warning: dotfiles/Doom autosync failed; see $autosync_log" >&2
-    sleep 2
-elif [ "$(emacsclient --eval "(let ((attrs (file-attributes \"$autosync_state\"))) (and attrs (time-less-p before-init-time (file-attribute-modification-time attrs))))" 2>/dev/null)" = t ]; then
-    echo "e: warning: Doom was synchronized; restart the running Emacs daemon to apply it" >&2
-    sleep 2
-fi
-
-emacsclient -t --alternate-editor='' -c "$@"
-#reset
+exec emacsclient -t --alternate-editor='' -c \
+    -F "((rb-autosync . ($autosync_status \"$autosync_cache\")))" "$@"
