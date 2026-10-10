@@ -53,7 +53,6 @@ function precmd() {
     local iterm_b=255
 
     # Bright hostname text with matching softer iTerm2 tab colours.
-    # Preview the full palette with: host-colour-preview
     case ${shorthost} in
         jamie) # Sky
             iterm_r=80; iterm_g=158; iterm_b=207;
