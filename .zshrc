@@ -340,7 +340,26 @@ function ezsh() {
     fi
 }
 
-nohup "$HOME/.local/bin/dotfiles-autosync" --update </dev/null >/dev/null 2>&1 &!
+# Warn in the foreground: the background worker's diagnostics go to its log.
+rb_warn_dotfiles_changes() (
+    # Shells launched by Git hooks may inherit another repository's context.
+    local git_local_env dotfiles_changes
+    git_local_env=$(git rev-parse --local-env-vars 2>/dev/null) || return 0
+    unset ${(f)git_local_env}
+    # Ignore unrelated untracked files in HOME, but include staged changes and
+    # modified submodules. Avoid refreshing the index during shell startup.
+    dotfiles_changes=$(git --no-optional-locks -C "$HOME" status --porcelain \
+        --untracked-files=no --ignore-submodules=untracked 2>/dev/null) || return 0
+    if [[ -n $dotfiles_changes ]]; then
+        print -u2 -r -- 'dotfiles-autosync: warning: local dotfile changes may block automatic updates.'
+        print -u2 -r -- 'Inspect with: git -C ~ status --untracked-files=no'
+    fi
+)
+# .zshrc can also be sourced explicitly by a non-interactive shell.
+if [[ -o interactive ]]; then
+    rb_warn_dotfiles_changes
+    nohup "$HOME/.local/bin/dotfiles-autosync" --update </dev/null >/dev/null 2>&1 &!
+fi
 
 if [ -f ~/.ssh/hosts/$HOST.sh ]; then
     source ~/.ssh/hosts/$HOST.sh
