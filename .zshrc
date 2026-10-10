@@ -271,21 +271,17 @@ SAVEHIST=500000
 
 bindkey -e
 
-# set up keys for basic navigation. sigh...
-# NB, to use this on Mac, you need to go to Keyboard settings, shortcuts tab &
-# reconfigure "move left/right a space" to something else.
-if [[ "$RB_PLATFORM" == "osx" ]]; then
-    bindkey '^[[1;3D' backward-word
-    bindkey '^[[1;3C' forward-word
+# The local terminal generates key sequences, even over SSH. Bind both
+# Option/Alt and Ctrl arrows regardless of the OS running this shell.
+# macOS may require disabling the Ctrl-arrow "Move a space" shortcuts.
+bindkey '^[[1;3D' backward-word
+bindkey '^[[1;3C' forward-word
+bindkey '^[[1;5D' backward-word
+bindkey '^[[1;5C' forward-word
 
-    bindkey '^[[H' beginning-of-line # home
-    bindkey '^[[F' end-of-line # home
-else
-    bindkey '^[[1;5D' backward-word
-    bindkey '^[[1;5C' forward-word
-    bindkey '^[OH' beginning-of-line # home
-    bindkey '^[OF' end-of-line # home
-fi
+# Home / End in application cursor mode; normal mode is handled below.
+bindkey '^[OH' beginning-of-line
+bindkey '^[OF' end-of-line
 
 
 
