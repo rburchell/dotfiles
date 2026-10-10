@@ -52,27 +52,66 @@ function precmd() {
     local iterm_g=255
     local iterm_b=255
 
-    # Set up a pretty hostname for PS1 use.
-    # nice, free colors:
+    # Bright hostname text with matching softer iTerm2 tab colours.
+    # Preview the full palette with: host-colour-preview
     case ${shorthost} in
-        jamie)
-            iterm_r=0; iterm_g=171; iterm_b=255;
-            COLORHOST="%F{045}$shorthost%f" ;;
-        eli)
-            iterm_r=226; iterm_g=105; iterm_b=255;
-            COLORHOST="%F{075}$shorthost%f" ;;
-        mia)
-            iterm_r=30; iterm_g=159; iterm_b=30;
-            COLORHOST="%F{028}$shorthost%f" ;;
-        tia)
-            iterm_r=255; iterm_g=187; iterm_b=108;
-            COLORHOST="%F{202}$shorthost%f" ;;
-        clanker)
-            iterm_r=0; iterm_g=171; iterm_b=32;
-            COLORHOST="%F{046}$shorthost%f" ;;
-        rm-builder)
-            iterm_r=108; iterm_g=148; iterm_b=255;
-            COLORHOST="%F{075}$shorthost%f" ;;
+        jamie) # Sky
+            iterm_r=80; iterm_g=158; iterm_b=207;
+            COLORHOST="%F{81}$shorthost%f" ;;
+        eli) # Lavender
+            iterm_r=159; iterm_g=132; iterm_b=202;
+            COLORHOST="%F{183}$shorthost%f" ;;
+        mia) # Mint
+            iterm_r=92; iterm_g=176; iterm_b=133;
+            COLORHOST="%F{121}$shorthost%f" ;;
+        tia) # Amber
+            iterm_r=205; iterm_g=158; iterm_b=65;
+            COLORHOST="%F{221}$shorthost%f" ;;
+        clanker) # Coral
+            iterm_r=224; iterm_g=112; iterm_b=112;
+            COLORHOST="%F{210}$shorthost%f" ;;
+        rm-builder) # Teal
+            iterm_r=62; iterm_g=166; iterm_b=166;
+            COLORHOST="%F{80}$shorthost%f" ;;
+
+        # Spare palettes: uncomment a block and replace your-host with its hostname.
+        # your-host) # Rose
+        #     iterm_r=204; iterm_g=126; iterm_b=164;
+        #     COLORHOST="%F{218}$shorthost%f" ;;
+        # your-host) # Peach
+        #     iterm_r=213; iterm_g=151; iterm_b=108;
+        #     COLORHOST="%F{216}$shorthost%f" ;;
+        # your-host) # Periwinkle
+        #     iterm_r=115; iterm_g=138; iterm_b=208;
+        #     COLORHOST="%F{111}$shorthost%f" ;;
+        # your-host) # Lime
+        #     iterm_r=158; iterm_g=181; iterm_b=79;
+        #     COLORHOST="%F{155}$shorthost%f" ;;
+        # your-host) # Orchid
+        #     iterm_r=182; iterm_g=115; iterm_b=193;
+        #     COLORHOST="%F{177}$shorthost%f" ;;
+        # your-host) # Ice
+        #     iterm_r=118; iterm_g=181; iterm_b=191;
+        #     COLORHOST="%F{159}$shorthost%f" ;;
+        # your-host) # Sage
+        #     iterm_r=139; iterm_g=166; iterm_b=116;
+        #     COLORHOST="%F{151}$shorthost%f" ;;
+        # your-host) # Terracotta
+        #     iterm_r=187; iterm_g=117; iterm_b=87;
+        #     COLORHOST="%F{173}$shorthost%f" ;;
+        # your-host) # Steel
+        #     iterm_r=111; iterm_g=145; iterm_b=176;
+        #     COLORHOST="%F{110}$shorthost%f" ;;
+        # your-host) # Sand
+        #     iterm_r=184; iterm_g=165; iterm_b=125;
+        #     COLORHOST="%F{223}$shorthost%f" ;;
+        # your-host) # Raspberry
+        #     iterm_r=198; iterm_g=93; iterm_b=135;
+        #     COLORHOST="%F{204}$shorthost%f" ;;
+        # your-host) # Silver
+        #     iterm_r=157; iterm_g=165; iterm_b=177;
+        #     COLORHOST="%F{252}$shorthost%f" ;;
+
         *)
             COLORHOST=$HOST ;;
     esac
