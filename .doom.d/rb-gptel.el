@@ -43,10 +43,22 @@ If source isn't found, falls back to the Emacs Lisp object sexp."
                  (mapconcat (lambda (cell) (format "%s" cell)) row "\t"))
                results "\n")))
 
-(setq gptel-model 'gpt-4o
-      gptel-backend (gptel-make-gh-copilot "Copilot"))
-(setq gptel-model 'gpt-4.1
-      gptel-backend (gptel-make-gh-copilot "Copilot"))
+;; Supplement gptel's bundled Copilot list until it includes GPT-6.1 Sol.
+;; Tool calling for this model requires the Responses API.
+;; Load the model definitions before evaluating the backend's arguments.
+(require 'gptel)
+(require 'gptel-gh)
+
+(setq gptel-model 'gpt-6.1-sol
+      gptel-backend
+      (gptel-make-gh-copilot "Copilot"
+        :models
+        (cons '(gpt-6.1-sol
+                :description "GPT-6.1 Sol via GitHub Copilot"
+                :capabilities (media tool-use json url responses-api)
+                :mime-types ("image/jpeg" "image/png" "image/gif" "image/webp"))
+              (assq-delete-all 'gpt-6.1-sol
+                               (copy-tree gptel--gh-models)))))
 
 (setq gptel-available t
       gptel-track-media t
