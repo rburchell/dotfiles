@@ -256,6 +256,30 @@ bindkey "^[[3~" delete-char
 
 source ~/.zsh/compinstall
 
+# Work around double-escaping in zsh's _remote_files completion helper.
+# Legacy scp passed remote paths through a second shell, so completion
+# escaped spaces twice (foo\\\ bar). Since OpenSSH 9.0, scp uses SFTP by
+# default and no longer needs that second layer; the extra backslash can
+# become part of the filename and cause transfers to fail.
+#
+# macOS's bundled zsh 5.9 still contains the old completion code. Patch
+# the loaded function to let compadd escape filenames once, and escape
+# directory prefixes correctly when requesting further remote matches.
+# This also affects other commands using _remote_files, including rsync.
+#
+# To check: start `zsh -f`, run `autoload +X _remote_files`, then inspect
+# `functions _remote_files`. The compadd calls should no longer contain
+# ${(q)remdispf...} or ${(q)remdispd...}, and rempat should quote PREFIX
+# with ${(q)PREFIX...}. Test remote completion with this workaround
+# disabled before removing it permanently.
+#
+# Upstream patch:
+# https://www.zsh.org/mla/workers/2024/msg00446.html
+autoload +X _remote_files
+functions[_remote_files]=${functions[_remote_files]//'${(q)remdispf'/'${remdispf'}
+functions[_remote_files]=${functions[_remote_files]//'${(q)remdispd'/'${remdispd'}
+functions[_remote_files]=${functions[_remote_files]//'${PREFIX%%'/'${(q)PREFIX%%'}
+
 # make git completion not be so ridiculously slow
 __git_files () {
     _wanted files expl 'local files' _files
