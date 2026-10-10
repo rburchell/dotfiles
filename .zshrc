@@ -129,9 +129,11 @@ function precmd() {
         burchr)
             COLORWHOAMI="" ;;
         root)
-            COLORWHOAMI="%{$fg[white]$bg[red]%}$USER%{$reset_color%}@" ;;
+            # Pale rose on dark burgundy: prominent, danger sign
+            COLORWHOAMI="%B%F{224}%K{52} $USER %k%f%b@" ;;
         *)
-            COLORWHOAMI="%{$fg[blue]$bg[yellow]%}$USER%{$reset_color%}@" ;;
+            # Charcoal on soft amber distinguishes other accounts
+            COLORWHOAMI="%F{235}%K{180} $USER %k%f@" ;;
     esac
 
     export PS1="${COLORWHOAMI}${COLORWHEREAMI}${COLORHOST}${CHROOT_PS1:+(${CHROOT_PS1})}:%~%% "
