@@ -30,6 +30,11 @@ function precmd() {
     # must be done early to save status
     local exit_status=$?
 
+    # Disable mouse reporting and focus events left behind by remote apps.
+    printf '\e[?9;1000;1002;1003;1004;1005;1006;1015;1016l'
+    # Restore normal text attributes and show the cursor.
+    printf '\e[0m\e[?25h'
+
     if [[ "$rb_do_set_xterm_title" -eq 1 ]]; then
         print -Pn -- '\e]2;%n@%m %~\a'
         [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
