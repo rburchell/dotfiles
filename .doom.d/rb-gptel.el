@@ -46,7 +46,6 @@ If source isn't found, falls back to the Emacs Lisp object sexp."
 ;; Supplement gptel's bundled Copilot list until it includes GPT-6.1 Sol.
 ;; Tool calling for this model requires the Responses API.
 ;; Load the model definitions before evaluating the backend's arguments.
-(require 'gptel)
 (require 'gptel-gh)
 
 (setq gptel-model 'gpt-6.1-sol

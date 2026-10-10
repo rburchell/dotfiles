@@ -128,7 +128,8 @@
           ;; For warning about a problematic or misguiding code
           ("XXX" font-lock-constant-face bold))))
 
-(load! "rb-gptel.el")
+(after! gptel
+  (load! "rb-gptel.el"))
 (load! "rb-org.el")
 (load! "rb-autosync.el")
 
