@@ -32,6 +32,8 @@ function precmd() {
 
     # Disable mouse reporting and focus events left behind by remote apps.
     printf '\e[?9;1000;1002;1003;1004;1005;1006;1015;1016l'
+    # Restore ordinary key encoding (e.g. Ctrl-C) after apps use modifyOtherKeys.
+    printf '\e[>4;0m'
     # Restore normal text attributes and show the cursor.
     printf '\e[0m\e[?25h'
 
